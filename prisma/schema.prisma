@@ -186,6 +186,7 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   feedbacks Feedback[]
+  articles  Article[]  @relation("ArticleAuthor")
 
   @@index([email])
   @@map("users")
@@ -591,4 +592,43 @@ model Feedback {
   @@index([userId])
   @@index([type])
   @@map("feedback")
+}
+
+// ─── CONTENT MANAGEMENT (CMS) ────────────────────────────────────────────────
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  isActive    Boolean   @default(true)
+  articles    Article[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Article {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  contentMd       String   @db.Text
+  metaTitle       String?
+  metaDescription String?
+  authorId        String?
+  author          User?    @relation("ArticleAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  categoryId      String?
+  category        Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  
+  isPublished     Boolean  @default(false)
+  publishedAt     DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+  @@map("articles")
 }

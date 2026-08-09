@@ -113,6 +113,12 @@ app.use(`/api/${env.API_VERSION}/products`, productsRouter);
 import feedbackRouter from './modules/feedback/feedback.routes';
 app.use(`/api/${env.API_VERSION}/feedback`, feedbackRouter);
 
+// Phase 12 — CMS (Categories & Articles)
+import categoriesRouter from './modules/categories/categories.routes';
+import articlesRouter from './modules/articles/articles.routes';
+app.use(`/api/${env.API_VERSION}/categories`, categoriesRouter);
+app.use(`/api/${env.API_VERSION}/articles`, articlesRouter);
+
 // ─── Fallback ─────────────────────────────────────────────────────────────────
 app.use(notFound);
 app.use(errorHandler);
