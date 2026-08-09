@@ -1,0 +1,3 @@
+// Email service — Phase 2
+// Handles: OTP verification, password reset, welcome emails
+export {};

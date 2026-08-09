@@ -1,0 +1,594 @@
+// This is your Prisma schema file.
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── ENUMS ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  STAFF
+  STUDENT
+}
+
+enum SubscriptionTier {
+  FREE
+  PRO
+  ELITE
+}
+
+enum ExamType {
+  SSC_CGL
+  SSC_CHSL
+  SSC_MTS
+  SSC_CPO
+  SSC_GD
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum LessonType {
+  VIDEO
+  ARTICLE
+  PDF
+}
+
+enum Language {
+  EN
+  HI
+}
+
+enum AttemptType {
+  PRACTICE
+  MOCK
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  EXPIRED
+}
+
+enum SubscriptionPlan {
+  FREE
+  PREMIUM
+}
+
+enum AccessTier {
+  FREE
+  PRO
+  EXCLUSIVE
+}
+
+enum PurchasableItemType {
+  MOCK_TEST
+  PRACTICE_SET
+  LESSON
+  CHAPTER
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum FeedbackType {
+  ISSUE
+  FEATURE_REQUEST
+  TESTIMONIAL
+}
+
+enum FeedbackStatus {
+  OPEN
+  RESOLVED
+  IGNORED
+}
+
+// ─── PERSONA & DEMOGRAPHICS ───────────────────────────────────────────────────
+
+enum StudyPersona {
+  FULL_TIME_ASPIRANT
+  PART_TIME_ASPIRANT
+  REPEAT_ASPIRANT
+}
+
+enum DailyStudyTime {
+  LESS_THAN_2_HOURS
+  TWO_TO_FOUR_HOURS
+  MORE_THAN_4_HOURS
+}
+
+enum EducationLevel {
+  HIGH_SCHOOL
+  UNDERGRADUATE
+  POSTGRADUATE
+  OTHER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+
+// ─── USERS ────────────────────────────────────────────────────────────────────
+
+model User {
+  id              String  @id @default(cuid())
+  name            String
+  email           String  @unique
+  passwordHash    String
+  role            Role    @default(STUDENT)
+  avatarUrl       String?
+  phone           String?
+  isEmailVerified Boolean @default(false)
+  isActive        Boolean @default(true)
+
+  // Streak & Gamification
+  streakDays     Int       @default(0)
+  lastActiveDate DateTime?
+
+  // OTP storage (for email verification & password reset)
+  otpCode      String?
+  otpExpiresAt DateTime?
+
+  // Student profile (nullable — not applicable for admins)
+  targetExam ExamType?
+  examYear   Int?
+  city       String?
+
+  // Demographics (all optional, student-only)
+  age            Int?
+  gender         Gender?
+  educationLevel EducationLevel?
+  occupation     String? // Free text: "Software Engineer", "CA Student", etc.
+  incomeRange    String? // "< 3 LPA", "3-6 LPA", "> 6 LPA"
+
+  // Persona signals (captured during onboarding)
+  studyPersona       StudyPersona? // System-assigned, never shown to user
+  dailyStudyTime     DailyStudyTime?
+  hasAttemptedBefore Boolean         @default(false)
+
+  // Onboarding state
+  onboardingComplete Boolean @default(false)
+
+  // Subscriptions & Monetization
+  subscriptionTier      SubscriptionTier @default(FREE)
+  subscriptionExpiresAt DateTime?
+
+  // Social & Referrals
+  referralCode String? @unique
+  referredById String?
+  referredBy   User?   @relation("ReferredUsers", fields: [referredById], references: [id], onDelete: SetNull)
+  referrals    User[]  @relation("ReferredUsers")
+
+  // Relations
+  refreshTokens  RefreshToken[]
+  lessonProgress LessonProgress[]
+  testAttempts   TestAttempt[]
+  enrollment     Enrollment?
+  purchases      Purchase[]
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  feedbacks Feedback[]
+
+  @@index([email])
+  @@map("users")
+}
+
+// ─── REFRESH TOKENS ───────────────────────────────────────────────────────────
+
+model RefreshToken {
+  id         String   @id @default(cuid())
+  tokenHash  String   @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  deviceInfo String?
+  expiresAt  DateTime
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+// ─── SUBJECTS ─────────────────────────────────────────────────────────────────
+
+model Subject {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  iconUrl     String?
+  description String?
+  examTypes   ExamType[]
+  order       Int        @default(0)
+  isActive    Boolean    @default(true)
+
+  chapters     Chapter[]
+  lessons      Lesson[]
+  questions    Question[]
+  practiceSets PracticeSet[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("subjects")
+}
+
+// ─── CHAPTERS ─────────────────────────────────────────────────────────────────
+
+model Chapter {
+  id          String     @id @default(cuid())
+  subject     Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subjectId   String
+  name        String
+  slug        String
+  description String?
+  order       Int        @default(0)
+  accessTier  AccessTier @default(FREE)
+  isActive    Boolean    @default(true)
+
+  lessons      Lesson[]
+  questions    Question[]
+  practiceSets PracticeSet[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([subjectId, slug])
+  @@index([subjectId])
+  @@map("chapters")
+}
+
+// ─── LESSONS ──────────────────────────────────────────────────────────────────
+
+model Lesson {
+  id           String     @id @default(cuid())
+  chapter      Chapter    @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId    String
+  // Denormalized for fast subject-level queries
+  subject      Subject    @relation(fields: [subjectId], references: [id])
+  subjectId    String
+  title        String
+  slug         String
+  type         LessonType
+  videoUrl     String?
+  articleHtml  String?
+  pdfUrl       String?
+  durationMins Int?
+  thumbnailUrl String?
+  order        Int        @default(0)
+  accessTier   AccessTier @default(FREE)
+  isActive     Boolean    @default(true)
+
+  progress LessonProgress[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([chapterId, slug])
+  @@index([chapterId])
+  @@index([subjectId])
+  @@map("lessons")
+}
+
+// ─── QUESTIONS ────────────────────────────────────────────────────────────────
+
+model Question {
+  id        String  @id @default(cuid())
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id])
+  chapterId String
+
+  questionText        String
+  questionImageUrl    String?
+  // JSON: [{ key: "A"|"B"|"C"|"D", text: string, imageUrl?: string }]
+  options             Json
+  correctOption       String // "A" | "B" | "C" | "D"
+  explanation         String?
+  explanationImageUrl String?
+
+  difficulty Difficulty @default(MEDIUM)
+  examTypes  ExamType[]
+  pyqYear    Int?
+  isPYQ      Boolean    @default(false)
+  tags       String[]
+  language   Language   @default(EN)
+  isActive   Boolean    @default(true)
+
+  practiceSets     PracticeSetQuestion[]
+  mockTestSections MockTestSectionQuestion[]
+  attemptResponses AttemptResponse[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([subjectId])
+  @@index([chapterId])
+  @@index([difficulty])
+  @@index([isPYQ])
+  @@map("questions")
+}
+
+// ─── PRACTICE SETS ────────────────────────────────────────────────────────────
+
+model PracticeSet {
+  id            String     @id @default(cuid())
+  title         String
+  subject       Subject    @relation(fields: [subjectId], references: [id])
+  subjectId     String
+  chapter       Chapter?   @relation(fields: [chapterId], references: [id])
+  chapterId     String?
+  questionCount Int        @default(0)
+  accessTier    AccessTier @default(FREE)
+  order         Int        @default(0)
+  isActive      Boolean    @default(true)
+
+  questions PracticeSetQuestion[]
+  attempts  TestAttempt[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([subjectId])
+  @@map("practice_sets")
+}
+
+// Join: PracticeSet ↔ Question (ordered)
+model PracticeSetQuestion {
+  practiceSet   PracticeSet @relation(fields: [practiceSetId], references: [id], onDelete: Cascade)
+  practiceSetId String
+  question      Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId    String
+  order         Int         @default(0)
+
+  @@id([practiceSetId, questionId])
+  @@map("practice_set_questions")
+}
+
+// ─── MOCK TESTS ───────────────────────────────────────────────────────────────
+
+model MockTest {
+  id               String     @id @default(cuid())
+  title            String
+  examType         ExamType
+  totalQuestions   Int
+  totalMarks       Int
+  durationMinutes  Int
+  markingCorrect   Float      @default(2)
+  markingIncorrect Float      @default(-0.5)
+  markingSkipped   Float      @default(0)
+  accessTier       AccessTier @default(FREE)
+  isActive         Boolean    @default(true)
+  scheduledAt      DateTime?
+
+  sections MockTestSection[]
+  attempts TestAttempt[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([examType])
+  @@map("mock_tests")
+}
+
+model MockTestSection {
+  id            String   @id @default(cuid())
+  mockTest      MockTest @relation(fields: [mockTestId], references: [id], onDelete: Cascade)
+  mockTestId    String
+  name          String
+  subjectId     String
+  questionCount Int
+  maxMarks      Int
+  durationMins  Int?
+  order         Int      @default(0)
+
+  questions MockTestSectionQuestion[]
+
+  @@index([mockTestId])
+  @@map("mock_test_sections")
+}
+
+// Join: MockTestSection ↔ Question (ordered)
+model MockTestSectionQuestion {
+  section    MockTestSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  sectionId  String
+  question   Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId String
+  order      Int             @default(0)
+
+  @@id([sectionId, questionId])
+  @@map("mock_test_section_questions")
+}
+
+// ─── TEST ATTEMPTS ────────────────────────────────────────────────────────────
+
+model TestAttempt {
+  id             String  @id @default(cuid())
+  student        User?   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId      String?
+  guestSessionId String?
+
+  attemptType   AttemptType
+  practiceSet   PracticeSet? @relation(fields: [practiceSetId], references: [id], onDelete: SetNull)
+  practiceSetId String?
+  mockTest      MockTest?    @relation(fields: [mockTestId], references: [id], onDelete: SetNull)
+  mockTestId    String?
+
+  status           AttemptStatus @default(IN_PROGRESS)
+  startedAt        DateTime      @default(now())
+  submittedAt      DateTime?
+  timeTakenSeconds Int?
+
+  // Computed at submission — never trusted from client
+  totalCorrect   Int?
+  totalIncorrect Int?
+  totalSkipped   Int?
+  marksObtained  Float?
+  accuracy       Float?
+  percentile     Float?
+
+  responses     AttemptResponse[]
+  sectionScores AttemptSectionScore[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([studentId])
+  @@index([studentId, mockTestId])
+  @@index([studentId, practiceSetId])
+  @@index([status])
+  @@map("test_attempts")
+}
+
+model AttemptResponse {
+  id               String      @id @default(cuid())
+  attempt          TestAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  attemptId        String
+  question         Question    @relation(fields: [questionId], references: [id])
+  questionId       String
+  selectedOption   String? // "A"|"B"|"C"|"D" or null = skipped
+  isCorrect        Boolean?
+  timeTakenSeconds Int?
+  marksAwarded     Float       @default(0)
+
+  @@unique([attemptId, questionId])
+  @@index([attemptId])
+  @@map("attempt_responses")
+}
+
+model AttemptSectionScore {
+  id            String      @id @default(cuid())
+  attempt       TestAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  attemptId     String
+  sectionId     String
+  subjectId     String
+  correct       Int
+  incorrect     Int
+  skipped       Int
+  marksObtained Float
+
+  @@unique([attemptId, sectionId])
+  @@map("attempt_section_scores")
+}
+
+// ─── LESSON PROGRESS ──────────────────────────────────────────────────────────
+
+model LessonProgress {
+  id             String   @id @default(cuid())
+  student        User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId      String
+  lesson         Lesson   @relation(fields: [lessonId], references: [id]) // Removed Cascade to protect progress
+  lessonId       String
+  completedAt    DateTime @default(now())
+  watchedSeconds Int?
+
+  @@unique([studentId, lessonId])
+  @@index([studentId])
+  @@map("lesson_progress")
+}
+
+// ─── ENROLLMENTS ──────────────────────────────────────────────────────────────
+
+model Enrollment {
+  id        String           @id @default(cuid())
+  student   User             @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId String           @unique
+  plan      SubscriptionPlan @default(FREE)
+  examTypes ExamType[]
+  startDate DateTime         @default(now())
+  endDate   DateTime?
+  isActive  Boolean          @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("enrollments")
+}
+
+// ─── COMMERCE & PURCHASES ─────────────────────────────────────────────────────
+
+model Product {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  isActive    Boolean @default(true)
+
+  // Persona targeting — admin-tagged for recommendation engine
+  recommendedFor StudyPersona[]
+
+  items     ProductItem[]
+  purchases Purchase[]
+
+  @@map("products")
+}
+
+model ProductItem {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  itemType PurchasableItemType
+  itemId   String
+
+  @@unique([productId, itemType, itemId])
+  @@map("product_items")
+}
+
+model Purchase {
+  id        String  @id @default(cuid())
+  studentId String
+  student   User    @relation(fields: [studentId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  amountPaid      Float
+  status          PaymentStatus @default(PENDING)
+  paymentGateway  String        @default("RAZORPAY")
+  razorpayOrderId String?
+  paymentRefId    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([studentId])
+  @@index([productId])
+  @@map("purchases")
+}
+
+// ─── FEEDBACK & TESTIMONIALS ──────────────────────────────────────────────────
+
+model Feedback {
+  id         String         @id @default(cuid())
+  userId     String
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       FeedbackType   @default(FEATURE_REQUEST)
+  message    String
+  questionId String? // If reporting an issue with a specific question
+  isPublic   Boolean        @default(false)
+  status     FeedbackStatus @default(OPEN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([type])
+  @@map("feedback")
+}

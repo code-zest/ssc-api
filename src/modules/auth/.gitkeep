@@ -1,0 +1,4 @@
+// Auth module — Phase 2
+// Routes will be implemented here: register, login, logout, refresh-token,
+// forgot-password, reset-password, verify-email
+export {};
