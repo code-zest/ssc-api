@@ -38,6 +38,16 @@ API testing strategies, integration tests, test DB setup, coverage targets.
 
 ---
 
+### 📦 Product & Content Strategy
+Decisions and documentation surrounding platform features, content structures, user personas, and personalization.
+
+- [Content Management & Question Bank Architecture](product/content-management-and-qbank.md)
+- [Growth & Conversion Strategy](product/growth-and-conversion-strategy.md)
+- [Personalization API](product/personalization-api.md)
+- [User Personas](product/user-personas.md)
+
+---
+
 ### 📈 Progress & Planning
 High-level roadmap, epic tracking, and phase status for the AI assistant and developers.
 
