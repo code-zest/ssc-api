@@ -4,7 +4,8 @@ import { ApiResponse } from '../../utils/ApiResponse';
 
 export async function getChapterById(req: Request, res: Response, next: NextFunction) {
   try {
-    const chapter = await chaptersService.getChapterById(req.params.id as string);
+    const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
+    const chapter = await chaptersService.getChapterById(req.params.id as string, isAdmin);
     ApiResponse.success(res, chapter);
   } catch (error) {
     next(error);

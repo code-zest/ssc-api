@@ -5,9 +5,23 @@ import type { CreateChapterInput, UpdateChapterInput } from './chapters.schemas'
 
 // ─── Create Chapter ───────────────────────────────────────────────────────────
 
-export async function getChapterById(id: string) {
-  const chapter = await prisma.chapter.findUnique({
-    where: { id },
+export async function getChapterById(idOrSlug: string, isAdmin: boolean = true) {
+  const chapter = await prisma.chapter.findFirst({
+    where: { 
+      OR: [
+        { id: idOrSlug },
+        { slug: idOrSlug }
+      ],
+      ...(isAdmin ? {} : { isActive: true })
+    },
+    include: {
+      subject: {
+        select: {
+          name: true,
+          slug: true
+        }
+      }
+    }
   });
 
   if (!chapter) {
