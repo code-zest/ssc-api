@@ -10,6 +10,8 @@ const router = Router();
 // All Chapter routes are Admin-only (fetching chapters happens via the Subject endpoints)
 router.use(authenticate, authorize('SUPER_ADMIN', 'ADMIN'));
 
+router.get('/:id', chaptersController.getChapterById);
+router.get('/:id/lessons', chaptersController.getChapterLessons);
 router.post('/', validate(createChapterSchema), chaptersController.createChapter);
 router.patch('/reorder', chaptersController.reorderChapters);
 router.patch('/:id', validate(updateChapterSchema), chaptersController.updateChapter);

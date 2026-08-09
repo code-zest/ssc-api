@@ -10,6 +10,7 @@ const router = Router();
 // Public routes (optionally authenticated to check role)
 router.get('/', authenticateOptional, subjectsController.getAllSubjects);
 router.get('/:slug', authenticateOptional, subjectsController.getSubjectBySlug);
+router.get('/:id/chapters', authenticateOptional, subjectsController.getSubjectChapters);
 
 // Admin-only routes
 router.use(authenticate, authorize('SUPER_ADMIN', 'ADMIN'));

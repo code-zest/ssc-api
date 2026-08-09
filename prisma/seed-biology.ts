@@ -15,6 +15,19 @@ export async function seedBiology() {
     }
   });
 
+  const chapterIntro = await prisma.chapter.upsert({
+    where: { subjectId_slug: { subjectId: subject.id, slug: "introduction" } },
+    update: {},
+    create: {
+      subjectId: subject.id,
+      name: "Introduction",
+      slug: "introduction",
+      description: "Introduction to Biology",
+      isActive: true,
+      order: 1
+    }
+  });
+
   const chapter1 = await prisma.chapter.upsert({
     where: { subjectId_slug: { subjectId: subject.id, slug: "cell-biology" } },
     update: {},
@@ -24,7 +37,7 @@ export async function seedBiology() {
       slug: "cell-biology",
       description: "Structure and function of cells",
       isActive: true,
-      order: 1
+      order: 2
     }
   });
 
@@ -46,10 +59,10 @@ export async function seedBiology() {
 
   
   await prisma.lesson.upsert({
-    where: { chapterId_slug: { chapterId: chapter1.id, slug: 'intro-to-biology-article' } },
-    update: {},
+    where: { chapterId_slug: { chapterId: chapterIntro.id, slug: 'intro-to-biology-article' } },
+    update: { chapterId: chapterIntro.id }, // Ensure it moves if already exists
     create: {
-      chapterId: chapter1.id,
+      chapterId: chapterIntro.id,
       subjectId: subject.id,
       title: 'Introduction to Biology (Notes)',
       slug: 'intro-to-biology-article',

@@ -2,6 +2,25 @@ import { Request, Response, NextFunction } from 'express';
 import * as chaptersService from './chapters.service';
 import { ApiResponse } from '../../utils/ApiResponse';
 
+export async function getChapterById(req: Request, res: Response, next: NextFunction) {
+  try {
+    const chapter = await chaptersService.getChapterById(req.params.id as string);
+    ApiResponse.success(res, chapter);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getChapterLessons(req: Request, res: Response, next: NextFunction) {
+  try {
+    const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
+    const lessons = await chaptersService.getChapterLessons(req.params.id as string, isAdmin);
+    ApiResponse.success(res, lessons);
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function createChapter(req: Request, res: Response, next: NextFunction) {
   try {
     const chapter = await chaptersService.createChapter(req.body);

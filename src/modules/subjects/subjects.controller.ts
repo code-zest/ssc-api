@@ -23,6 +23,16 @@ export async function getSubjectBySlug(req: Request, res: Response, next: NextFu
   }
 }
 
+export async function getSubjectChapters(req: Request, res: Response, next: NextFunction) {
+  try {
+    const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
+    const chapters = await subjectsService.getSubjectChapters(req.params.id as string, isAdmin);
+    ApiResponse.success(res, chapters);
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function createSubject(req: Request, res: Response, next: NextFunction) {
   try {
     const subject = await subjectsService.createSubject(req.body);

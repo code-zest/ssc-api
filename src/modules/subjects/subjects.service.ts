@@ -47,6 +47,22 @@ export async function getSubjectBySlug(slug: string, isAdmin: boolean) {
   return subject;
 }
 
+// ─── Get Chapters By Subject ID ───────────────────────────────────────────────
+
+export async function getSubjectChapters(subjectId: string, isAdmin: boolean) {
+  const where = isAdmin ? { subjectId } : { subjectId, isActive: true };
+
+  return prisma.chapter.findMany({
+    where,
+    orderBy: { order: 'asc' },
+    include: {
+      _count: {
+        select: { lessons: true },
+      },
+    },
+  });
+}
+
 // ─── Create Subject ───────────────────────────────────────────────────────────
 
 export async function createSubject(input: CreateSubjectInput) {

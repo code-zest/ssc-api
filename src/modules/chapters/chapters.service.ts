@@ -5,6 +5,27 @@ import type { CreateChapterInput, UpdateChapterInput } from './chapters.schemas'
 
 // ─── Create Chapter ───────────────────────────────────────────────────────────
 
+export async function getChapterById(id: string) {
+  const chapter = await prisma.chapter.findUnique({
+    where: { id },
+  });
+
+  if (!chapter) {
+    throw ApiError.notFound('Chapter not found');
+  }
+
+  return chapter;
+}
+
+export async function getChapterLessons(chapterId: string, isAdmin: boolean) {
+  const where = isAdmin ? { chapterId } : { chapterId, isActive: true };
+
+  return prisma.lesson.findMany({
+    where,
+    orderBy: { order: 'asc' },
+  });
+}
+
 export async function createChapter(input: CreateChapterInput) {
   const subject = await prisma.subject.findUnique({ where: { id: input.subjectId } });
   if (!subject) throw ApiError.notFound('Subject not found');
