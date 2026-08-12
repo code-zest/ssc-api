@@ -59,7 +59,7 @@ describe('Onboarding API', () => {
 
   it('should assign REPEAT_ASPIRANT if hasAttemptedBefore is true', async () => {
     const payload = {
-      targetExam: 'SSC_CGL',
+      targetExam: ['SSC_CGL'],
       examYear: 2026,
       occupation: 'Student',
       hasAttemptedBefore: true,
@@ -87,7 +87,7 @@ describe('Onboarding API', () => {
     });
 
     const payload = {
-      targetExam: 'SSC_CHSL',
+      targetExam: ['SSC_CHSL'],
       examYear: 2026,
       occupation: 'Software Engineer', // Contains 'engineer' keyword
       hasAttemptedBefore: false,
@@ -112,7 +112,7 @@ describe('Onboarding API', () => {
     });
 
     const payload = {
-      targetExam: 'SSC_CPO',
+      targetExam: ['SSC_CPO'],
       examYear: 2026,
       occupation: 'College Student',
       hasAttemptedBefore: false,

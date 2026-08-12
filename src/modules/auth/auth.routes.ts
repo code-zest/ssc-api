@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
+import { RedisStore } from 'rate-limit-redis';
+import { redis, isRedisReady } from '../../config/redis';
 import * as authController from './auth.controller';
 import { validate } from '../../middleware/validate';
 import { authenticate } from '../../middleware/authenticate';
@@ -19,11 +21,12 @@ const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10, // 10 auth attempts per 15 min per IP
   message: {
-    success: false,
-    error: 'Too many attempts. Please wait 15 minutes before trying again.',
+    status: 'error',
+    message: 'Too many authentication attempts, please try again later.',
   },
   standardHeaders: true,
   legacyHeaders: false,
+  store: isRedisReady() ? new RedisStore({ sendCommand: (...args: string[]) => (redis as any).call(...args) }) : undefined,
 });
 
 // Even stricter for OTP endpoints (prevent brute force)

@@ -147,7 +147,7 @@ model User {
   otpExpiresAt DateTime?
 
   // Student profile (nullable — not applicable for admins)
-  targetExam ExamType?
+  targetExam ExamType[]
   examYear   Int?
   city       String?
 

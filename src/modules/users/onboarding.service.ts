@@ -2,7 +2,7 @@ import { prisma } from "../../config/prisma";
 import { StudyPersona, DailyStudyTime } from "@prisma/client";
 
 interface OnboardingInput {
-  targetExam: string;
+  targetExam: string[];
   examYear: number;
   occupation: string;
   hasAttemptedBefore: boolean;
@@ -101,7 +101,7 @@ export const updateProfile = async (
     avatarUrl?: string;
     phone?: string;
     city?: string;
-    targetExam?: string;
+    targetExam?: string[];
     examYear?: number;
     age?: number;
     gender?: string;

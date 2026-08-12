@@ -6,7 +6,7 @@ export const updateProfileSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').max(100).optional(),
   avatarUrl: z.string().url('Invalid URL format').optional().nullable(),
   phone: z.string().max(15).optional(),
-  targetExam: z.nativeEnum(ExamType).optional(),
+  targetExam: z.array(z.nativeEnum(ExamType)).optional(),
   examYear: z.number().int().min(2025).max(2035).optional(),
   city: z.string().max(100).optional(),
   age: z.number().int().min(15).max(45).optional(),
@@ -18,7 +18,7 @@ export const updateProfileSchema = z.object({
 });
 
 export const onboardingSchema = z.object({
-  targetExam: z.nativeEnum(ExamType),
+  targetExam: z.array(z.nativeEnum(ExamType)).min(1, "Select at least one exam"),
   examYear: z.number().int().min(2025).max(2035),
   occupation: z.string().min(1).max(100),
   hasAttemptedBefore: z.boolean(),

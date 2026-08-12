@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as subjectsService from './subjects.service';
 import { ApiResponse } from '../../utils/ApiResponse';
+import { clearCache } from '../../utils/cache';
 
 export async function getAllSubjects(req: Request, res: Response, next: NextFunction) {
   try {
@@ -36,6 +37,7 @@ export async function getSubjectChapters(req: Request, res: Response, next: Next
 export async function createSubject(req: Request, res: Response, next: NextFunction) {
   try {
     const subject = await subjectsService.createSubject(req.body);
+    await clearCache('subjects*');
     ApiResponse.created(res, subject);
   } catch (error) {
     next(error);
@@ -45,6 +47,7 @@ export async function createSubject(req: Request, res: Response, next: NextFunct
 export async function updateSubject(req: Request, res: Response, next: NextFunction) {
   try {
     const subject = await subjectsService.updateSubject(req.params.id as string, req.body);
+    await clearCache('subjects*');
     ApiResponse.success(res, subject, 'Subject updated successfully');
   } catch (error) {
     next(error);
@@ -54,6 +57,7 @@ export async function updateSubject(req: Request, res: Response, next: NextFunct
 export async function deleteSubject(req: Request, res: Response, next: NextFunction) {
   try {
     const result = await subjectsService.deleteSubject(req.params.id as string);
+    await clearCache('subjects*');
     ApiResponse.success(res, result);
   } catch (error) {
     next(error);
