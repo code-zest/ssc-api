@@ -15,37 +15,61 @@ export async function seedBiology() {
     }
   });
 
-  const chapterIntro = await prisma.chapter.upsert({
-    where: { subjectId_slug: { subjectId: subject.id, slug: "introduction" } },
-    update: {},
-    create: {
-      subjectId: subject.id,
-      name: "Introduction",
-      slug: "introduction",
-      description: "Introduction to Biology",
-      isActive: true,
-      order: 1
-    }
-  });
+  const chapterTitles = [
+    "Introduction",
+    "Skeletal System",
+    "Blood Circulation",
+    "Digestive System",
+    "Respiratory System",
+    "Excretory System",
+    "Nervous System",
+    "Endocrine System",
+    "Reproductive System",
+    "Sensory Organs",
+    "Nutrition",
+    "Pathology",
+    "Cell Biology",
+    "Classification of Living Organisms",
+    "Plant Morphology",
+    "Photosynthesis",
+    "Respiration in Plants",
+    "Excretion in Plants",
+    "Phyto Hormones",
+    "Reproduction in Plants",
+    "Economical Importance of Plants",
+    "Economical Importance of Animals",
+    "Recent Trends in Biology",
+    "Environmental Science"
+  ];
 
-  const chapter1 = await prisma.chapter.upsert({
-    where: { subjectId_slug: { subjectId: subject.id, slug: "cell-biology" } },
-    update: {},
-    create: {
-      subjectId: subject.id,
-      name: "Cell Biology",
-      slug: "cell-biology",
-      description: "Structure and function of cells",
-      isActive: true,
-      order: 2
-    }
-  });
+  const createdChapters: Record<string, string> = {};
+
+  for (let i = 0; i < chapterTitles.length; i++) {
+    const name = chapterTitles[i];
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const chapter = await prisma.chapter.upsert({
+      where: { subjectId_slug: { subjectId: subject.id, slug } },
+      update: { order: i + 1 },
+      create: {
+        subjectId: subject.id,
+        name,
+        slug,
+        description: `Topics on ${name}`,
+        isActive: true,
+        order: i + 1
+      }
+    });
+    createdChapters[slug] = chapter.id;
+  }
+
+  const chapterIntroId = createdChapters["introduction"];
+  const chapter1Id = createdChapters["cell-biology"];
 
   await prisma.lesson.upsert({
-    where: { chapterId_slug: { chapterId: chapter1.id, slug: "intro-to-cells" } },
+    where: { chapterId_slug: { chapterId: chapter1Id, slug: "intro-to-cells" } },
     update: {},
     create: {
-      chapterId: chapter1.id,
+      chapterId: chapter1Id,
       subjectId: subject.id,
       title: "Introduction to Cells",
       slug: "intro-to-cells",
@@ -59,10 +83,10 @@ export async function seedBiology() {
 
   
   await prisma.lesson.upsert({
-    where: { chapterId_slug: { chapterId: chapterIntro.id, slug: 'intro-to-biology-article' } },
-    update: { chapterId: chapterIntro.id }, // Ensure it moves if already exists
+    where: { chapterId_slug: { chapterId: chapterIntroId, slug: 'intro-to-biology-article' } },
+    update: { chapterId: chapterIntroId }, // Ensure it moves if already exists
     create: {
-      chapterId: chapterIntro.id,
+      chapterId: chapterIntroId,
       subjectId: subject.id,
       title: 'Introduction to Biology (Notes)',
       slug: 'intro-to-biology-article',
@@ -567,12 +591,12 @@ export async function seedBiology() {
   });
 
   // Seed a sample question
-  const existingQuestions = await prisma.question.findMany({ where: { chapterId: chapter1.id } });
+  const existingQuestions = await prisma.question.findMany({ where: { chapterId: chapter1Id } });
   if (existingQuestions.length === 0) {
     await prisma.question.create({
       data: {
         subjectId: subject.id,
-        chapterId: chapter1.id,
+        chapterId: chapter1Id,
         questionText: "<p>What is the powerhouse of the cell?</p>",
         options: [
           { key: "A", text: "Nucleus" },
