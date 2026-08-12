@@ -11,7 +11,7 @@ const router = Router();
 
 // Fetching lessons optionally checks auth so we can return progress if logged in
 router.get('/chapter/:chapterId', authenticateOptional, lessonsController.getLessonsByChapter);
-router.get('/:slug', authenticateOptional, lessonsController.getLessonBySlug);
+router.get('/learn/:subjectSlug/:chapterSlug/:lessonSlug', authenticateOptional, lessonsController.getLessonBySlug);
 
 // Tracking progress strictly requires a logged in user
 router.post('/:id/progress', authenticate, validate(lessonProgressSchema), lessonsController.updateLessonProgress);

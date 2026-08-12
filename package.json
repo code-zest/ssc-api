@@ -13,6 +13,8 @@
     "db:studio": "prisma studio",
     "db:push": "prisma db push",
     "db:seed": "ts-node prisma/seed.ts",
+    "db:seed:history": "tsx prisma/seed-history.ts",
+    "db:seed:history-content": "tsx prisma/seed-prehistoric.ts",
     "test": "dotenv -e .env.test -- jest --passWithNoTests",
     "test:watch": "dotenv -e .env.test -- jest --watch",
     "test:coverage": "dotenv -e .env.test -- jest --coverage",

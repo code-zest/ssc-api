@@ -151,6 +151,12 @@ export async function login(input: LoginInput, deviceInfo?: string) {
       targetExam: user.targetExam,
       subscriptionTier: user.subscriptionTier,
       subscriptionExpiresAt: user.subscriptionExpiresAt,
+      onboardingComplete: user.onboardingComplete,
+      studyPersona: user.studyPersona,
+      dailyStudyTime: user.dailyStudyTime,
+      hasAttemptedBefore: user.hasAttemptedBefore,
+      streakDays: user.streakDays,
+      lastActiveDate: user.lastActiveDate,
     },
   };
 }

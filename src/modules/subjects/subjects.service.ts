@@ -3,11 +3,16 @@ import { prisma } from '../../config/prisma';
 import { ApiError } from '../../utils/ApiError';
 import type { CreateSubjectInput, UpdateSubjectInput } from './subjects.schemas';
 
+import { ExamType } from '@prisma/client';
+
 // ─── Get All Subjects ─────────────────────────────────────────────────────────
 
-export async function getAllSubjects(isAdmin: boolean) {
+export async function getAllSubjects(isAdmin: boolean, examType?: ExamType) {
   // Public/Student only sees active subjects. Admin sees all.
-  const where = isAdmin ? {} : { isActive: true };
+  const where: any = isAdmin ? {} : { isActive: true };
+  if (examType) {
+    where.examTypes = { has: examType };
+  }
 
   return prisma.subject.findMany({
     where,
@@ -22,14 +27,22 @@ export async function getAllSubjects(isAdmin: boolean) {
 
 // ─── Get Subject By Slug ──────────────────────────────────────────────────────
 
-export async function getSubjectBySlug(slug: string, isAdmin: boolean) {
-  const where = isAdmin ? { slug } : { slug, isActive: true };
+export async function getSubjectBySlug(slug: string, isAdmin: boolean, examType?: ExamType) {
+  const where: any = isAdmin ? { slug } : { slug, isActive: true };
+  if (examType) {
+    where.examTypes = { has: examType };
+  }
+
+  const chapterWhere: any = isAdmin ? {} : { isActive: true };
+  if (examType) {
+    chapterWhere.examTypes = { has: examType };
+  }
 
   const subject = await prisma.subject.findFirst({
     where,
     include: {
       chapters: {
-        where: isAdmin ? {} : { isActive: true },
+        where: chapterWhere,
         orderBy: { order: 'asc' },
         include: {
           _count: {
@@ -49,8 +62,11 @@ export async function getSubjectBySlug(slug: string, isAdmin: boolean) {
 
 // ─── Get Chapters By Subject ID ───────────────────────────────────────────────
 
-export async function getSubjectChapters(subjectId: string, isAdmin: boolean) {
-  const where = isAdmin ? { subjectId } : { subjectId, isActive: true };
+export async function getSubjectChapters(subjectId: string, isAdmin: boolean, examType?: ExamType) {
+  const where: any = isAdmin ? { subjectId } : { subjectId, isActive: true };
+  if (examType) {
+    where.examTypes = { has: examType };
+  }
 
   return prisma.chapter.findMany({
     where,

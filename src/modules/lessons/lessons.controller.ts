@@ -17,7 +17,10 @@ export async function getLessonBySlug(req: Request, res: Response, next: NextFun
   try {
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
     const userId = req.user?.userId;
-    const lesson = await lessonsService.getLessonBySlug(req.params.slug as string, isAdmin, userId);
+    const subjectSlug = req.params.subjectSlug as string;
+    const chapterSlug = req.params.chapterSlug as string;
+    const lessonSlug = req.params.lessonSlug as string;
+    const lesson = await lessonsService.getLessonBySlug(subjectSlug, chapterSlug, lessonSlug, isAdmin, userId);
     ApiResponse.success(res, lesson);
   } catch (error) {
     next(error);

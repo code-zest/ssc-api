@@ -240,6 +240,8 @@ model Chapter {
   name        String
   slug        String
   description String?
+  sectionName String?
+  examTypes   ExamType[]
   order       Int        @default(0)
   accessTier  AccessTier @default(FREE)
   isActive    Boolean    @default(true)

@@ -7,7 +7,8 @@ export async function getAllSubjects(req: Request, res: Response, next: NextFunc
   try {
     // Treat as admin if user is SUPER_ADMIN or ADMIN
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
-    const subjects = await subjectsService.getAllSubjects(isAdmin);
+    const examType = req.query.examType as any;
+    const subjects = await subjectsService.getAllSubjects(isAdmin, examType);
     ApiResponse.success(res, subjects);
   } catch (error) {
     next(error);
@@ -27,7 +28,8 @@ export async function getSubjectBySlug(req: Request, res: Response, next: NextFu
 export async function getSubjectChapters(req: Request, res: Response, next: NextFunction) {
   try {
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
-    const chapters = await subjectsService.getSubjectChapters(req.params.id as string, isAdmin);
+    const examType = req.query.examType as any;
+    const chapters = await subjectsService.getSubjectChapters(req.params.id as string, isAdmin, examType);
     ApiResponse.success(res, chapters);
   } catch (error) {
     next(error);

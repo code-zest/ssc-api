@@ -29,8 +29,15 @@ export async function getLessonsByChapter(chapterId: string, isAdmin: boolean, u
 
 // ─── Get Lesson Details (Consumption) ─────────────────────────────────────────
 
-export async function getLessonBySlug(slug: string, isAdmin: boolean, userId?: string) {
-  const where = isAdmin ? { slug } : { slug, isActive: true };
+export async function getLessonBySlug(subjectSlug: string, chapterSlug: string, lessonSlug: string, isAdmin: boolean, userId?: string) {
+  const where = {
+    slug: lessonSlug,
+    chapter: {
+      slug: chapterSlug,
+      subject: { slug: subjectSlug }
+    },
+    ...(isAdmin ? {} : { isActive: true })
+  };
 
   const lesson = await prisma.lesson.findFirst({
     where,
