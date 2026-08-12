@@ -73,6 +73,42 @@ async function main() {
     },
   });
 
+  // 5. Create PRO Yearly Product
+  const proYearlyProduct = await prisma.product.upsert({
+    where: { id: "prod-pro-yearly" },
+    update: {},
+    create: {
+      id: "prod-pro-yearly",
+      name: "Pro Pass (Yearly)",
+      description: "Unlock your true potential for a whole year.",
+      price: 4999.0, // 4999 INR
+      isActive: true,
+      items: {
+        create: [
+          { itemType: PurchasableItemType.MOCK_TEST, itemId: mockTest.id },
+        ],
+      },
+    },
+  });
+
+  // 6. Create ELITE Yearly Product
+  const eliteYearlyProduct = await prisma.product.upsert({
+    where: { id: "prod-elite-yearly" },
+    update: {},
+    create: {
+      id: "prod-elite-yearly",
+      name: "Infinity (Yearly)",
+      description: "For guaranteed selection, for a whole year.",
+      price: 9999.0, // 9999 INR
+      isActive: true,
+      items: {
+        create: [
+          { itemType: PurchasableItemType.MOCK_TEST, itemId: mockTest.id },
+        ],
+      },
+    },
+  });
+
   console.log("E2E Payment Data Seeded.");
 }
 

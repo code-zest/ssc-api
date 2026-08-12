@@ -33,7 +33,7 @@
 | **Phase 7** | Test Attempt engine + Scoring service (server-side, negative marking) | ✅ Complete | Analytics preserved via SetNull schema |
 | **Phase 8** | Analytics endpoints + Leaderboard (SQL window functions) | ✅ Complete | Student & Admin Dashboards built |
 | **Phase 9** | File upload service — S3 + pre-signed URLs | ✅ Complete | Cloudflare R2 integrated directly from Admin Web |
-| **Phase 10** | Payments, Products, Access Tier Gates, Razorpay integration | ✅ Complete | Content locked and unlockable via purchases |
+| **Phase 10** | Payments, Products, Access Tier Gates, Razorpay integration | ✅ Complete | Content locked and unlockable via purchases. Premium Full-Bleed Marketing UI/UX polished. |
 | **Phase 11** | Notifications — email digest, test reminders | 🔴 Not Started | Future |
 | **Phase 12** | Test Suites & Pre-commit hooks | ✅ Complete | Vitest for Frontends, Jest for Backend, Husky hooked |
 | **Phase 13** | Persona & Personalization — demographics schema, onboarding endpoint, persona-aware dashboard | 🔴 Planned | See `docs/product/personalization-api.md` |
