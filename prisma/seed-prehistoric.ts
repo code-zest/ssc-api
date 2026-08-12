@@ -385,6 +385,49 @@ async function main() {
   }
 
   console.log(`✅ Seeded ${count} new MCQs!`);
+
+  // 4. Create a Practice Set
+  console.log("Seeding Practice Set...");
+  const practiceSet = await prisma.practiceSet.upsert({
+    where: { id: "seed-prehistoric-ps" }, // We don't have a unique constraint, but upsert needs a unique field. We'll use id if we set it.
+    update: {
+      questionCount: QUESTIONS.length,
+    },
+    create: {
+      id: "seed-prehistoric-ps", // Force a deterministic ID
+      title: "Pre-Historic Culture Practice Quiz",
+      subjectId: subject.id,
+      chapterId: chapter.id,
+      questionCount: QUESTIONS.length,
+      accessTier: "FREE",
+      order: 1,
+      isActive: true,
+    }
+  });
+
+  // Fetch all questions for this chapter to link them
+  const allChapterQuestions = await prisma.question.findMany({
+    where: { chapterId: chapter.id }
+  });
+
+  for (let i = 0; i < allChapterQuestions.length; i++) {
+    await prisma.practiceSetQuestion.upsert({
+      where: {
+        practiceSetId_questionId: {
+          practiceSetId: practiceSet.id,
+          questionId: allChapterQuestions[i].id
+        }
+      },
+      update: { order: i + 1 },
+      create: {
+        practiceSetId: practiceSet.id,
+        questionId: allChapterQuestions[i].id,
+        order: i + 1
+      }
+    });
+  }
+
+  console.log("✅ Seeded Practice Set!");
   console.log("🎉 Successfully seeded Pre-Historic Culture content!");
 }
 

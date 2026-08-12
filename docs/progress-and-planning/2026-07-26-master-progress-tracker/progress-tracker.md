@@ -1,6 +1,6 @@
 # SSC API — Master Progress Tracker
 
-**Last Updated:** 2026-08-12  
+**Last Updated:** 2026-08-13  
 **Overall Status:** ✅ Phases 1–12 Complete. Phase 13 (Personalization) Planned.
 
 ---
@@ -27,7 +27,7 @@
 | **Phase 1** | Scaffolding — tsconfig, env, Prisma setup, DB connection, middleware | ✅ Complete | Prisma 7 adapter-pg |
 | **Phase 2** | Auth module — register, verify email, login, refresh, logout, forgot/reset password | ✅ Complete | NodeMailer OTP, HTTP-Only refresh cookie |
 | **Phase 3** | User CRUD + role-based middleware | ✅ Complete | |
-| **Phase 4** | Subjects → Chapters → Lessons + lesson progress tracking | ✅ Complete | Client uses React Query Optimistic UI |
+| **Phase 4** | Subjects → Chapters → Lessons + lesson progress tracking | ✅ Complete | Client uses React Query Optimistic UI, Auto-Advance Lesson UX integrated |
 | **Phase 5** | Question bank — CRUD + bulk import (JSON) | ✅ Complete | |
 | **Phase 6** | Practice Sets + Mock Tests — admin CRUD | ✅ Complete | |
 | **Phase 7** | Test Attempt engine + Scoring service (server-side, negative marking) | ✅ Complete | Analytics preserved via SetNull schema |
