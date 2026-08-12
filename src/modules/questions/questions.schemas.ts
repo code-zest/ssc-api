@@ -20,6 +20,8 @@ export const createQuestionSchema = z.object({
   difficulty: z.nativeEnum(Difficulty).optional(),
   examTypes: z.array(z.nativeEnum(ExamType)).optional(),
   pyqYear: z.number().int().optional().nullable(),
+  pyqShift: z.number().int().optional().nullable(),
+  pyqDate: z.string().datetime().optional().nullable(),
   isPYQ: z.boolean().optional(),
   tags: z.array(z.string()).optional(),
   language: z.nativeEnum(Language).optional(),

@@ -20,6 +20,16 @@ export async function getChapterById(idOrSlug: string, isAdmin: boolean = true) 
           name: true,
           slug: true
         }
+      },
+      practiceSets: {
+        where: isAdmin ? undefined : { isActive: true },
+        select: {
+          id: true,
+          title: true,
+          _count: {
+            select: { questions: true }
+          }
+        }
       }
     }
   });

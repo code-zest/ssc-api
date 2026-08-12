@@ -86,3 +86,8 @@ ssc-api/
 
 ## 🤖 AI Assistant Guidelines
 Please refer to [GEMINI.md](GEMINI.md) and [CLAUDE.md](CLAUDE.md) for strict architectural and typing rules (e.g., no `any` types allowed).
+
+## 🆕 Recent Updates
+- **PYQ Enhancements:** Added `pyqShift` and `pyqDate` to the Question model to support programmatic SEO for specific exam shifts.
+- **Chapter Practice Sets:** Updated Chapter API to expose linked Practice Sets.
+

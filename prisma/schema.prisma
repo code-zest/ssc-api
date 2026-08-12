@@ -308,6 +308,8 @@ model Question {
   difficulty Difficulty @default(MEDIUM)
   examTypes  ExamType[]
   pyqYear    Int?
+  pyqShift   Int?
+  pyqDate    DateTime?
   isPYQ      Boolean    @default(false)
   tags       String[]
   language   Language   @default(EN)

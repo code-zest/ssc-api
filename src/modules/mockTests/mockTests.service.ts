@@ -16,7 +16,6 @@ export async function getMockTests(isAdmin: boolean, examType?: string) {
   if (examType) {
     where.examType = examType;
   }
-  
   return prisma.mockTest.findMany({
     where,
     orderBy: { createdAt: 'desc' },
@@ -24,6 +23,9 @@ export async function getMockTests(isAdmin: boolean, examType?: string) {
       sections: {
         orderBy: { order: 'asc' },
       },
+      _count: {
+        select: { sections: true }
+      }
     },
   });
 }
