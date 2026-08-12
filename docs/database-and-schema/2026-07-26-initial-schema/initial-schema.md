@@ -31,7 +31,7 @@ This document records the initial relational schema design for the SSC Education
 | `AttemptResponse` | Per-question response within an attempt |
 | `AttemptSectionScore` | Per-section score for mock tests |
 | `LessonProgress` | Tracks which lessons a student completed |
-| `Enrollment` | Free vs Premium subscription record |
+| `Enrollment` | Free vs Pro vs Elite subscription record |
 
 ---
 
