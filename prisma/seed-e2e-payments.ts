@@ -36,21 +36,39 @@ async function main() {
     },
   });
 
-  // 3. Create a Product to purchase this Mock Test
-  const product = await prisma.product.upsert({
-    where: { id: "e2e-product-1" },
+  // 3. Create PRO Product
+  const proProduct = await prisma.product.upsert({
+    where: { id: "prod-pro-monthly" },
     update: {},
     create: {
-      id: "e2e-product-1",
-      name: "E2E Test Unlock",
-      description: "Unlocks the E2E Mock Test",
-      price: 99.0, // 99 INR
+      id: "prod-pro-monthly",
+      name: "Pro",
+      description: "Unlock your true potential.",
+      price: 499.0, // 499 INR
       isActive: true,
       items: {
-        create: {
-          itemType: PurchasableItemType.MOCK_TEST,
-          itemId: mockTest.id,
-        },
+        create: [
+          { itemType: PurchasableItemType.MOCK_TEST, itemId: mockTest.id },
+          // A real app might grant a global tier flag here instead of itemizing everything
+        ],
+      },
+    },
+  });
+
+  // 4. Create ELITE Product
+  const eliteProduct = await prisma.product.upsert({
+    where: { id: "prod-elite-monthly" },
+    update: {},
+    create: {
+      id: "prod-elite-monthly",
+      name: "Elite",
+      description: "For guaranteed selection.",
+      price: 999.0, // 999 INR
+      isActive: true,
+      items: {
+        create: [
+          { itemType: PurchasableItemType.MOCK_TEST, itemId: mockTest.id },
+        ],
       },
     },
   });
