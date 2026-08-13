@@ -233,6 +233,9 @@ export async function seedBiology() {
 <td>The study of the <strong>biological effects of radiation</strong>.</td>
 </tr>
 </tbody></table>
+<Callout variant="tip" title="Quick Tip">
+Memorizing the branches of biology is crucial for SSC exams. Focus especially on **Cytology**, **Mycology**, and **Phycology**, as they are frequently tested!
+</Callout>
 <p>This page serves as an introduction to biology and provides a concise overview of its <strong>26 major branches</strong>, each focusing on a specific aspect of living organisms and life processes.</p>
 <p><br/><hr/><br/></p>
 <h1>Biological Research Institutions (India)</h1>
@@ -518,6 +521,9 @@ export async function seedBiology() {
 <li><strong>Father of Plant Physiology</strong> – Stephen Hales</li>
 <li><strong>Father of Modern Embryology</strong> – Karl Ernst von Baer</li>
 </ul>
+<Callout variant="exam" title="Important for SSC CGL">
+Questions regarding the founders of major biological sciences (e.g. Aristotle, Linnaeus) appear in almost every SSC CGL tier-1 paper.
+</Callout>
 <p><br/><hr/><br/></p>
 <h1>Key Concepts in Biology</h1>
 <ul>
