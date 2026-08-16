@@ -93,417 +93,145 @@ export async function seedBiology() {
       type: 'ARTICLE',
       articleHtml: `<h1>1. INTRODUCTION</h1>
 <p><strong>Biology</strong> is the scientific study of life and living organisms, encompassing their <strong>structure, function, growth, evolution, and distribution</strong>. This expansive discipline includes specialized branches such as <strong>Botany, Zoology, Genetics, Ecology, and Microbiology</strong>.</p>
-<h2>Branches of Biology</h2>
-<table>
-<thead>
-<tr>
-<th>S.No</th>
-<th>Branch</th>
-<th>Explanation</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>Anatomy</td>
-<td>The scientific study of the <strong>structure of human or animal bodies</strong>.</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Botany</td>
-<td>The scientific study of <strong>plants</strong>. It includes morphology, taxonomy, evolution, and ecology of plant life.</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Taxonomy</td>
-<td>The <strong>classification of organisms</strong> into various ranks.</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Zoology</td>
-<td>The branch of biology that studies the <strong>animal kingdom</strong>, including structure, embryology, evolution, classification, habits, and distribution of animals.</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Microbiology</td>
-<td>The study of <strong>microorganisms</strong> such as bacteria, archaea, and protists.</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Mycology</td>
-<td>The study of <strong>fungi</strong>.</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Phycology (Algology)</td>
-<td>The scientific study of <strong>algae</strong>.</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Parasitology</td>
-<td>The study of <strong>parasites</strong> and their effects on hosts.</td>
-</tr>
-<tr>
-<td>9</td>
-<td>Virology</td>
-<td>A branch of microbiology that studies <strong>viruses</strong>.</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Physiology</td>
-<td>The study of the <strong>functions of living organisms</strong>.</td>
-</tr>
-<tr>
-<td>11</td>
-<td>Theoretical Biology</td>
-<td>A branch of biological research concerned with <strong>mathematical modeling, computer simulation, and statistical analysis</strong> of biological systems.</td>
-</tr>
-<tr>
-<td>12</td>
-<td>Cell Biology</td>
-<td>The study of the <strong>structure and function of cells</strong>, cell organelles, and related processes.</td>
-</tr>
-<tr>
-<td>13</td>
-<td>Genetics</td>
-<td>The study of <strong>genes, heredity, and variation</strong> in living organisms; how traits are passed from one generation to the next.</td>
-</tr>
-<tr>
-<td>14</td>
-<td>Ecology</td>
-<td>The study of how <strong>living organisms interact with one another and with their environment</strong>.</td>
-</tr>
-<tr>
-<td>15</td>
-<td>Evolution</td>
-<td>The process of <strong>gradual change in populations of organisms</strong> over generations.</td>
-</tr>
-<tr>
-<td>16</td>
-<td>Biochemistry</td>
-<td>The study of <strong>chemical processes</strong> occurring within living organisms at the molecular level.</td>
-</tr>
-<tr>
-<td>17</td>
-<td>Biophysics</td>
-<td>The study of the <strong>physical interactions of biological macromolecules</strong>, mainly proteins.</td>
-</tr>
-<tr>
-<td>18</td>
-<td>Molecular Biology</td>
-<td>The study of how <strong>cells function at the molecular level</strong>.</td>
-</tr>
-<tr>
-<td>19</td>
-<td>Structural Biology</td>
-<td>The study of the <strong>molecular structure of macromolecules</strong> such as proteins, nucleic acids, and lipids.</td>
-</tr>
-<tr>
-<td>20</td>
-<td>Biotechnology</td>
-<td>A branch of biology that <strong>uses biological processes and techniques</strong> to produce useful substances of biological origin.</td>
-</tr>
-<tr>
-<td>21</td>
-<td>Plant Physiology</td>
-<td>The study of how <strong>plants function and grow</strong>, including photosynthesis, respiration, cell structure, biochemistry, and genetics.</td>
-</tr>
-<tr>
-<td>22</td>
-<td>Immunology</td>
-<td>The study of <strong>the immune system</strong> and how it protects the body from pathogens such as bacteria and viruses.</td>
-</tr>
-<tr>
-<td>23</td>
-<td>Marine Biology</td>
-<td>The study of <strong>marine life and marine ecosystems</strong>.</td>
-</tr>
-<tr>
-<td>24</td>
-<td>Photobiology</td>
-<td>The study of the <strong>effects of light on living organisms</strong>.</td>
-</tr>
-<tr>
-<td>25</td>
-<td>Paleobiology</td>
-<td>The study of the <strong>evolution of life on Earth</strong> by examining how organisms have changed over time using fossils and other evidence.</td>
-</tr>
-<tr>
-<td>26</td>
-<td>Radiobiology</td>
-<td>The study of the <strong>biological effects of radiation</strong>.</td>
-</tr>
-</tbody></table>
+<FeatureList title="Branches of Biology">
+  <FeatureItem title="Anatomy">
+    The scientific study of the <strong>structure of human or animal bodies</strong>.
+  </FeatureItem>
+  <FeatureItem title="Botany">
+    The scientific study of <strong>plants</strong>. It includes morphology, taxonomy, evolution, and ecology of plant life.
+  </FeatureItem>
+  <FeatureItem title="Taxonomy">
+    The <strong>classification of organisms</strong> into various ranks.
+  </FeatureItem>
+  <FeatureItem title="Zoology">
+    The branch of biology that studies the <strong>animal kingdom</strong>, including structure, embryology, evolution, classification, habits, and distribution of animals.
+  </FeatureItem>
+  <FeatureItem title="Microbiology">
+    The study of <strong>microorganisms</strong> such as bacteria, archaea, and protists.
+  </FeatureItem>
+  <FeatureItem title="Mycology">
+    The study of <strong>fungi</strong>.
+  </FeatureItem>
+  <FeatureItem title="Phycology (Algology)">
+    The scientific study of <strong>algae</strong>.
+  </FeatureItem>
+  <FeatureItem title="Parasitology">
+    The study of <strong>parasites</strong> and their effects on hosts.
+  </FeatureItem>
+  <FeatureItem title="Virology">
+    A branch of microbiology that studies <strong>viruses</strong>.
+  </FeatureItem>
+  <FeatureItem title="Physiology">
+    The study of the <strong>functions of living organisms</strong>.
+  </FeatureItem>
+  <FeatureItem title="Theoretical Biology">
+    A branch of biological research concerned with <strong>mathematical modeling, computer simulation, and statistical analysis</strong> of biological systems.
+  </FeatureItem>
+  <FeatureItem title="Cell Biology">
+    The study of the <strong>structure and function of cells</strong>, cell organelles, and related processes.
+  </FeatureItem>
+  <FeatureItem title="Genetics">
+    The study of <strong>genes, heredity, and variation</strong> in living organisms; how traits are passed from one generation to the next.
+  </FeatureItem>
+  <FeatureItem title="Ecology">
+    The study of how <strong>living organisms interact with one another and with their environment</strong>.
+  </FeatureItem>
+  <FeatureItem title="Evolution">
+    The process of <strong>gradual change in populations of organisms</strong> over generations.
+  </FeatureItem>
+  <FeatureItem title="Biochemistry">
+    The study of <strong>chemical processes</strong> occurring within living organisms at the molecular level.
+  </FeatureItem>
+  <FeatureItem title="Biophysics">
+    The study of the <strong>physical interactions of biological macromolecules</strong>, mainly proteins.
+  </FeatureItem>
+  <FeatureItem title="Molecular Biology">
+    The study of how <strong>cells function at the molecular level</strong>.
+  </FeatureItem>
+  <FeatureItem title="Structural Biology">
+    The study of the <strong>molecular structure of macromolecules</strong> such as proteins, nucleic acids, and lipids.
+  </FeatureItem>
+  <FeatureItem title="Biotechnology">
+    A branch of biology that <strong>uses biological processes and techniques</strong> to produce useful substances of biological origin.
+  </FeatureItem>
+  <FeatureItem title="Plant Physiology">
+    The study of how <strong>plants function and grow</strong>, including photosynthesis, respiration, cell structure, biochemistry, and genetics.
+  </FeatureItem>
+  <FeatureItem title="Immunology">
+    The study of <strong>the immune system</strong> and how it protects the body from pathogens such as bacteria and viruses.
+  </FeatureItem>
+  <FeatureItem title="Marine Biology">
+    The study of <strong>marine life and marine ecosystems</strong>.
+  </FeatureItem>
+  <FeatureItem title="Photobiology">
+    The study of the <strong>effects of light on living organisms</strong>.
+  </FeatureItem>
+  <FeatureItem title="Paleobiology">
+    The study of the <strong>evolution of life on Earth</strong> by examining how organisms have changed over time using fossils and other evidence.
+  </FeatureItem>
+  <FeatureItem title="Radiobiology">
+    The study of the <strong>biological effects of radiation</strong>.
+  </FeatureItem>
+</FeatureList>
 <Callout variant="tip" title="Quick Tip">
 Memorizing the branches of biology is crucial for SSC exams. Focus especially on **Cytology**, **Mycology**, and **Phycology**, as they are frequently tested!
 </Callout>
 <p>This page serves as an introduction to biology and provides a concise overview of its <strong>26 major branches</strong>, each focusing on a specific aspect of living organisms and life processes.</p>
 <p><br/><hr/><br/></p>
-<h1>Biological Research Institutions (India)</h1>
-<table>
-<thead>
-<tr>
-<th>S.No</th>
-<th>Name of Institute</th>
-<th>Location</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>Indian Institute of Horticultural Research</td>
-<td>Bangalore</td>
-</tr>
-<tr>
-<td>2</td>
-<td>National Research Centre for Citrus</td>
-<td>Nagpur</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Indian Institute of Spice Research</td>
-<td>Calicut</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Indian Institute of Rice Research</td>
-<td>Hyderabad</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Indian Institute of Wheat and Barley Research</td>
-<td>Karnal</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Indian Institute of Pulses Research</td>
-<td>Kanpur</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Indian Institute of Maize Research</td>
-<td>New Delhi</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Indian Institute of Tobacco Research</td>
-<td>Rajahmundry</td>
-</tr>
-<tr>
-<td>9</td>
-<td>Indian Institute of Oilseeds Research</td>
-<td>Hyderabad</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Indian Institute of Vegetable Research</td>
-<td>Varanasi</td>
-</tr>
-<tr>
-<td>11</td>
-<td>Centre for Cellular and Molecular Biology (CCMB)</td>
-<td>Hyderabad</td>
-</tr>
-<tr>
-<td>12</td>
-<td>National Institute of Plant Genome Research (NIPGR)</td>
-<td>Delhi</td>
-</tr>
-<tr>
-<td>13</td>
-<td>Indian Institute of Chemical Biology (IICB)</td>
-<td>Kolkata</td>
-</tr>
-<tr>
-<td>14</td>
-<td>Bose Institute</td>
-<td>Kolkata</td>
-</tr>
-<tr>
-<td>15</td>
-<td>Indian Institute of Integrative Medicine (IIIM)</td>
-<td>Jammu</td>
-</tr>
-<tr>
-<td>16</td>
-<td>Institute of Genomics and Integrative Biology (IGIB)</td>
-<td>Delhi</td>
-</tr>
-<tr>
-<td>17</td>
-<td>Indian Council of Agricultural Research (ICAR) – Headquarters</td>
-<td>New Delhi</td>
-</tr>
-<tr>
-<td>18</td>
-<td>Central Drug Research Institute (CSIR-CDRI)</td>
-<td>Lucknow</td>
-</tr>
-<tr>
-<td>19</td>
-<td>Indian Veterinary Research Institute</td>
-<td>Izatnagar, Uttar Pradesh</td>
-</tr>
-<tr>
-<td>20</td>
-<td>National Brain Research Centre (NBRC)</td>
-<td>Manesar, Haryana</td>
-</tr>
-<tr>
-<td>21</td>
-<td>National Institute of Virology (NIV)</td>
-<td>Pune, Maharashtra</td>
-</tr>
-<tr>
-<td>22</td>
-<td>National Centre for Cell Science (NCCS)</td>
-<td>Pune, Maharashtra</td>
-</tr>
-<tr>
-<td>23</td>
-<td>Tata Institute of Fundamental Research (TIFR)</td>
-<td>Mumbai</td>
-</tr>
-</tbody></table>
+<FeatureList title="Research Institutions">
+  <FeatureItem title="Indian Institute of Horticultural Research" subtitle="Bangalore"></FeatureItem>
+  <FeatureItem title="National Research Centre for Citrus" subtitle="Nagpur"></FeatureItem>
+  <FeatureItem title="Indian Institute of Spice Research" subtitle="Calicut"></FeatureItem>
+  <FeatureItem title="Indian Institute of Rice Research" subtitle="Hyderabad"></FeatureItem>
+  <FeatureItem title="Indian Institute of Wheat and Barley Research" subtitle="Karnal"></FeatureItem>
+  <FeatureItem title="Indian Institute of Pulses Research" subtitle="Kanpur"></FeatureItem>
+  <FeatureItem title="Indian Institute of Maize Research" subtitle="New Delhi"></FeatureItem>
+  <FeatureItem title="Indian Institute of Tobacco Research" subtitle="Rajahmundry"></FeatureItem>
+  <FeatureItem title="Indian Institute of Oilseeds Research" subtitle="Hyderabad"></FeatureItem>
+  <FeatureItem title="Indian Institute of Vegetable Research" subtitle="Varanasi"></FeatureItem>
+  <FeatureItem title="Centre for Cellular and Molecular Biology (CCMB)" subtitle="Hyderabad"></FeatureItem>
+  <FeatureItem title="National Institute of Plant Genome Research (NIPGR)" subtitle="Delhi"></FeatureItem>
+  <FeatureItem title="Indian Institute of Chemical Biology (IICB)" subtitle="Kolkata"></FeatureItem>
+  <FeatureItem title="Bose Institute" subtitle="Kolkata"></FeatureItem>
+  <FeatureItem title="Indian Institute of Integrative Medicine (IIIM)" subtitle="Jammu"></FeatureItem>
+  <FeatureItem title="Institute of Genomics and Integrative Biology (IGIB)" subtitle="Delhi"></FeatureItem>
+  <FeatureItem title="Indian Council of Agricultural Research (ICAR) – Headquarters" subtitle="New Delhi"></FeatureItem>
+  <FeatureItem title="Central Drug Research Institute (CSIR-CDRI)" subtitle="Lucknow"></FeatureItem>
+  <FeatureItem title="Indian Veterinary Research Institute" subtitle="Izatnagar, Uttar Pradesh"></FeatureItem>
+  <FeatureItem title="National Brain Research Centre (NBRC)" subtitle="Manesar, Haryana"></FeatureItem>
+  <FeatureItem title="National Institute of Virology (NIV)" subtitle="Pune, Maharashtra"></FeatureItem>
+  <FeatureItem title="National Centre for Cell Science (NCCS)" subtitle="Pune, Maharashtra"></FeatureItem>
+  <FeatureItem title="Tata Institute of Fundamental Research (TIFR)" subtitle="Mumbai"></FeatureItem>
+</FeatureList>
 <p><br/><hr/><br/></p>
-<h1>Fathers of Biology</h1>
-<table>
-<thead>
-<tr>
-<th>S.No</th>
-<th>Branch of Biology</th>
-<th>Father of the Branch</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>Biology</td>
-<td>Aristotle</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Botany</td>
-<td>Theophrastus</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Paleontology</td>
-<td>Leonardo da Vinci</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Eugenics</td>
-<td>Francis Galton</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Modern Botany</td>
-<td>Carl Linnaeus</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Immunology</td>
-<td>Edward Jenner</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Genetics</td>
-<td>Gregor Mendel</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Modern Genetics</td>
-<td>Thomas Hunt Morgan</td>
-</tr>
-<tr>
-<td>9</td>
-<td>Cytology</td>
-<td>Robert Hooke</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Botanical Illustrations</td>
-<td>Krateuas</td>
-</tr>
-<tr>
-<td>11</td>
-<td>Plant Anatomy</td>
-<td>Nehemiah Grew</td>
-</tr>
-<tr>
-<td>12</td>
-<td>Zoology</td>
-<td>Aristotle</td>
-</tr>
-<tr>
-<td>13</td>
-<td>Taxonomy</td>
-<td>Carl Linnaeus</td>
-</tr>
-<tr>
-<td>14</td>
-<td>Medicine</td>
-<td>Hippocrates</td>
-</tr>
-<tr>
-<td>15</td>
-<td>Histology</td>
-<td>Marie François Xavier Bichat</td>
-</tr>
-<tr>
-<td>16</td>
-<td>Mutation Theory</td>
-<td>Hugo de Vries</td>
-</tr>
-<tr>
-<td>17</td>
-<td>Comparative Anatomy</td>
-<td>Georges Cuvier</td>
-</tr>
-<tr>
-<td>18</td>
-<td>Mycology</td>
-<td>Pier Antonio Micheli</td>
-</tr>
-<tr>
-<td>19</td>
-<td>Plant Physiology</td>
-<td>Stephen Hales</td>
-</tr>
-<tr>
-<td>20</td>
-<td>Bacteriology</td>
-<td>Louis Pasteur</td>
-</tr>
-<tr>
-<td>21</td>
-<td>Microbiology</td>
-<td>Antonie van Leeuwenhoek</td>
-</tr>
-<tr>
-<td>22</td>
-<td>Indian Mycology</td>
-<td>Edwin John Butler</td>
-</tr>
-<tr>
-<td>23</td>
-<td>Indian Bryology</td>
-<td>Shiv Ram Kashyap</td>
-</tr>
-<tr>
-<td>24</td>
-<td>Indian Ecology</td>
-<td>Ramdeo Misra</td>
-</tr>
-<tr>
-<td>25</td>
-<td>Indian Phycology</td>
-<td>Parthasarathy Iyengar</td>
-</tr>
-<tr>
-<td>26</td>
-<td>Modern Embryology</td>
-<td>Karl Ernst von Baer</td>
-</tr>
-</tbody></table>
+<FeatureList title="Fathers of Biology">
+  <FeatureItem title="Aristotle" subtitle="Biology"></FeatureItem>
+  <FeatureItem title="Theophrastus" subtitle="Botany"></FeatureItem>
+  <FeatureItem title="Leonardo da Vinci" subtitle="Paleontology"></FeatureItem>
+  <FeatureItem title="Francis Galton" subtitle="Eugenics"></FeatureItem>
+  <FeatureItem title="Carl Linnaeus" subtitle="Modern Botany"></FeatureItem>
+  <FeatureItem title="Edward Jenner" subtitle="Immunology"></FeatureItem>
+  <FeatureItem title="Gregor Mendel" subtitle="Genetics"></FeatureItem>
+  <FeatureItem title="Thomas Hunt Morgan" subtitle="Modern Genetics"></FeatureItem>
+  <FeatureItem title="Robert Hooke" subtitle="Cytology"></FeatureItem>
+  <FeatureItem title="Krateuas" subtitle="Botanical Illustrations"></FeatureItem>
+  <FeatureItem title="Nehemiah Grew" subtitle="Plant Anatomy"></FeatureItem>
+  <FeatureItem title="Aristotle" subtitle="Zoology"></FeatureItem>
+  <FeatureItem title="Carl Linnaeus" subtitle="Taxonomy"></FeatureItem>
+  <FeatureItem title="Hippocrates" subtitle="Medicine"></FeatureItem>
+  <FeatureItem title="Marie François Xavier Bichat" subtitle="Histology"></FeatureItem>
+  <FeatureItem title="Hugo de Vries" subtitle="Mutation Theory"></FeatureItem>
+  <FeatureItem title="Georges Cuvier" subtitle="Comparative Anatomy"></FeatureItem>
+  <FeatureItem title="Pier Antonio Micheli" subtitle="Mycology"></FeatureItem>
+  <FeatureItem title="Stephen Hales" subtitle="Plant Physiology"></FeatureItem>
+  <FeatureItem title="Louis Pasteur" subtitle="Bacteriology"></FeatureItem>
+  <FeatureItem title="Antonie van Leeuwenhoek" subtitle="Microbiology"></FeatureItem>
+  <FeatureItem title="Edwin John Butler" subtitle="Indian Mycology"></FeatureItem>
+  <FeatureItem title="Shiv Ram Kashyap" subtitle="Indian Bryology"></FeatureItem>
+  <FeatureItem title="Ramdeo Misra" subtitle="Indian Ecology"></FeatureItem>
+  <FeatureItem title="Parthasarathy Iyengar" subtitle="Indian Phycology"></FeatureItem>
+  <FeatureItem title="Karl Ernst von Baer" subtitle="Modern Embryology"></FeatureItem>
+</FeatureList>
 <h3>Important names to remember for SSC exams</h3>
 <ul>
 <li><strong>Father of Biology</strong> – Aristotle</li>

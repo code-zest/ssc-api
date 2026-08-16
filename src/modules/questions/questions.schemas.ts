@@ -6,6 +6,7 @@ export const questionOptionSchema = z.object({
   text: z.string().min(1),
   imageUrl: z.string().url().optional().nullable(),
   rationale: z.string().optional().nullable(),
+  formatType: z.enum(["TEXT", "RICH_TEXT"]).optional(),
 });
 
 export const createQuestionSchema = z.object({
