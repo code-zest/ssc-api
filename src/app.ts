@@ -10,6 +10,7 @@ import { redis, isRedisReady } from './config/redis';
 import { httpLogger } from './middleware/httpLogger';
 import { errorHandler } from './middleware/errorHandler';
 import { notFound } from './middleware/notFound';
+import { latencyMiddleware } from './middleware/latency';
 import authRouter from './modules/auth/auth.routes';
 
 // ─── App ──────────────────────────────────────────────────────────────────────
@@ -17,6 +18,7 @@ const app = express();
 
 // ─── Security Headers ─────────────────────────────────────────────────────────
 app.use(helmet());
+app.use(latencyMiddleware);
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 app.use(
@@ -130,6 +132,9 @@ import gamificationRouter from './modules/gamification/gamification.routes';
 app.use(`/api/${env.API_VERSION}/gamification`, gamificationRouter);
 
 // Error Reporting — client crash tracking
+import healthRouter from './modules/health/health.routes';
+app.use(`/api/${env.API_VERSION}/health`, healthRouter);
+
 import errorsRouter from './modules/errors/errors.routes';
 app.use(`/api/${env.API_VERSION}/errors`, errorsRouter);
 
