@@ -5,9 +5,13 @@ Built using a Domain-Driven Modular Monolith architecture.
 
 ## 🚀 Features
 - **Robust Authentication:** JWT-based auth with secure cookies, roles (`STUDENT`, `ADMIN`, `SUPER_ADMIN`).
-- **Domain Modules:** Separate logic for Subjects, Chapters, Lessons, Practice Sets, and Mock Tests.
+- **Domain Modules:** Separate logic for Subjects, Chapters, Lessons, Practice Sets, Mock Tests, and Exams.
+- **Exams & Syllabus:** `TargetExam` model with versioned, hierarchical `SyllabusNode` tree. Full CRUD for admins; read-only for students.
 - **Payments:** Razorpay integration and webhook handling for `PRO` and `EXCLUSIVE` content unlocking.
-- **Progress Tracking:** User attempt tracking and scoring analytics.
+- **Progress Tracking:** User attempt tracking, scoring analytics, and leaderboard rankings.
+- **Redis Caching:** `ioredis`-backed caching for high-read endpoints; distributed rate limiting via `rate-limit-redis`.
+- **Latency Tracking:** In-process `process.hrtime.bigint()` middleware recording rolling average API response times.
+- **Health Monitoring:** `/api/v1/health/metrics` (SUPER_ADMIN only) — real-time OS, process, DB, Redis, and latency metrics.
 
 ## 🛠️ Tech Stack
 - **Framework:** Express.js (TypeScript)

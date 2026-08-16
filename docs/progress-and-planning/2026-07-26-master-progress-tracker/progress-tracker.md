@@ -1,7 +1,7 @@
 # SSC API — Master Progress Tracker
 
-**Last Updated:** 2026-08-13  
-**Overall Status:** ✅ Phases 1–12 Complete. Phase 13 (Personalization) Planned.
+**Last Updated:** 2026-08-16  
+**Overall Status:** ✅ Phases 1–12 Complete. ✅ Pillar 2 (Exams/Syllabus) & Pillar 3 (Health Monitoring) Implemented. Phase 13 (Personalization) Planned.
 
 ---
 
@@ -35,6 +35,8 @@
 | **Phase 9** | File upload service — S3 + pre-signed URLs | ✅ Complete | Cloudflare R2 integrated directly from Admin Web |
 | **Phase 10** | Payments, Products, Access Tier Gates, Razorpay integration | ✅ Complete | Content locked and unlockable via purchases. Premium Full-Bleed Marketing UI/UX polished. |
 | **Phase 11** | Notifications — email digest, test reminders | 🔴 Not Started | Future |
+| **Pillar 2** | Exams & Syllabus — `TargetExam`, `SyllabusNode` (versioned tree) CRUD | ✅ Complete | 2026-08-16 |
+| **Pillar 3** | System Health — latency middleware, `/health/metrics` endpoint | ✅ Complete | 2026-08-16 |
 | **Phase 12** | Test Suites & Pre-commit hooks | ✅ Complete | Vitest for Frontends, Jest for Backend, Husky hooked |
 | **Phase 13** | Persona & Personalization — demographics schema, onboarding endpoint, persona-aware dashboard | 🔴 Planned | See `docs/product/personalization-api.md` |
 
