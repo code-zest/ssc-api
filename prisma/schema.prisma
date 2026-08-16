@@ -140,6 +140,14 @@ enum Gender {
   PREFER_NOT_TO_SAY
 }
 
+enum RankTier {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  DIAMOND
+}
+
 // ─── USERS ────────────────────────────────────────────────────────────────────
 
 model User {
@@ -156,6 +164,9 @@ model User {
   // Streak & Gamification
   streakDays     Int       @default(0)
   lastActiveDate DateTime?
+  xpPoints       Int       @default(0)
+  rankTier       RankTier  @default(BRONZE)
+  badges         UserBadge[]
 
   // OTP storage (for email verification & password reset)
   otpCode      String?
@@ -715,4 +726,33 @@ model ErrorReport {
   @@index([affectedUserCount])  // "Most impactful" queries
   @@index([routePath])          // "Errors per route" analytics
   @@map("error_reports")
+}
+
+// ─── GAMIFICATION ─────────────────────────────────────────────────────────────
+
+model Badge {
+  id          String      @id @default(cuid())
+  name        String
+  description String
+  iconUrl     String?     // S3 URL or generic identifier
+  criteria    String      // E.g., "FIRST_TEST", "10_DAY_STREAK"
+  users       UserBadge[]
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId   String
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  awardedAt DateTime @default(now())
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+  @@map("user_badges")
 }

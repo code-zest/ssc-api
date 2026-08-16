@@ -81,57 +81,33 @@ export async function getMockTestLeaderboard(mockTestId: string, limit: number =
 // ─── Global Leaderboard ──────────────────────────────────────────────────────
 
 export async function getGlobalLeaderboard(limit: number = 10) {
-  // Aggregate all SUBMITTED attempts per student
+  // Aggregate students and their gamification profile
   const students = await prisma.user.findMany({
-    where: { role: 'STUDENT' },
+    where: { role: 'STUDENT', xpPoints: { gt: 0 } },
     select: {
       id: true,
       name: true,
-      testAttempts: {
-        where: { status: 'SUBMITTED' },
-        select: {
-          marksObtained: true,
-          accuracy: true,
-        }
+      xpPoints: true,
+      rankTier: true,
+      _count: {
+        select: { testAttempts: { where: { status: 'SUBMITTED' } } }
       }
-    }
+    },
+    orderBy: {
+      xpPoints: 'desc'
+    },
+    take: limit
   });
 
-  const leaderboardData = students.map(student => {
-    let totalScore = 0;
-    let totalAccuracy = 0;
-    const attempts = student.testAttempts.length;
-
-    student.testAttempts.forEach((attempt) => {
-      totalScore += attempt.marksObtained || 0;
-      totalAccuracy += attempt.accuracy || 0;
-    });
-
-    const averageAccuracy = attempts > 0 ? totalAccuracy / attempts : 0;
-
-    return {
-      student: {
-        id: student.id,
-        name: student.name,
-      },
-      totalScore,
-      averageAccuracy: Math.round(averageAccuracy),
-      testsTaken: attempts,
-    };
-  });
-
-  // Filter out those with no tests, sort by totalScore desc, averageAccuracy desc
-  const sorted = leaderboardData
-    .filter(entry => entry.testsTaken > 0)
-    .sort((a, b) => {
-      if (b.totalScore !== a.totalScore) return b.totalScore - a.totalScore;
-      return b.averageAccuracy - a.averageAccuracy;
-    })
-    .slice(0, limit);
-
-  return sorted.map((entry, index) => ({
+  return students.map((student, index) => ({
     rank: index + 1,
-    ...entry,
+    student: {
+      id: student.id,
+      name: student.name,
+    },
+    xpPoints: student.xpPoints,
+    rankTier: student.rankTier,
+    testsTaken: student._count.testAttempts,
   }));
 }
 

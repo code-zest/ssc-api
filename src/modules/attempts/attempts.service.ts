@@ -1,6 +1,7 @@
 import { prisma } from '../../config/prisma';
 import { ApiError } from '../../utils/ApiError';
 import type { StartAttemptInput, SyncAnswersInput, GeneratePYQAttemptInput } from './attempts.schemas';
+import { GamificationService } from '../gamification/gamification.service';
 
 // ─── Generate PYQ Attempt ─────────────────────────────────────────────────────
 
@@ -291,6 +292,9 @@ export async function submitAttempt(attemptId: string, studentId: string | null,
           data: { streakDays, lastActiveDate: now }
         });
       }
+      
+      // Hook into Gamification Engine to award XP
+      await GamificationService.processTestCompletion(studentId, marksObtained, accuracy);
     }
   }
 

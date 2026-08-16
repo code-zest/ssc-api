@@ -122,6 +122,10 @@ import articlesRouter from './modules/articles/articles.routes';
 app.use(`/api/${env.API_VERSION}/categories`, categoriesRouter);
 app.use(`/api/${env.API_VERSION}/articles`, articlesRouter);
 
+// Phase 13 — Gamification
+import gamificationRouter from './modules/gamification/gamification.routes';
+app.use(`/api/${env.API_VERSION}/gamification`, gamificationRouter);
+
 // Error Reporting — client crash tracking
 import errorsRouter from './modules/errors/errors.routes';
 app.use(`/api/${env.API_VERSION}/errors`, errorsRouter);
