@@ -98,18 +98,18 @@ enum FeedbackStatus {
 }
 
 enum ErrorSeverity {
-  LOW       // Warning — degraded UX, non-blocking
-  MEDIUM    // Error — feature broken, user can continue
-  HIGH      // Fatal — page/session unrecoverable
-  CRITICAL  // Crash — global error boundary triggered
+  LOW // Warning — degraded UX, non-blocking
+  MEDIUM // Error — feature broken, user can continue
+  HIGH // Fatal — page/session unrecoverable
+  CRITICAL // Crash — global error boundary triggered
 }
 
 enum ErrorReportStatus {
-  UNRESOLVED   // Default — needs attention
-  IN_PROGRESS  // Assigned, being investigated
-  RESOLVED     // Fixed and deployed
-  IGNORED      // Acknowledged, won't fix
-  REGRESSED    // Was RESOLVED, appeared again — auto-set by API
+  UNRESOLVED // Default — needs attention
+  IN_PROGRESS // Assigned, being investigated
+  RESOLVED // Fixed and deployed
+  IGNORED // Acknowledged, won't fix
+  REGRESSED // Was RESOLVED, appeared again — auto-set by API
 }
 
 // ─── PERSONA & DEMOGRAPHICS ───────────────────────────────────────────────────
@@ -162,10 +162,10 @@ model User {
   isActive        Boolean @default(true)
 
   // Streak & Gamification
-  streakDays     Int       @default(0)
+  streakDays     Int         @default(0)
   lastActiveDate DateTime?
-  xpPoints       Int       @default(0)
-  rankTier       RankTier  @default(BRONZE)
+  xpPoints       Int         @default(0)
+  rankTier       RankTier    @default(BRONZE)
   badges         UserBadge[]
 
   // OTP storage (for email verification & password reset)
@@ -219,6 +219,17 @@ model User {
   assignedErrors     ErrorReport[] @relation("AssignedErrors")
   resolvedErrors     ErrorReport[] @relation("ResolvedErrors")
 
+  // Content creator/updater relations
+  createdQuestions    Question[]    @relation("QuestionCreator")
+  updatedQuestions    Question[]    @relation("QuestionUpdater")
+  updatedArticles     Article[]     @relation("ArticleUpdater")
+  createdMockTests    MockTest[]    @relation("MockTestCreator")
+  updatedMockTests    MockTest[]    @relation("MockTestUpdater")
+  createdPracticeSets PracticeSet[] @relation("PracticeSetCreator")
+  updatedPracticeSets PracticeSet[] @relation("PracticeSetUpdater")
+  createdLessons      Lesson[]      @relation("LessonCreator")
+  updatedLessons      Lesson[]      @relation("LessonUpdater")
+
   @@index([email])
   @@map("users")
 }
@@ -239,6 +250,42 @@ model RefreshToken {
   @@map("refresh_tokens")
 }
 
+// ─── EXAMS & SYLLABUS ─────────────────────────────────────────────────────────
+
+model TargetExam {
+  id          String  @id @default(cuid())
+  name        String // e.g., "SSC CGL Tier 1"
+  description String?
+  isActive    Boolean @default(true)
+
+  syllabusNodes SyllabusNode[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("target_exams")
+}
+
+model SyllabusNode {
+  id         String     @id @default(cuid())
+  targetExam TargetExam @relation(fields: [examId], references: [id], onDelete: Cascade)
+  examId     String
+
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subjectId String
+
+  chapter   Chapter? @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId String?
+
+  weightage Float @default(1.0)
+  order     Int   @default(0)
+
+  @@unique([examId, subjectId, chapterId])
+  @@index([examId])
+  @@index([subjectId])
+  @@map("syllabus_nodes")
+}
+
 // ─── SUBJECTS ─────────────────────────────────────────────────────────────────
 
 model Subject {
@@ -250,6 +297,8 @@ model Subject {
   examTypes   ExamType[]
   order       Int        @default(0)
   isActive    Boolean    @default(true)
+
+  syllabusNodes SyllabusNode[]
 
   chapters     Chapter[]
   lessons      Lesson[]
@@ -276,6 +325,8 @@ model Chapter {
   order       Int        @default(0)
   accessTier  AccessTier @default(FREE)
   isActive    Boolean    @default(true)
+
+  syllabusNodes SyllabusNode[]
 
   lessons      Lesson[]
   questions    Question[]
@@ -310,9 +361,13 @@ model Lesson {
   accessTier   AccessTier @default(FREE)
   isActive     Boolean    @default(true)
 
-  progress LessonProgress[]
-  practiceSets PracticeSet[]
+  createdById String?
+  createdBy   User?   @relation("LessonCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedById String?
+  updatedBy   User?   @relation("LessonUpdater", fields: [updatedById], references: [id], onDelete: SetNull)
 
+  progress     LessonProgress[]
+  practiceSets PracticeSet[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -350,6 +405,11 @@ model Question {
   language   Language   @default(EN)
   isActive   Boolean    @default(true)
 
+  createdById String?
+  createdBy   User?   @relation("QuestionCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedById String?
+  updatedBy   User?   @relation("QuestionUpdater", fields: [updatedById], references: [id], onDelete: SetNull)
+
   practiceSets     PracticeSetQuestion[]
   mockTestSections MockTestSectionQuestion[]
   attemptResponses AttemptResponse[]
@@ -379,6 +439,11 @@ model PracticeSet {
   accessTier    AccessTier @default(FREE)
   order         Int        @default(0)
   isActive      Boolean    @default(true)
+
+  createdById String?
+  createdBy   User?   @relation("PracticeSetCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedById String?
+  updatedBy   User?   @relation("PracticeSetUpdater", fields: [updatedById], references: [id], onDelete: SetNull)
 
   questions PracticeSetQuestion[]
   attempts  TestAttempt[]
@@ -417,6 +482,11 @@ model MockTest {
   accessTier       AccessTier @default(FREE)
   isActive         Boolean    @default(true)
   scheduledAt      DateTime?
+
+  createdById String?
+  createdBy   User?   @relation("MockTestCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedById String?
+  updatedBy   User?   @relation("MockTestUpdater", fields: [updatedById], references: [id], onDelete: SetNull)
 
   sections MockTestSection[]
   attempts TestAttempt[]
@@ -664,6 +734,9 @@ model Article {
   categoryId      String?
   category        Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
+  updatedById String?
+  updatedBy   User?   @relation("ArticleUpdater", fields: [updatedById], references: [id], onDelete: SetNull)
+
   isPublished Boolean   @default(false)
   publishedAt DateTime?
 
@@ -690,21 +763,21 @@ model ErrorReport {
   status   ErrorReportStatus @default(UNRESOLVED)
 
   // ── Occurrence Tracking (Sentry-style) ────────────────────────
-  occurrenceCount   Int      @default(1)   // Total times this error fired
-  affectedUserCount Int      @default(0)   // Distinct user count (approximate)
+  occurrenceCount   Int      @default(1) // Total times this error fired
+  affectedUserCount Int      @default(0) // Distinct user count (approximate)
   firstSeenAt       DateTime @default(now())
   lastSeenAt        DateTime @default(now()) // Updated on each recurrence
 
   // ── Error Details ───────────────────────────────────────────
-  message        String  // e.g. "Cannot read properties of undefined"
+  message        String // e.g. "Cannot read properties of undefined"
   stack          String? // Full JS stack trace
   componentStack String? // React component tree at crash point
   errorBoundary  String? // "global" | "page" | "inline" | "server"
 
   // ── Location Context (critical for guest errors) ───────────────
-  url         String  // Full window.location.href
+  url         String // Full window.location.href
   routePath   String? // Next.js pathname template e.g. /pyq/[subject]/[chapter]
-  routeParams Json?   // Resolved params e.g. { subject: "reasoning" }
+  routeParams Json? // Resolved params e.g. { subject: "reasoning" }
   userAgent   String? // Browser/OS/device
   appVersion  String? // git SHA or package.json version
 
@@ -715,10 +788,10 @@ model ErrorReport {
 
   // ── Assignment & Resolution (Industry Standard) ────────────────
   assignedToId String?
-  assignedTo   User?   @relation("AssignedErrors", fields: [assignedToId], references: [id], onDelete: SetNull)
+  assignedTo   User?     @relation("AssignedErrors", fields: [assignedToId], references: [id], onDelete: SetNull)
   resolvedAt   DateTime?
   resolvedById String?
-  resolvedBy   User?   @relation("ResolvedErrors", fields: [resolvedById], references: [id], onDelete: SetNull)
+  resolvedBy   User?     @relation("ResolvedErrors", fields: [resolvedById], references: [id], onDelete: SetNull)
   notes        String? // Admin resolution notes
 
   createdAt DateTime @default(now())
@@ -726,9 +799,9 @@ model ErrorReport {
 
   @@index([status])
   @@index([severity])
-  @@index([lastSeenAt])         // "Recent errors" queries
-  @@index([affectedUserCount])  // "Most impactful" queries
-  @@index([routePath])          // "Errors per route" analytics
+  @@index([lastSeenAt]) // "Recent errors" queries
+  @@index([affectedUserCount]) // "Most impactful" queries
+  @@index([routePath]) // "Errors per route" analytics
   @@map("error_reports")
 }
 
@@ -738,12 +811,12 @@ model Badge {
   id          String      @id @default(cuid())
   name        String
   description String
-  iconUrl     String?     // S3 URL or generic identifier
-  criteria    String      // E.g., "FIRST_TEST", "10_DAY_STREAK"
+  iconUrl     String? // S3 URL or generic identifier
+  criteria    String // E.g., "FIRST_TEST", "10_DAY_STREAK"
   users       UserBadge[]
 
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("badges")
 }
