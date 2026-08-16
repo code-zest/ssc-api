@@ -3,10 +3,10 @@ import { RankTier } from '@prisma/client';
 
 export class GamificationService {
   private static determineRankTier(xp: number): RankTier {
-    if (xp >= 10000) return 'LEGEND';
-    if (xp >= 5000) return 'MASTER';
-    if (xp >= 2000) return 'ACHIEVER';
-    if (xp >= 500) return 'CHALLENGER';
+    if (xp >= 10000) return 'COMMISSIONER';
+    if (xp >= 5000) return 'INSPECTOR';
+    if (xp >= 2000) return 'SUB_INSPECTOR';
+    if (xp >= 500) return 'CONSTABLE';
     return 'ASPIRANT';
   }
 

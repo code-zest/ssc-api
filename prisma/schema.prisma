@@ -143,10 +143,10 @@ enum Gender {
 
 enum RankTier {
   ASPIRANT
-  CHALLENGER
-  ACHIEVER
-  MASTER
-  LEGEND
+  CONSTABLE
+  SUB_INSPECTOR
+  INSPECTOR
+  COMMISSIONER
 }
 
 // ─── USERS ────────────────────────────────────────────────────────────────────
