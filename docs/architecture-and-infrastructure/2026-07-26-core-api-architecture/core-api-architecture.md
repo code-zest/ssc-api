@@ -84,3 +84,8 @@ ssc-api/
 - All DB queries are type-safe via Prisma — no runtime schema mismatches
 - Zod validators are colocated with routes — easy to maintain
 - Feature-sliced modules allow parallel development (admin-web and client teams can work independently)
+
+
+### Error Handling & Client Feedback
+- **Automated Telemetry:** Clients capture unhandled errors (Error Boundaries) and send detailed stack traces, route paths, and fingerprints to the `/api/v1/errors` endpoint.
+- **User Ticket Integration:** Clients expose a global Support widget (FAB) and inline crash forms that send user-reported issues (with rich telemetry context) to the `/api/v1/feedback` endpoint with `type: 'ISSUE'`.
