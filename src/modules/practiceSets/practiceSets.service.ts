@@ -6,10 +6,11 @@ import type { CreatePracticeSetInput, UpdatePracticeSetInput, AddQuestionsToSetI
 
 import { Prisma } from '@prisma/client';
 
-export async function getPracticeSets(isAdmin: boolean, subjectId?: string, chapterId?: string) {
+export async function getPracticeSets(isAdmin: boolean, subjectId?: string, chapterId?: string, lessonId?: string) {
   const where: Prisma.PracticeSetWhereInput = isAdmin ? {} : { isActive: true };
   if (subjectId) where.subjectId = subjectId;
   if (chapterId) where.chapterId = chapterId;
+  if (lessonId) where.lessonId = lessonId;
 
   return prisma.practiceSet.findMany({
     where,

@@ -7,8 +7,9 @@ export async function getPracticeSets(req: Request, res: Response, next: NextFun
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
     const subjectId = typeof req.query.subjectId === 'string' ? req.query.subjectId : undefined;
     const chapterId = typeof req.query.chapterId === 'string' ? req.query.chapterId : undefined;
+    const lessonId = typeof req.query.lessonId === 'string' ? req.query.lessonId : undefined;
 
-    const practiceSets = await practiceSetsService.getPracticeSets(isAdmin, subjectId, chapterId);
+    const practiceSets = await practiceSetsService.getPracticeSets(isAdmin, subjectId, chapterId, lessonId);
     ApiResponse.success(res, practiceSets);
   } catch (error) {
     next(error);
