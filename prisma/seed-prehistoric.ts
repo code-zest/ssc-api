@@ -2,211 +2,208 @@ import { prisma } from "../src/config/prisma";
 import { ExamType, Difficulty, Language, LessonType } from "@prisma/client";
 
 const ARTICLE_HTML = `
-<h1>1. PRE-HISTORIC CULTURE</h1>
-<h2>Introduction</h2>
-<ul>
-  <li>History the word derived from Greek language; in the Greek it’s called as <strong>Historia</strong>. It means research, enquiry and analysis.</li>
-  <li>In Telugu it’s called as <strong>charitra</strong>, the word derived from Sanskrit. In Sanskrit it is called as <strong>chur</strong>, it means behavior.</li>
-</ul>
+<DefinitionBlock term="History">
+The word derived from Greek language; in the Greek it’s called as **Historia**. It means research, enquiry and analysis.
+In Telugu it’s called as **charitra**, the word derived from Sanskrit. In Sanskrit it is called as **chur**, it means behavior.
+</DefinitionBlock>
 
-<h2>Why should we study history?</h2>
-<p><strong>Principle of Uniformity:</strong> Past is a key to the present when we study the past and present it helps to estimate the future.</p>
+<Callout variant="info" title="Principle of Uniformity">
+Past is a key to the present. When we study the past and present, it helps to estimate the future. This is why we study history.
+</Callout>
 
-<h2>Sources of History</h2>
-<ol>
-  <li>Bookish sources</li>
-  <li>Numismatics</li>
-  <li>Inscriptions</li>
-  <li>Epic Stories</li>
-  <li>Archaeological Department</li>
-  <li>Carbon dating</li>
-  <li>Oral sources</li>
-  <li>Foreign Travelers</li>
-  <li>Religious books</li>
-</ol>
+## Sources of History
 
-<h3>Note:</h3>
-<ul>
-  <li><strong>Alexander Cunningham</strong> is regarded as father of archaeological department.</li>
-  <li>In the year <strong>1861</strong>, archaeological department established under the ministry of culture, Government of India. This time Governor General was <strong>Lord Canning</strong>.</li>
-  <li>Carbon dating was discovered by <strong>W.F. Libby</strong> in <strong>1947</strong> for his work contribution; he received the Nobel Prize.</li>
-  <li>His research published in <strong>1951</strong> scientific monthly magazine.</li>
-  <li>Half life of carbon is <strong>5568 years</strong>.</li>
-  <li>Study of inscriptions is called as <strong>Epigraphy</strong>.</li>
-  <li>King Ashok inscriptions are translated into English by <strong>James Prinsep</strong>.</li>
-  <li>Study of coins is called as <strong>Numismatics</strong>.</li>
-  <li><strong>Indo-Bactrian</strong> first released the coins in India.</li>
-  <li>Father of History is regarded as <strong>Herodotus</strong>; he wrote a book called <strong>History</strong>.</li>
-</ul>
+- Bookish sources
+- Numismatics
+- Inscriptions
+- Epic Stories
+- Archaeological Department
+- Carbon dating
+- Oral sources
+- Foreign Travelers
+- Religious books
 
-<h2>History was classified into 3 categories</h2>
-<ol>
-  <li><strong>Pre-History:</strong> There is no script.</li>
-  <li><strong>Proto History:</strong> Script existed but not possible to read.</li>
-  <li><strong>Historical Age:</strong> Script existed and understood by the common man also.</li>
-</ol>
+<Callout variant="exam" title="Key Historical Figures & Discoveries">
+  <ul className="list-disc pl-5">
+    <li>**Alexander Cunningham** is regarded as father of archaeological department.</li>
+    <li>In **1861**, archaeological department established under the ministry of culture, Government of India. This time Governor General was **Lord Canning**.</li>
+    <li>Carbon dating was discovered by **W.F. Libby** in **1947** for his work contribution; he received the Nobel Prize.</li>
+    <li>Half life of carbon is **5568 years**.</li>
+    <li>King Ashok inscriptions are translated into English by **James Prinsep**.</li>
+    <li>**Indo-Bactrian** first released the coins in India.</li>
+    <li>Father of History is regarded as **Herodotus**; he wrote a book called **History**.</li>
+  </ul>
+</Callout>
 
-<h2>Prehistoric Periods in India – According to Tools</h2>
-<ol>
-  <li><strong>Paleolithic Period (Old Stone Age):</strong> 500,000 BCE – 10,000 BCE</li>
-  <li><strong>Mesolithic Period (Late Stone Age):</strong> 10,000 BCE – 6000 BCE</li>
-  <li><strong>Neolithic Period (New Stone Age):</strong> 6000 BCE – 1000 BCE</li>
-  <li><strong>Chalcolithic Period (Stone Copper Age):</strong> 3000 BCE – 500 BCE</li>
-  <li><strong>Iron Age:</strong> 1500 BCE – 200 BCE</li>
-</ol>
+<DefinitionBlock term="Epigraphy">
+Study of inscriptions is called Epigraphy.
+</DefinitionBlock>
 
-<hr/>
+<DefinitionBlock term="Numismatics">
+Study of coins is called Numismatics.
+</DefinitionBlock>
 
-<h1>Stone Age</h1>
-<p>The Stone Age is the prehistoric period. On the basis of geological age, the type and technology of stone tools, and subsistence base, the <strong>Indian Stone Age is classified primarily into three types</strong>:</p>
-<ul>
-  <li><strong>Palaeolithic age (Old Stone Age):</strong> Period – 500,000 – 10,000 BCE</li>
-  <li><strong>Mesolithic age (Late Stone Age):</strong> Period – 10,000 – 6000 BCE</li>
-  <li><strong>Neolithic age (New Stone Age):</strong> Period – 6000 – 1000 BCE</li>
-</ul>
+## History Classification
 
-<h2>Palaeolithic Age (Old Stone Age)</h2>
-<p>The term <strong>Palaeolithic</strong> is derived from the Greek word <strong>‘palaeo’</strong>, which means old, and <strong>‘lithic’</strong>, meaning stone. Therefore, the term Palaeolithic age refers to the old stone age.</p>
+<Timeline>
+  <TimelineItem title="Pre-History">
+    No written script or records existed.
+  </TimelineItem>
+  <TimelineItem title="Proto History">
+    Written script existed but remains undeciphered.
+  </TimelineItem>
+  <TimelineItem title="Historical Age">
+    Written script existed and has been deciphered.
+  </TimelineItem>
+</Timeline>
 
-<h3>Main characteristics of the Palaeolithic age</h3>
-<ol>
-  <li>The Indian people are believed to have belonged to the <strong>‘Negrito’ race</strong>, and lived in the open air, river valleys, caves and rock shelters.</li>
-  <li>They were food gatherers, ate wild fruits and vegetables, and lived on hunting.</li>
-  <li>There was no knowledge of houses, pottery, agriculture. It was only in later stages they discovered fire.</li>
-  <li>In the upper Palaeolithic age, there is evidence of art in the form of paintings.</li>
-  <li>Humans used unpolished, rough stones like hand axes, choppers, blades, burins and scrapers.</li>
-</ol>
+---
 
-<h3>Classification of Palaeolithic age</h3>
-<ol>
-  <li><strong>Lower Palaeolithic Age:</strong> up to 100,000 BC</li>
-  <li><strong>Middle Palaeolithic Age:</strong> 100,000 BC – 40,000 BC</li>
-  <li><strong>Upper Palaeolithic Age:</strong> 40,000 BC – 10,000 BC</li>
-</ol>
+# Stone Age
 
-<h3>Lower Palaeolithic Age (Early Palaeolithic Age)</h3>
-<ul>
-  <li>It covers the greater part of the Ice Age.</li>
-  <li>Hunters and food gatherers; tools used were <strong>hand axes, choppers and cleavers</strong>.</li>
-  <li>Tools were rough and heavy.</li>
-  <li>One of the earliest lower Palaeolithic sites is <strong>Bori in Maharashtra</strong>.</li>
-  <li>Limestone was also used to make tools.</li>
-</ul>
+The Stone Age is the prehistoric period. On the basis of geological age, the type and technology of stone tools, and subsistence base, the **Indian Stone Age is classified primarily into three types**:
 
-<h3>Major sites of Lower Palaeolithic Age</h3>
-<ul>
-  <li>Soan Valley (in present Pakistan), Sites in the Thar Desert, Kashmir, Mewar plains, Saurashtra, Gujarat, Central India, Deccan Plateau, Chotanagpur Plateau, North of the Cauvery River, Belan Valley in UP.</li>
-  <li>There are habitation sites including caves and rock shelters. An important place is <strong>Bhimbetka in Madhya Pradesh</strong>.</li>
-</ul>
+<Timeline>
+  <TimelineItem period="500,000 – 10,000 BCE" title="Palaeolithic age (Old Stone Age)"></TimelineItem>
+  <TimelineItem period="10,000 – 6000 BCE" title="Mesolithic age (Late Stone Age)"></TimelineItem>
+  <TimelineItem period="6000 – 1000 BCE" title="Neolithic age (New Stone Age)"></TimelineItem>
+  <TimelineItem period="3000 – 500 BCE" title="Chalcolithic Period (Stone Copper Age)"></TimelineItem>
+  <TimelineItem period="1500 – 200 BCE" title="Iron Age"></TimelineItem>
+</Timeline>
 
-<h3>Middle Palaeolithic Age</h3>
-<ul>
-  <li>Tools used were <strong>flakes, blades, pointers, scrapers and borers</strong>.</li>
-  <li>The tools were smaller, lighter and thinner.</li>
-  <li>There was a decrease in the use of hand axes with respect to other tools.</li>
-  <li>Important sites: Belan Valley in UP, Luni Valley (Rajasthan).</li>
-</ul>
+## Palaeolithic Age (Old Stone Age)
 
-<h2>Upper Palaeolithic Age</h2>
-<ul>
-  <li>The Upper Palaeolithic age coincided with the last phase of the Ice Age when the climate became comparatively warmer and less humid.</li>
-  <li>Emergence of <strong>Homo sapiens</strong>.</li>
-  <li>The period is marked by innovation in tools and technology. A lot of bone tools, including needles, harpoons, parallel-sided blades, fishing tools and burin tools.</li>
-  <li>Major sites: <strong>Bhimbetka</strong> (South of Bhopal), Belan, Son, Chota Nagpur Plateau (Bihar), Maharashtra, Orissa, The Eastern Ghats in Andhra Pradesh.</li>
-  <li>Bone tools have been found only at cave sites of <strong>Kurnool and Muchchatla Chintamani Gavi</strong> in Andhra Pradesh.</li>
-</ul>
+The term **Palaeolithic** is derived from the Greek word **‘palaeo’**, which means old, and **‘lithic’**, meaning stone. Therefore, the term Palaeolithic age refers to the old stone age.
 
-<hr/>
+### Main characteristics
+- The Indian people are believed to have belonged to the **‘Negrito’ race**, and lived in the open air, river valleys, caves and rock shelters.
+- They were food gatherers, ate wild fruits and vegetables, and lived on hunting.
+- There was no knowledge of houses, pottery, agriculture. It was only in later stages they discovered fire.
+- In the upper Palaeolithic age, there is evidence of art in the form of paintings.
+- Humans used unpolished, rough stones like hand axes, choppers, blades, burins and scrapers.
 
-<h2>Mesolithic Period (Middle Stone Age)</h2>
-<ul>
-  <li>The term Mesolithic is derived from two Greek words – <strong>‘meso’</strong> (middle) and <strong>‘lithic’</strong> (stone).</li>
-  <li>Both Mesolithic and Neolithic phases belong to the <strong>Holocene era</strong>. In this era, there was a rise in temperature which resulted in melting of ice and changes in flora and fauna.</li>
-</ul>
+### Classification of Palaeolithic age
 
-<h3>Characteristic Features of the Mesolithic Era</h3>
-<ul>
-  <li>The people of this era believed in life after death and buried the dead with food items and other goods.</li>
-  <li>The characteristic tools were <strong>microliths</strong> – miniature stone tools of geometrical and non-geometrical shapes.</li>
-  <li>They were used to make composite tools, spearheads, arrowheads and sickles.</li>
-  <li>These microliths enabled the Mesolithic man to hunt smaller animals and birds.</li>
-  <li>Started to wear clothes made of animal skin.</li>
-</ul>
+<Timeline>
+  <TimelineItem period="up to 100,000 BC" title="Lower Palaeolithic Age">
+    <ul className="list-disc pl-5">
+      <li>It covers the greater part of the Ice Age.</li>
+      <li>Hunters and food gatherers; tools used were **hand axes, choppers and cleavers**.</li>
+      <li>Tools were rough and heavy. Limestone was also used to make tools.</li>
+      <li>One of the earliest sites is **Bori in Maharashtra**.</li>
+      <li>Important habitation sites include caves and rock shelters like **Bhimbetka in Madhya Pradesh**.</li>
+    </ul>
+  </TimelineItem>
+  
+  <TimelineItem period="100,000 BC – 40,000 BC" title="Middle Palaeolithic Age">
+    <ul className="list-disc pl-5">
+      <li>Tools used were **flakes, blades, pointers, scrapers and borers**.</li>
+      <li>The tools were smaller, lighter and thinner.</li>
+      <li>Decrease in the use of hand axes with respect to other tools.</li>
+      <li>Important sites: Belan Valley in UP, Luni Valley (Rajasthan).</li>
+    </ul>
+  </TimelineItem>
+  
+  <TimelineItem period="40,000 BC – 10,000 BC" title="Upper Palaeolithic Age">
+    <ul className="list-disc pl-5">
+      <li>Coincided with the last phase of the Ice Age when the climate became comparatively warmer and less humid.</li>
+      <li>**Emergence of Homo sapiens**.</li>
+      <li>Innovation in tools and technology: bone tools, needles, harpoons, parallel-sided blades.</li>
+      <li>Bone tools found at cave sites of **Kurnool and Muchchatla Chintamani Gavi** in Andhra Pradesh.</li>
+    </ul>
+  </TimelineItem>
+</Timeline>
 
-<h3>Important Mesolithic Sites</h3>
-<ul>
-  <li><strong>Bagor in Rajasthan</strong> is one of the biggest and best-documented sites (on river Kothari).</li>
-  <li><strong>Adamgarh in Madhya Pradesh</strong> provides the earliest evidence for the domestication of animals.</li>
-  <li>There are about <strong>150 Mesolithic rock art sites</strong> across India (e.g. Bhimbetka caves).</li>
-  <li>Microliths found in valleys of river <strong>Tapi, Sabarmati, Narmada and Mahi</strong>.</li>
-  <li><strong>Langhnaj in Gujarat</strong> and <strong>Biharanpur in West Bengal</strong> are also important sites. Bones of wild animals excavated from Langhnaj.</li>
-  <li>Pottery found in <strong>Langhnaj (Gujarat)</strong> and in the <strong>Kaimur region of Mirzapur (U.P.)</strong>.</li>
-</ul>
+---
 
-<hr/>
+## Mesolithic Period (Middle Stone Age)
 
-<h2>Neolithic Period (New Stone Age)</h2>
-<ul>
-  <li>The term Neolithic refers to the <strong>‘New Stone Age’</strong>.</li>
-  <li>Termed as <strong>‘Neolithic revolution’</strong> since it introduced important changes in social and economic life.</li>
-  <li>Saw man turning into a <strong>food producer from food gatherer</strong>.</li>
-</ul>
+<DefinitionBlock term="Mesolithic">
+Derived from two Greek words – **‘meso’** (middle) and **‘lithic’** (stone).
+</DefinitionBlock>
 
-<h3>Characteristic Features</h3>
-<h4>Tools and Weapons</h4>
-<ul>
-  <li>Used microlithic blades in addition to tools made of polished stones (celts).</li>
-  <li>Used tools and weapons made of bones – needles, scrapers, borers, arrowheads.</li>
-</ul>
+Both Mesolithic and Neolithic phases belong to the **Holocene era**. In this era, there was a rise in temperature which resulted in melting of ice and changes in flora and fauna.
 
-<h4>Agriculture</h4>
-<ul>
-  <li>Cultivated land and grew fruits and corn like <strong>ragi and horse gram (kulati)</strong>.</li>
-  <li>Domesticated cattle, sheep and goats.</li>
-</ul>
+### Characteristic Features
+- The people of this era believed in life after death and buried the dead with food items and other goods.
+- Started to wear clothes made of animal skin.
 
-<h4>Pottery</h4>
-<ul>
-  <li>With agriculture, people required to store food grains. Pottery appeared on a large scale.</li>
-  <li>Classified under <strong>greyware, black-burnished ware, and mat impressed ware</strong>.</li>
-  <li>Initial stages used handmade pottery; later, foot wheels were used.</li>
-</ul>
+<Callout variant="tip" title="Microliths">
+The characteristic tools were **microliths** – miniature stone tools of geometrical and non-geometrical shapes. These enabled the Mesolithic man to hunt smaller animals and birds.
+</Callout>
 
-<h4>Housing and Settled Life</h4>
-<ul>
-  <li>Lived in rectangular or circular houses made of mud and reeds.</li>
-  <li>Knew how to make boats, could spin cotton, wool and weave cloth.</li>
-  <li>Inhabited mainly the hilly river valleys, rock shelters and slopes.</li>
-</ul>
+<FeatureList title="Important Mesolithic Sites">
+  <FeatureItem title="Bagor" subtitle="Rajasthan">
+    One of the biggest and best-documented sites.
+  </FeatureItem>
+  <FeatureItem title="Adamgarh" subtitle="Madhya Pradesh">
+    Provides the earliest evidence for the domestication of animals.
+  </FeatureItem>
+  <FeatureItem title="Bhimbetka" subtitle="Madhya Pradesh">
+    Famous for Mesolithic rock art (one of ~150 such sites across India).
+  </FeatureItem>
+  <FeatureItem title="Langhnaj" subtitle="Gujarat">
+    Major regional Mesolithic habitation site.
+  </FeatureItem>
+  <FeatureItem title="Biharanpur" subtitle="West Bengal">
+    Major regional Mesolithic habitation site.
+  </FeatureItem>
+</FeatureList>
 
-<h3>Important Neolithic Sites</h3>
-<ul>
-  <li><strong>Koldihwa and Mahagara</strong> – Evidence of circular huts and the oldest evidence of rice in the world.</li>
-  <li><strong>Mehrgarh (Balochistan, Pakistan)</strong> – Earliest Neolithic site; cultivated crops like cotton and wheat.</li>
-  <li><strong>Burzahom (Kashmir)</strong> – Domestic dogs were buried with masters in graves; pit dwellings.</li>
-  <li><strong>Gufkral (Kashmir)</strong> – Famous for pit dwelling, stone tools and graveyards in houses.</li>
-  <li><strong>Chirand (Bihar)</strong> – Used tools and weapons made of bones.</li>
-  <li><strong>Piklihal, Brahmagiri, Maski, Takkalakota, Hallur (Karnataka)</strong> – Cattle herders, ash mounds found.</li>
-  <li><strong>Belan Valley</strong> – All three phases (Palaeolithic, Mesolithic and Neolithic) are found in sequence.</li>
-</ul>
+---
 
-<hr/>
+## Neolithic Period (New Stone Age)
 
-<h2>Chalcolithic Age (Stone Copper Age)</h2>
-<ul>
-  <li>Marked the emergence of the use of metal along with stone tools. The first metal to be used was <strong>copper</strong>.</li>
-</ul>
+Termed as **‘Neolithic revolution’** since it introduced important changes in social and economic life. It saw man turning into a **food producer from food gatherer**.
 
-<h3>Important Chalcolithic Sites</h3>
-<ul>
-  <li><strong>Ahar (Banas Valley)</strong> – Practised smelting and metallurgy, supplied copper tools.</li>
-  <li><strong>Gilund</strong> – Stone blade industry.</li>
-  <li><strong>Daimabad (Maharashtra)</strong> – Largest Jorwe culture site in Godavari valley. Bronze goods found.</li>
-  <li><strong>Malwa (Madhya Pradesh)</strong> – Richest Chalcolithic ceramics, spindle whorls.</li>
-  <li><strong>Kayatha (Madhya Pradesh)</strong> – Pre-Harappan elements in pottery, copper objects with sharp cutting edges.</li>
-  <li><strong>Navdatoli (on Narmada)</strong> – Largest Chalcolithic settlements in the country.</li>
-  <li><strong>Nevasa and Eran</strong> – Known for non-Harappan culture.</li>
-</ul>
+### Characteristic Features
+- **Tools:** Used microlithic blades in addition to polished stones (celts) and tools made of bones (needles, scrapers, arrowheads).
+- **Agriculture:** Cultivated land and grew fruits and corn like **ragi and horse gram (kulati)**. Domesticated cattle, sheep and goats.
+- **Pottery:** With agriculture, people required to store food grains. Pottery appeared on a large scale (greyware, black-burnished ware).
+- **Housing:** Lived in rectangular or circular houses made of mud and reeds.
+
+<FeatureList title="Important Neolithic Sites">
+  <FeatureItem title="Koldihwa & Mahagara" subtitle="Uttar Pradesh">
+    Evidence of circular huts; oldest evidence of rice in the world.
+  </FeatureItem>
+  <FeatureItem title="Mehrgarh" subtitle="Balochistan">
+    Earliest Neolithic site; cultivated crops like cotton and wheat.
+  </FeatureItem>
+  <FeatureItem title="Burzahom" subtitle="Kashmir">
+    Pit dwellings; domestic dogs buried with masters.
+  </FeatureItem>
+  <FeatureItem title="Gufkral" subtitle="Kashmir">
+    Famous for pit dwellings, stone tools, and graveyards in houses.
+  </FeatureItem>
+  <FeatureItem title="Chirand" subtitle="Bihar">
+    Abundant tools and weapons made of bones.
+  </FeatureItem>
+  <FeatureItem title="Belan Valley" subtitle="Uttar Pradesh">
+    All three phases (Palaeolithic, Mesolithic, Neolithic) found in sequence.
+  </FeatureItem>
+</FeatureList>
+
+---
+
+## Chalcolithic Age (Stone Copper Age)
+
+Marked the emergence of the use of metal along with stone tools. The first metal to be used was **copper**.
+
+<FeatureList title="Important Chalcolithic Sites">
+  <FeatureItem title="Ahar" subtitle="Banas Valley">
+    Practised smelting and metallurgy, supplied copper tools.
+  </FeatureItem>
+  <FeatureItem title="Daimabad" subtitle="Maharashtra">
+    Largest Jorwe culture site in Godavari valley; Bronze goods found.
+  </FeatureItem>
+  <FeatureItem title="Malwa" subtitle="Madhya Pradesh">
+    Richest Chalcolithic ceramics, spindle whorls.
+  </FeatureItem>
+  <FeatureItem title="Navdatoli" subtitle="On Narmada">
+    Largest Chalcolithic settlements in the country.
+  </FeatureItem>
+</FeatureList>
+
 `;
 
 const QUESTIONS = [
@@ -337,13 +334,13 @@ async function main() {
       chapterId_slug: { chapterId: chapter.id, slug: "theory" },
     },
     update: {
-      title: "Theory: Pre-Historic Culture",
+      title: "Pre-Historic Culture",
       articleHtml: ARTICLE_HTML,
     },
     create: {
       chapterId: chapter.id,
       subjectId: subject.id,
-      title: "Theory: Pre-Historic Culture",
+      title: "Pre-Historic Culture",
       slug: "theory",
       type: LessonType.ARTICLE,
       articleHtml: ARTICLE_HTML,

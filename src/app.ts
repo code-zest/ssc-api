@@ -122,8 +122,13 @@ import articlesRouter from './modules/articles/articles.routes';
 app.use(`/api/${env.API_VERSION}/categories`, categoriesRouter);
 app.use(`/api/${env.API_VERSION}/articles`, articlesRouter);
 
+// Error Reporting — client crash tracking
+import errorsRouter from './modules/errors/errors.routes';
+app.use(`/api/${env.API_VERSION}/errors`, errorsRouter);
+
 // ─── Fallback ─────────────────────────────────────────────────────────────────
 app.use(notFound);
 app.use(errorHandler);
+
 
 export default app;

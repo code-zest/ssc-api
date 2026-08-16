@@ -138,6 +138,54 @@ async function main() {
     });
   }
 
+  // 7. Seed Mock Error Reports for Analytics
+  await prisma.errorReport.createMany({
+    skipDuplicates: true,
+    data: [
+      {
+        fingerprint: "hash12345",
+        severity: "CRITICAL",
+        status: "UNRESOLVED",
+        occurrenceCount: 15,
+        affectedUserCount: 12,
+        firstSeenAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2), // 2 days ago
+        lastSeenAt: new Date(),
+        message: "Network Error: Failed to fetch /api/v1/mock-tests",
+        stack: "Error: Network Error\n    at createError (axios/lib/core/createError.js:16:15)\n    at XMLHttpRequest.handleError (axios/lib/adapters/xhr.js:91:14)",
+        url: "http://localhost:3000/dashboard/mock-tests",
+        routePath: "/dashboard/mock-tests",
+        userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/120.0.0.0 Safari/537.36",
+      },
+      {
+        fingerprint: "hash67890",
+        severity: "HIGH",
+        status: "IN_PROGRESS",
+        occurrenceCount: 5,
+        affectedUserCount: 2,
+        firstSeenAt: new Date(Date.now() - 1000 * 60 * 60 * 5), // 5 hours ago
+        lastSeenAt: new Date(Date.now() - 1000 * 60 * 30), // 30 mins ago
+        message: "TypeError: Cannot read properties of undefined (reading 'map')",
+        componentStack: "\n    at PracticeSetsPage (webpack-internal:///./app/dashboard/practice-sets/page.tsx:42:25)",
+        url: "http://localhost:3000/dashboard/practice-sets",
+        routePath: "/dashboard/practice-sets",
+        userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/121.0",
+      },
+      {
+        fingerprint: "hashabcde",
+        severity: "LOW",
+        status: "RESOLVED",
+        occurrenceCount: 42,
+        affectedUserCount: 38,
+        firstSeenAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7), // 7 days ago
+        lastSeenAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3), // 3 days ago
+        message: "404 Not Found: /dashboard/invalid-route",
+        url: "http://localhost:3000/dashboard/invalid-route",
+        routePath: "/dashboard/invalid-route",
+        userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) Safari/604.1",
+      }
+    ]
+  });
+
   console.log("Database seeded successfully!");
 }
 

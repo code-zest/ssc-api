@@ -97,6 +97,21 @@ enum FeedbackStatus {
   IGNORED
 }
 
+enum ErrorSeverity {
+  LOW       // Warning — degraded UX, non-blocking
+  MEDIUM    // Error — feature broken, user can continue
+  HIGH      // Fatal — page/session unrecoverable
+  CRITICAL  // Crash — global error boundary triggered
+}
+
+enum ErrorReportStatus {
+  UNRESOLVED   // Default — needs attention
+  IN_PROGRESS  // Assigned, being investigated
+  RESOLVED     // Fixed and deployed
+  IGNORED      // Acknowledged, won't fix
+  REGRESSED    // Was RESOLVED, appeared again — auto-set by API
+}
+
 // ─── PERSONA & DEMOGRAPHICS ───────────────────────────────────────────────────
 
 enum StudyPersona {
@@ -187,6 +202,11 @@ model User {
   updatedAt DateTime   @updatedAt
   feedbacks Feedback[]
   articles  Article[]  @relation("ArticleAuthor")
+
+  // Error tracking relations
+  lastAffectedErrors ErrorReport[] @relation("LastAffectedUser")
+  assignedErrors     ErrorReport[] @relation("AssignedErrors")
+  resolvedErrors     ErrorReport[] @relation("ResolvedErrors")
 
   @@index([email])
   @@map("users")
@@ -638,4 +658,61 @@ model Article {
   @@index([slug])
   @@index([categoryId])
   @@map("articles")
+}
+
+// ─── ERROR REPORTING ────────────────────────────────────────────────────────
+
+model ErrorReport {
+  id String @id @default(cuid())
+
+  // ── Fingerprint (unique per error type + route) ────────────────────
+  // SHA-256 of (errorMessage + routePath + top stack frame)
+  // One row per unique issue — occurrences are counted, not multiplied
+  fingerprint String @unique
+
+  // ── Classification ──────────────────────────────────────────
+  severity ErrorSeverity     @default(MEDIUM)
+  status   ErrorReportStatus @default(UNRESOLVED)
+
+  // ── Occurrence Tracking (Sentry-style) ────────────────────────
+  occurrenceCount   Int      @default(1)   // Total times this error fired
+  affectedUserCount Int      @default(0)   // Distinct user count (approximate)
+  firstSeenAt       DateTime @default(now())
+  lastSeenAt        DateTime @default(now()) // Updated on each recurrence
+
+  // ── Error Details ───────────────────────────────────────────
+  message        String  // e.g. "Cannot read properties of undefined"
+  stack          String? // Full JS stack trace
+  componentStack String? // React component tree at crash point
+  errorBoundary  String? // "global" | "page" | "inline" | "server"
+
+  // ── Location Context (critical for guest errors) ───────────────
+  url         String  // Full window.location.href
+  routePath   String? // Next.js pathname template e.g. /pyq/[subject]/[chapter]
+  routeParams Json?   // Resolved params e.g. { subject: "reasoning" }
+  userAgent   String? // Browser/OS/device
+  appVersion  String? // git SHA or package.json version
+
+  // ── User Impact ───────────────────────────────────────────────
+  // Nullable — guest errors have no userId
+  lastAffectedUserId String?
+  lastAffectedUser   User?   @relation("LastAffectedUser", fields: [lastAffectedUserId], references: [id], onDelete: SetNull)
+
+  // ── Assignment & Resolution (Industry Standard) ────────────────
+  assignedToId String?
+  assignedTo   User?   @relation("AssignedErrors", fields: [assignedToId], references: [id], onDelete: SetNull)
+  resolvedAt   DateTime?
+  resolvedById String?
+  resolvedBy   User?   @relation("ResolvedErrors", fields: [resolvedById], references: [id], onDelete: SetNull)
+  notes        String? // Admin resolution notes
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([severity])
+  @@index([lastSeenAt])         // "Recent errors" queries
+  @@index([affectedUserCount])  // "Most impactful" queries
+  @@index([routePath])          // "Errors per route" analytics
+  @@map("error_reports")
 }

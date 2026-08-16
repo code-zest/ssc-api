@@ -552,7 +552,7 @@ Questions regarding the founders of major biological sciences (e.g. Aristotle, L
 <li>Gorilla</li>
 <li>Orangutan</li>
 </ul>
-<p><img src="https://storage.googleapis.com/ssc-images/primates-evolution.png" alt="Skeletal Structures of Primates"></p>
+<p><img src="/images/primates-evolution.jpg" alt="Skeletal Structures of Primates"></p>
 <blockquote>
 <p><strong>Note:</strong> The image compares skeletons of primates. Scientifically, <strong>humans did not evolve from chimpanzees, gorillas, or orangutans</strong>. Instead, humans and these apes <strong>share common ancestors</strong>.</p>
 </blockquote>
