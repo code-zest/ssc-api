@@ -49,9 +49,13 @@ export async function generatePYQAttempt(studentId: string | null, guestSessionI
   });
 }
 
-// ─── Generate Daily Attempt ───────────────────────────────────────────────────
+import { GenerateDynamicAttemptInput } from './attempts.schemas';
 
-export async function generateDailyAttempt(studentId: string, subjectId?: string) {
+// ─── Generate Dynamic Attempt ───────────────────────────────────────────────────
+
+export async function generateDynamicAttempt(studentId: string, input: GenerateDynamicAttemptInput) {
+  const { subjectId, chapterId, limit = 10 } = input;
+
   // 1. Find questions the student has already answered correctly
   const correctlyAnswered = await prisma.attemptResponse.findMany({
     where: {
@@ -71,6 +75,9 @@ export async function generateDailyAttempt(studentId: string, subjectId?: string
   if (subjectId) {
     whereClause.subjectId = subjectId;
   }
+  if (chapterId) {
+    whereClause.chapterId = chapterId;
+  }
 
   const candidateQuestions = await prisma.question.findMany({
     where: whereClause,
@@ -78,18 +85,18 @@ export async function generateDailyAttempt(studentId: string, subjectId?: string
   });
 
   if (candidateQuestions.length === 0) {
-    throw ApiError.notFound('No fresh questions available for daily test');
+    throw ApiError.notFound('No fresh questions available for this dynamic test');
   }
 
   // 3. Shuffle and pick
   let selectedIds: string[] = [];
   
-  if (subjectId) {
-    // Mode 2: Targeted subject - pick 10
+  if (subjectId || chapterId) {
+    // Mode 2: Targeted subject/chapter - pick limit
     const shuffled = candidateQuestions.sort(() => 0.5 - Math.random());
-    selectedIds = shuffled.slice(0, 10).map(q => q.id);
+    selectedIds = shuffled.slice(0, limit).map(q => q.id);
   } else {
-    // Mode 1: All subjects - try to distribute 10 questions evenly across subjects
+    // Mode 1: All subjects - try to distribute evenly across subjects
     const subjectGroups: Record<string, string[]> = {};
     candidateQuestions.forEach(q => {
       if (!subjectGroups[q.subjectId]) subjectGroups[q.subjectId] = [];
@@ -103,7 +110,7 @@ export async function generateDailyAttempt(studentId: string, subjectId?: string
     });
 
     let i = 0;
-    while (selectedIds.length < 10 && candidateQuestions.length > selectedIds.length) {
+    while (selectedIds.length < limit && candidateQuestions.length > selectedIds.length) {
       const subjectIndex = i % subjects.length;
       const subj = subjects[subjectIndex];
       const q = subjectGroups[subj].pop();

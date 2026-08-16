@@ -34,17 +34,16 @@ export async function generatePYQAttempt(req: Request, res: Response, next: Next
   }
 }
 
-export async function generateDailyAttempt(req: Request, res: Response, next: NextFunction) {
+export async function generateDynamicAttempt(req: Request, res: Response, next: NextFunction) {
   try {
     const studentId = req.user?.userId || null;
     
     if (!studentId) {
-      throw ApiError.unauthorized('Must be logged in to generate a daily attempt');
+      throw ApiError.unauthorized('Must be logged in to generate a dynamic attempt');
     }
 
-    const { subjectId } = req.body;
-    const attempt = await attemptsService.generateDailyAttempt(studentId, subjectId);
-    ApiResponse.created(res, attempt, 'Daily Attempt generated');
+    const attempt = await attemptsService.generateDynamicAttempt(studentId, req.body);
+    ApiResponse.created(res, attempt, 'Dynamic Attempt generated');
   } catch (error) {
     next(error);
   }

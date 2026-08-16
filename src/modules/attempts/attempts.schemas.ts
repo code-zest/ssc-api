@@ -33,7 +33,14 @@ export const generatePYQAttemptSchema = z.object({
   limit: z.number().int().min(1).max(100).default(20),
 });
 
+export const generateDynamicAttemptSchema = z.object({
+  subjectId: z.string().optional(),
+  chapterId: z.string().optional(),
+  limit: z.number().int().min(1).max(100).default(10),
+});
+
 export type StartAttemptInput = z.infer<typeof startAttemptSchema>;
 export type SyncAnswersInput = z.infer<typeof syncAnswersSchema>;
 export type ClaimAttemptInput = z.infer<typeof claimAttemptSchema>;
 export type GeneratePYQAttemptInput = z.infer<typeof generatePYQAttemptSchema>;
+export type GenerateDynamicAttemptInput = z.infer<typeof generateDynamicAttemptSchema>;

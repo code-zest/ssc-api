@@ -15,8 +15,8 @@ router.post('/start', validate(startAttemptSchema), attemptsController.startAtte
 // Generate and start a dynamic PYQ attempt
 router.post('/pyq', validate(generatePYQAttemptSchema), attemptsController.generatePYQAttempt);
 
-// Generate daily attempt
-router.post('/daily', authenticate, attemptsController.generateDailyAttempt);
+// Generate dynamic attempt (Daily or Practice Set)
+router.post('/dynamic', authenticate, attemptsController.generateDynamicAttempt);
 
 // Sync answers periodically while test is active
 router.patch('/:id/answers', validate(syncAnswersSchema), attemptsController.syncAnswers);
