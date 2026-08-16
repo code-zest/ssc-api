@@ -5,7 +5,8 @@ import { ApiResponse } from '../../utils/ApiResponse';
 export async function getAllExams(req: Request, res: Response, next: NextFunction) {
   try {
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
-    const exams = await examsService.getAllExams(isAdmin);
+    const name = req.query.name as string | undefined;
+    const exams = await examsService.getAllExams(isAdmin, name);
     ApiResponse.success(res, exams);
   } catch (error) {
     next(error);

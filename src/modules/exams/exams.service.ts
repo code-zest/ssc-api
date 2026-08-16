@@ -1,8 +1,11 @@
 import { prisma } from '../../config/prisma';
 import { ApiError } from '../../utils/ApiError';
 
-export async function getAllExams(isAdmin: boolean = false) {
-  const where = isAdmin ? {} : { isActive: true };
+export async function getAllExams(isAdmin: boolean = false, name?: string) {
+  const where: { isActive?: boolean; name?: { contains: string; mode: 'insensitive' } } = isAdmin ? {} : { isActive: true };
+  if (name) {
+    where.name = { contains: name, mode: 'insensitive' };
+  }
   return await prisma.targetExam.findMany({
     where,
     orderBy: [{ examYear: 'desc' }, { name: 'asc' }],
@@ -47,15 +50,24 @@ export async function getExamSyllabus(id: string) {
   const nodes = await prisma.syllabusNode.findMany({
     where: { examId: id },
     include: {
-      subject: true,
-      chapter: true
+      subject: { select: { id: true, name: true, slug: true, description: true } },
+      chapter: { select: { id: true, name: true, slug: true } }
     },
-    orderBy: [
-      { order: 'asc' }
-    ]
+    orderBy: [{ order: 'asc' }]
   });
 
-  return nodes;
+  // Group flat nodes into { subject, chapters[], weightage } structure
+  const subjectMap = new Map<string, { subject: { id: string; name: string; slug: string; description: string | null }; chapters: { id: string; name: string; slug: string }[]; weightage: number }>();
+  for (const node of nodes) {
+    if (!subjectMap.has(node.subjectId)) {
+      subjectMap.set(node.subjectId, { subject: node.subject, chapters: [], weightage: node.weightage });
+    }
+    if (node.chapter) {
+      subjectMap.get(node.subjectId)!.chapters.push(node.chapter);
+    }
+  }
+
+  return Array.from(subjectMap.values());
 }
 
 export async function addSyllabusNode(examId: string, data: { subjectId: string; chapterId?: string; weightage?: number; order?: number }) {
