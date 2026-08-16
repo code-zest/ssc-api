@@ -52,6 +52,7 @@ enum Language {
 enum AttemptType {
   PRACTICE
   MOCK
+  DYNAMIC_PRACTICE
 }
 
 enum AttemptStatus {
@@ -141,11 +142,11 @@ enum Gender {
 }
 
 enum RankTier {
-  BRONZE
-  SILVER
-  GOLD
-  PLATINUM
-  DIAMOND
+  ASPIRANT
+  CHALLENGER
+  ACHIEVER
+  MASTER
+  LEGEND
 }
 
 // ─── USERS ────────────────────────────────────────────────────────────────────
@@ -165,7 +166,7 @@ model User {
   streakDays     Int         @default(0)
   lastActiveDate DateTime?
   xpPoints       Int         @default(0)
-  rankTier       RankTier    @default(BRONZE)
+  rankTier       RankTier    @default(ASPIRANT)
   badges         UserBadge[]
 
   // OTP storage (for email verification & password reset)

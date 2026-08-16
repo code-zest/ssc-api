@@ -42,7 +42,8 @@ export async function generateDailyAttempt(req: Request, res: Response, next: Ne
       throw ApiError.unauthorized('Must be logged in to generate a daily attempt');
     }
 
-    const attempt = await attemptsService.generateDailyAttempt(studentId);
+    const { subjectId } = req.body;
+    const attempt = await attemptsService.generateDailyAttempt(studentId, subjectId);
     ApiResponse.created(res, attempt, 'Daily Attempt generated');
   } catch (error) {
     next(error);

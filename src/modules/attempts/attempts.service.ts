@@ -51,24 +51,75 @@ export async function generatePYQAttempt(studentId: string | null, guestSessionI
 
 // ─── Generate Daily Attempt ───────────────────────────────────────────────────
 
-export async function generateDailyAttempt(studentId: string) {
-  const allIds = await prisma.question.findMany({
-    where: { isActive: true },
-    select: { id: true }
+export async function generateDailyAttempt(studentId: string, subjectId?: string) {
+  // 1. Find questions the student has already answered correctly
+  const correctlyAnswered = await prisma.attemptResponse.findMany({
+    where: {
+      attempt: { studentId },
+      isCorrect: true
+    },
+    select: { questionId: true }
   });
+  const answeredQuestionIds = correctlyAnswered.map(r => r.questionId);
 
-  if (allIds.length === 0) {
-    throw ApiError.notFound('No questions available for daily test');
+  // 2. Fetch active questions the student has NOT answered correctly
+  const whereClause: any = {
+    isActive: true,
+    id: { notIn: answeredQuestionIds }
+  };
+  
+  if (subjectId) {
+    whereClause.subjectId = subjectId;
   }
 
-  const shuffled = allIds.sort(() => 0.5 - Math.random());
-  const selectedIds = shuffled.slice(0, 10).map(q => q.id);
+  const candidateQuestions = await prisma.question.findMany({
+    where: whereClause,
+    select: { id: true, subjectId: true }
+  });
 
+  if (candidateQuestions.length === 0) {
+    throw ApiError.notFound('No fresh questions available for daily test');
+  }
+
+  // 3. Shuffle and pick
+  let selectedIds: string[] = [];
+  
+  if (subjectId) {
+    // Mode 2: Targeted subject - pick 10
+    const shuffled = candidateQuestions.sort(() => 0.5 - Math.random());
+    selectedIds = shuffled.slice(0, 10).map(q => q.id);
+  } else {
+    // Mode 1: All subjects - try to distribute 10 questions evenly across subjects
+    const subjectGroups: Record<string, string[]> = {};
+    candidateQuestions.forEach(q => {
+      if (!subjectGroups[q.subjectId]) subjectGroups[q.subjectId] = [];
+      subjectGroups[q.subjectId].push(q.id);
+    });
+
+    const subjects = Object.keys(subjectGroups);
+    // Shuffle questions inside each group
+    subjects.forEach(s => {
+      subjectGroups[s] = subjectGroups[s].sort(() => 0.5 - Math.random());
+    });
+
+    let i = 0;
+    while (selectedIds.length < 10 && candidateQuestions.length > selectedIds.length) {
+      const subjectIndex = i % subjects.length;
+      const subj = subjects[subjectIndex];
+      const q = subjectGroups[subj].pop();
+      if (q) {
+        selectedIds.push(q);
+      }
+      i++;
+    }
+  }
+
+  // 4. Create the dynamic test attempt
   return prisma.$transaction(async (tx) => {
     const attempt = await tx.testAttempt.create({
       data: {
         studentId,
-        attemptType: 'PRACTICE',
+        attemptType: 'DYNAMIC_PRACTICE',
       }
     });
 
