@@ -255,6 +255,7 @@ model RefreshToken {
 model TargetExam {
   id          String  @id @default(cuid())
   name        String // e.g., "SSC CGL Tier 1"
+  examYear    Int?
   description String?
   isActive    Boolean @default(true)
 

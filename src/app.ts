@@ -77,6 +77,9 @@ import usersRouter from './modules/users/users.routes';
 app.use(`/api/${env.API_VERSION}/users`, usersRouter);
 //
 // Phase 4 — Subjects / Chapters / Lessons
+import examsRouter from './modules/exams/exams.routes';
+app.use(`/api/${env.API_VERSION}/exams`, examsRouter);
+
 import subjectsRouter  from './modules/subjects/subjects.routes';
 import chaptersRouter  from './modules/chapters/chapters.routes';
 import lessonsRouter   from './modules/lessons/lessons.routes';
