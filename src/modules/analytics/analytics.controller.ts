@@ -57,3 +57,12 @@ export async function getDailyAgenda(req: Request, res: Response, next: NextFunc
     next(error);
   }
 }
+
+export async function getGlobalDangerZones(req: Request, res: Response, next: NextFunction) {
+  try {
+    const dangerZones = await analyticsService.getGlobalDangerZones(req.user!.userId);
+    ApiResponse.success(res, dangerZones);
+  } catch (error) {
+    next(error);
+  }
+}

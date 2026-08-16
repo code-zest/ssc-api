@@ -434,3 +434,85 @@ export async function getDailyAgenda(studentId: string) {
     } : null
   };
 }
+
+
+export async function getGlobalDangerZones(userId: string) {
+  // 1. Fetch recent SUBMITTED attempt responses
+  const attempts = await prisma.attemptResponse.findMany({
+    where: {
+      attempt: { userId, status: 'SUBMITTED' }
+    },
+    include: {
+      question: {
+        include: {
+          chapter: {
+            include: {
+              subject: true
+            }
+          }
+        }
+      }
+    },
+    orderBy: { createdAt: 'desc' },
+    take: 500 // Limit to recent history for relevance
+  });
+
+  // 2. Aggregate by Subject + Chapter
+  const chapterMap: Record<string, {
+    subjectId: string;
+    subjectName: string;
+    chapterId: string;
+    chapterName: string;
+    totalAttempted: number;
+    totalCorrect: number;
+    totalTimeSeconds: number;
+  }> = {};
+
+  for (const resp of attempts) {
+    if (!resp.question || !resp.question.chapter) continue;
+    
+    const chapterId = resp.question.chapter.id;
+    if (!chapterMap[chapterId]) {
+      chapterMap[chapterId] = {
+        subjectId: resp.question.chapter.subject.id,
+        subjectName: resp.question.chapter.subject.name,
+        chapterId: resp.question.chapter.id,
+        chapterName: resp.question.chapter.name,
+        totalAttempted: 0,
+        totalCorrect: 0,
+        totalTimeSeconds: 0
+      };
+    }
+
+    chapterMap[chapterId].totalAttempted += 1;
+    if (resp.isCorrect) chapterMap[chapterId].totalCorrect += 1;
+    chapterMap[chapterId].totalTimeSeconds += (resp.timeTakenSeconds || 0);
+  }
+
+  // 3. Filter Danger Zones (Accuracy <= 50% AND Min Attempts >= 5, OR Average Time > 45s)
+  const dangerZones = [];
+  
+  for (const stats of Object.values(chapterMap)) {
+    if (stats.totalAttempted < 3) continue; // Need minimum data points
+    
+    const accuracy = (stats.totalCorrect / stats.totalAttempted) * 100;
+    const avgTime = stats.totalTimeSeconds / stats.totalAttempted;
+    
+    if (accuracy <= 50 || avgTime > 45) {
+      dangerZones.push({
+        subjectId: stats.subjectId,
+        subjectName: stats.subjectName,
+        chapterId: stats.chapterId,
+        chapterName: stats.chapterName,
+        accuracy: Math.round(accuracy),
+        avgTimeSeconds: Math.round(avgTime),
+        totalAttempted: stats.totalAttempted
+      });
+    }
+  }
+
+  // Sort worst accuracy first
+  dangerZones.sort((a, b) => a.accuracy - b.accuracy);
+  
+  return dangerZones;
+}

@@ -12,6 +12,7 @@ router.get('/admin/dashboard', authenticate, authorize('SUPER_ADMIN', 'ADMIN'), 
 router.get('/dashboard', authenticate, analyticsController.getStudentDashboard);
 router.get('/dashboard/agenda', authenticate, analyticsController.getDailyAgenda);
 router.get('/weak-topics', authenticate, analyticsController.getWeakTopics);
+router.get('/danger-zones', authenticate, analyticsController.getGlobalDangerZones);
 
 // Leaderboards are often public or require auth. Let's make it require auth for now.
 router.get('/leaderboard/global', authenticate, analyticsController.getGlobalLeaderboard);
