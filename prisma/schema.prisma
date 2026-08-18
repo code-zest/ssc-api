@@ -835,3 +835,20 @@ model UserBadge {
   @@index([userId])
   @@map("user_badges")
 }
+
+
+model ExamNotification {
+  id                   String   @id @default(cuid())
+  title                String
+  organization         String
+  vacancies            Int
+  applicationStartDate DateTime
+  applicationEndDate   DateTime
+  notificationLink     String
+  logoUrl              String?
+  isActive             Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@map("exam_notifications")
+}

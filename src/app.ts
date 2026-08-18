@@ -131,6 +131,10 @@ app.use(`/api/${env.API_VERSION}/articles`, articlesRouter);
 import gamificationRouter from './modules/gamification/gamification.routes';
 app.use(`/api/${env.API_VERSION}/gamification`, gamificationRouter);
 
+// Phase 14 — Notifications (Job/Exam Alerts)
+import { notificationsRouter } from './modules/notifications/notifications.routes';
+app.use(`/api/${env.API_VERSION}/notifications`, notificationsRouter);
+
 // Error Reporting — client crash tracking
 import healthRouter from './modules/health/health.routes';
 app.use(`/api/${env.API_VERSION}/health`, healthRouter);
