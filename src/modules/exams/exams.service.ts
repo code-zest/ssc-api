@@ -56,18 +56,7 @@ export async function getExamSyllabus(id: string) {
     orderBy: [{ order: 'asc' }]
   });
 
-  // Group flat nodes into { subject, chapters[], weightage } structure
-  const subjectMap = new Map<string, { subject: { id: string; name: string; slug: string; description: string | null }; chapters: { id: string; name: string; slug: string }[]; weightage: number }>();
-  for (const node of nodes) {
-    if (!subjectMap.has(node.subjectId)) {
-      subjectMap.set(node.subjectId, { subject: node.subject, chapters: [], weightage: node.weightage });
-    }
-    if (node.chapter) {
-      subjectMap.get(node.subjectId)!.chapters.push(node.chapter);
-    }
-  }
-
-  return Array.from(subjectMap.values());
+  return nodes;
 }
 
 export async function addSyllabusNode(examId: string, data: { subjectId: string; chapterId?: string; weightage?: number; order?: number }) {

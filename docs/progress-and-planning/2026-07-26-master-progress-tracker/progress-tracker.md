@@ -39,6 +39,7 @@
 | **Pillar 3** | System Health — latency middleware, `/health/metrics` endpoint | ✅ Complete | 2026-08-16 |
 | **Phase 12** | Test Suites & Pre-commit hooks | ✅ Complete | Vitest for Frontends, Jest for Backend, Husky hooked |
 | **Phase 13** | Persona & Personalization — demographics schema, onboarding endpoint, persona-aware dashboard | 🔴 Planned | See `docs/product/personalization-api.md` |
+| **Phase 14** | Exam Notifications (Job Alerts) — Schema, CRUD endpoints, Public API | 🟡 In Progress | ToFu SEO Strategy |
 
 ---
 
