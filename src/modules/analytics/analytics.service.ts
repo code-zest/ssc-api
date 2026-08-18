@@ -440,7 +440,7 @@ export async function getGlobalDangerZones(userId: string) {
   // 1. Fetch recent SUBMITTED attempt responses
   const attempts = await prisma.attemptResponse.findMany({
     where: {
-      attempt: { userId, status: 'SUBMITTED' }
+      attempt: { studentId: userId, status: 'SUBMITTED' }
     },
     include: {
       question: {
@@ -453,7 +453,7 @@ export async function getGlobalDangerZones(userId: string) {
         }
       }
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { attempt: { createdAt: 'desc' } },
     take: 500 // Limit to recent history for relevance
   });
 

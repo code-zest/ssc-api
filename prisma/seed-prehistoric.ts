@@ -312,21 +312,33 @@ const QUESTIONS = [
 async function main() {
   console.log("Seeding Pre-Historic Culture Content...");
 
-  // 1. Find the Subject and Chapter
-  const subject = await prisma.subject.findUnique({ where: { slug: "indian-history" } });
-  if (!subject) {
-    throw new Error("Indian History subject not found! Run the main seed script first.");
-  }
+  // 1. Find or Create the Subject and Chapter
+  const subject = await prisma.subject.upsert({
+    where: { slug: "indian-history" },
+    update: {},
+    create: {
+      name: "Indian History",
+      slug: "indian-history",
+      description: "Indian History and Culture",
+      examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"],
+      isActive: true,
+    }
+  });
 
-  const chapter = await prisma.chapter.findUnique({
+  const chapter = await prisma.chapter.upsert({
     where: {
       subjectId_slug: { subjectId: subject.id, slug: "pre-historic-culture" },
     },
+    update: {},
+    create: {
+      subjectId: subject.id,
+      name: "Pre-Historic Culture",
+      slug: "pre-historic-culture",
+      description: "Stone age, chalcolithic age, etc.",
+      accessTier: "FREE",
+      isActive: true,
+    }
   });
-
-  if (!chapter) {
-    throw new Error("Pre-Historic Culture chapter not found! Run the main seed script first.");
-  }
 
   // 2. Create the Article Lesson
   await prisma.lesson.upsert({
