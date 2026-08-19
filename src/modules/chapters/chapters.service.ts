@@ -5,7 +5,22 @@ import type { CreateChapterInput, UpdateChapterInput } from './chapters.schemas'
 
 // ─── Create Chapter ───────────────────────────────────────────────────────────
 
-export async function getChapterById(idOrSlug: string, isAdmin: boolean = true) {
+async function checkChapterAccess(chapterAccessTier: string, userId?: string) {
+  if (chapterAccessTier === 'FREE') return;
+  if (!userId) throw ApiError.forbidden('You must be logged in and have a premium subscription to access this chapter');
+
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { subscriptionTier: true } });
+  if (!user) throw ApiError.forbidden('User not found');
+
+  if (chapterAccessTier === 'PRO' && user.subscriptionTier === 'FREE') {
+    throw ApiError.forbidden('This chapter requires a PRO subscription');
+  }
+  if (chapterAccessTier === 'EXCLUSIVE' && !['ELITE'].includes(user.subscriptionTier)) {
+    throw ApiError.forbidden('This chapter requires an ELITE subscription');
+  }
+}
+
+export async function getChapterById(idOrSlug: string, isAdmin: boolean = true, userId?: string) {
   const chapter = await prisma.chapter.findFirst({
     where: { 
       OR: [
@@ -38,10 +53,20 @@ export async function getChapterById(idOrSlug: string, isAdmin: boolean = true) 
     throw ApiError.notFound('Chapter not found');
   }
 
+  if (!isAdmin) {
+    await checkChapterAccess(chapter.accessTier, userId);
+  }
+
   return chapter;
 }
 
-export async function getChapterLessons(chapterId: string, isAdmin: boolean) {
+export async function getChapterLessons(chapterId: string, isAdmin: boolean, userId?: string) {
+  if (!isAdmin) {
+    const chapter = await prisma.chapter.findUnique({ where: { id: chapterId } });
+    if (!chapter) throw ApiError.notFound('Chapter not found');
+    await checkChapterAccess(chapter.accessTier, userId);
+  }
+
   const where = isAdmin ? { chapterId } : { chapterId, isActive: true };
 
   return prisma.lesson.findMany({

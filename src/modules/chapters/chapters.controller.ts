@@ -5,7 +5,8 @@ import { ApiResponse } from '../../utils/ApiResponse';
 export async function getChapterById(req: Request, res: Response, next: NextFunction) {
   try {
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
-    const chapter = await chaptersService.getChapterById(req.params.id as string, isAdmin);
+    const userId = req.user?.userId;
+    const chapter = await chaptersService.getChapterById(req.params.id as string, isAdmin, userId);
     ApiResponse.success(res, chapter);
   } catch (error) {
     next(error);
@@ -15,7 +16,8 @@ export async function getChapterById(req: Request, res: Response, next: NextFunc
 export async function getChapterLessons(req: Request, res: Response, next: NextFunction) {
   try {
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
-    const lessons = await chaptersService.getChapterLessons(req.params.id as string, isAdmin);
+    const userId = req.user?.userId;
+    const lessons = await chaptersService.getChapterLessons(req.params.id as string, isAdmin, userId);
     ApiResponse.success(res, lessons);
   } catch (error) {
     next(error);
