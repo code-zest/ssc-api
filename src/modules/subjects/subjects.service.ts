@@ -7,11 +7,11 @@ import { ExamType } from '@prisma/client';
 
 // ─── Get All Subjects ─────────────────────────────────────────────────────────
 
-export async function getAllSubjects(isAdmin: boolean, examType?: ExamType) {
+export async function getAllSubjects(isAdmin: boolean, exams?: ExamType[]) {
   // Public/Student only sees active subjects. Admin sees all.
   const where: any = isAdmin ? {} : { isActive: true };
-  if (examType) {
-    where.examTypes = { has: examType };
+  if (exams && exams.length > 0) {
+    where.examTypes = { hasSome: exams };
   }
 
   return prisma.subject.findMany({
@@ -27,15 +27,15 @@ export async function getAllSubjects(isAdmin: boolean, examType?: ExamType) {
 
 // ─── Get Subject By Slug ──────────────────────────────────────────────────────
 
-export async function getSubjectBySlug(slug: string, isAdmin: boolean, examType?: ExamType) {
+export async function getSubjectBySlug(slug: string, isAdmin: boolean, exams?: ExamType[]) {
   const where: any = isAdmin ? { slug } : { slug, isActive: true };
-  if (examType) {
-    where.examTypes = { has: examType };
+  if (exams && exams.length > 0) {
+    where.examTypes = { hasSome: exams };
   }
 
   const chapterWhere: any = isAdmin ? {} : { isActive: true };
-  if (examType) {
-    chapterWhere.examTypes = { has: examType };
+  if (exams && exams.length > 0) {
+    chapterWhere.examTypes = { hasSome: exams };
   }
 
   const subject = await prisma.subject.findFirst({

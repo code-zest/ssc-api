@@ -7,8 +7,16 @@ export async function getAllSubjects(req: Request, res: Response, next: NextFunc
   try {
     // Treat as admin if user is SUPER_ADMIN or ADMIN
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
-    const examType = req.query.examType as any;
-    const subjects = await subjectsService.getAllSubjects(isAdmin, examType);
+    
+    // Support filtering by ?exams=SSC_CGL,SSC_MTS, or fallback to user's targetExam array
+    let exams: any[] = [];
+    if (req.query.exams) {
+      exams = (req.query.exams as string).split(',').map(e => e.trim());
+    } else if (req.user && (req.user as any).targetExam) {
+      exams = (req.user as any).targetExam;
+    }
+
+    const subjects = await subjectsService.getAllSubjects(isAdmin, exams);
     ApiResponse.success(res, subjects);
   } catch (error) {
     next(error);
@@ -18,7 +26,15 @@ export async function getAllSubjects(req: Request, res: Response, next: NextFunc
 export async function getSubjectBySlug(req: Request, res: Response, next: NextFunction) {
   try {
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
-    const subject = await subjectsService.getSubjectBySlug(req.params.slug as string, isAdmin);
+    
+    let exams: any[] = [];
+    if (req.query.exams) {
+      exams = (req.query.exams as string).split(',').map(e => e.trim());
+    } else if (req.user && (req.user as any).targetExam) {
+      exams = (req.user as any).targetExam;
+    }
+
+    const subject = await subjectsService.getSubjectBySlug(req.params.slug as string, isAdmin, exams);
     ApiResponse.success(res, subject);
   } catch (error) {
     next(error);

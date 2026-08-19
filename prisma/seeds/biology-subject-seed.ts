@@ -33,11 +33,11 @@ export async function seedBiology(prisma: PrismaClient) {
   const subject = await prisma.subject.upsert({
     where: { slug: "biology-cgl" },
     update: {},
-    create: {
+    create: { 
       name: "Biology (CGL)",
       slug: "biology-cgl",
       description: "Complete Biology Syllabus for SSC CGL",
-      examTypes: ["SSC_CGL"],
+       examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"], 
       isActive: true,
       order: 2, // Assuming Mathematics is 1 or 0
     }
@@ -49,13 +49,14 @@ export async function seedBiology(prisma: PrismaClient) {
         subjectId_slug: { subjectId: subject.id, slug: topic.slug } 
       },
       update: {},
-      create: {
+      create: { 
         subjectId: subject.id,
         name: topic.name,
         slug: topic.slug,
         description: `Topics related to ${topic.name}`,
         order: topic.order,
-        isActive: true,
+         examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"], 
+      isActive: true,
       }
     });
   }

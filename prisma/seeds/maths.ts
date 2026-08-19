@@ -5,11 +5,11 @@ export async function seed_Maths(prisma: PrismaClient) {
   const subject = await prisma.subject.upsert({
     where: { slug: "mathematics" },
     update: {},
-    create: {
+    create: { 
       name: "Mathematics",
       slug: "mathematics",
       description: "Advance Mathematics",
-      examTypes: ["SSC_CGL"],
+       examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_CPO"], 
       isActive: true,
     },
   });
@@ -38,13 +38,14 @@ export async function seed_Maths(prisma: PrismaClient) {
     const chapter = chapters[i];
     await prisma.chapter.upsert({
       where: { subjectId_slug: { subjectId: subject.id, slug: chapter.slug } },
-      update: { accessTier: chapter.accessTier },
-      create: {
+      update: { accessTier: chapter.accessTier, examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_CPO"] },
+      create: { 
         subjectId: subject.id,
         name: chapter.name,
         slug: chapter.slug,
         accessTier: chapter.accessTier,
-        isActive: true,
+         examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_CPO"], 
+      isActive: true,
       },
     });
   }

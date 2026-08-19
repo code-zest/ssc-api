@@ -19,7 +19,8 @@ export const cacheMiddleware = (ttl: number) => {
     }
 
     const role = (req as any).user?.role || 'GUEST';
-    const key = `cache:${role}:${req.originalUrl || req.url}`;
+    const targetExams = (req as any).user?.targetExam?.sort().join(",") || "ALL";
+    const key = `cache:${role}:${targetExams}:${req.originalUrl || req.url}`;
 
     try {
       const cachedResponse = await redis.get(key);

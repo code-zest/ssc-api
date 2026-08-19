@@ -5,11 +5,11 @@ export async function seed_Polity(prisma: PrismaClient) {
   const subject = await prisma.subject.upsert({
     where: { slug: "polity" },
     update: {},
-    create: {
+    create: { 
       name: "Polity",
       slug: "polity",
       description: "Indian Polity and Constitution",
-      examTypes: ["SSC_CGL"],
+       examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"], 
       isActive: true,
     },
   });
@@ -41,13 +41,14 @@ export async function seed_Polity(prisma: PrismaClient) {
     const chapter = chapters[i];
     await prisma.chapter.upsert({
       where: { subjectId_slug: { subjectId: subject.id, slug: chapter.slug } },
-      update: { accessTier: chapter.accessTier },
-      create: {
+      update: { accessTier: chapter.accessTier, examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"] },
+      create: { 
         subjectId: subject.id,
         name: chapter.name,
         slug: chapter.slug,
         accessTier: chapter.accessTier,
-        isActive: true,
+         examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"], 
+      isActive: true,
       },
     });
   }

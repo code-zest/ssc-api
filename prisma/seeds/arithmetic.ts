@@ -5,11 +5,11 @@ export async function seed_Arithmetic(prisma: PrismaClient) {
   const subject = await prisma.subject.upsert({
     where: { slug: "arithmetic" },
     update: {},
-    create: {
+    create: { 
       name: "Arithmetic",
       slug: "arithmetic",
       description: "Quantitative Aptitude - Arithmetic",
-      examTypes: ["SSC_CGL"],
+       examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"], 
       isActive: true,
     },
   });
@@ -43,13 +43,14 @@ export async function seed_Arithmetic(prisma: PrismaClient) {
     const chapter = chapters[i];
     await prisma.chapter.upsert({
       where: { subjectId_slug: { subjectId: subject.id, slug: chapter.slug } },
-      update: { accessTier: chapter.accessTier },
-      create: {
+      update: { accessTier: chapter.accessTier, examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"] },
+      create: { 
         subjectId: subject.id,
         name: chapter.name,
         slug: chapter.slug,
         accessTier: chapter.accessTier,
-        isActive: true,
+         examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"], 
+      isActive: true,
       },
     });
   }
