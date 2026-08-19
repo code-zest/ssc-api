@@ -1,6 +1,18 @@
 import { Role, SubscriptionTier } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { prisma } from "../src/config/prisma";
+import { seed_Chemistry } from "./seeds/chemistry";
+import { seed_Physics } from "./seeds/physics";
+import { seed_IndianHistory } from "./seeds/indian_history";
+import { seed_Geography } from "./seeds/geography";
+import { seed_Polity } from "./seeds/polity";
+import { seed_StaticGk } from "./seeds/static_gk";
+import { seed_Maths } from "./seeds/maths";
+import { seed_Arithmetic } from "./seeds/arithmetic";
+import { seed_ComputerKnowledge } from "./seeds/computer_knowledge";
+import { seed_EnglishComp } from "./seeds/english_comp";
+import { seed_Reasoning } from "./seeds/reasoning";
+import { seed_Economics } from "./seeds/economics";
 
 async function main() {
   console.log("Seeding database...");
@@ -75,68 +87,18 @@ async function main() {
   });
 
   // 6. Seed Demo Curriculum Data (Phase 3 & 4 Progress)
-  const subject = await prisma.subject.upsert({
-    where: { slug: "mathematics-cgl" },
-    update: {},
-    create: {
-      name: "Mathematics (CGL)",
-      slug: "mathematics-cgl",
-      description: "Quantitative Aptitude for SSC CGL",
-      examTypes: ["SSC_CGL"],
-      isActive: true,
-    }
-  });
-
-  const chapter = await prisma.chapter.upsert({
-    where: { subjectId_slug: { subjectId: subject.id, slug: "algebra" } },
-    update: {},
-    create: {
-      subjectId: subject.id,
-      name: "Algebra",
-      slug: "algebra",
-      description: "Basic Algebraic Identities",
-      isActive: true,
-    }
-  });
-
-  await prisma.lesson.upsert({
-    where: { chapterId_slug: { chapterId: chapter.id, slug: "intro-to-algebra" } },
-    update: {},
-    create: {
-      chapterId: chapter.id,
-      subjectId: subject.id,
-      title: "Introduction to Algebra",
-      slug: "intro-to-algebra",
-      type: "VIDEO",
-      videoUrl: "https://example.com/video.mp4",
-      accessTier: "FREE",
-      isActive: true,
-    }
-  });
-
-  // Seed a sample question if it doesn't exist
-  const existingQuestions = await prisma.question.findMany({ where: { chapterId: chapter.id } });
-  if (existingQuestions.length === 0) {
-    await prisma.question.create({
-      data: {
-        subjectId: subject.id,
-        chapterId: chapter.id,
-        questionText: "<p>If $x + \\frac{1}{x} = 4$, find the value of $x^2 + \\frac{1}{x^2}$.</p>",
-        options: [
-          { key: "A", text: "12" },
-          { key: "B", text: "14" },
-          { key: "C", text: "16" },
-          { key: "D", text: "18" }
-        ],
-        correctOption: "B",
-        explanation: "<p>Using the identity $(x + \\frac{1}{x})^2 = x^2 + \\frac{1}{x^2} + 2$. So $16 = x^2 + \\frac{1}{x^2} + 2$, meaning it's 14.</p>",
-        difficulty: "MEDIUM",
-        examTypes: ["SSC_CGL"],
-        isPYQ: true,
-        pyqYear: 2022,
-      }
-    });
-  }
+  await seed_Chemistry(prisma);
+  await seed_Physics(prisma);
+  await seed_IndianHistory(prisma);
+  await seed_Geography(prisma);
+  await seed_Polity(prisma);
+  await seed_StaticGk(prisma);
+  await seed_Maths(prisma);
+  await seed_Arithmetic(prisma);
+  await seed_ComputerKnowledge(prisma);
+  await seed_EnglishComp(prisma);
+  await seed_Reasoning(prisma);
+  await seed_Economics(prisma);
 
   // 7. Seed Mock Error Reports for Analytics
   await prisma.errorReport.createMany({
