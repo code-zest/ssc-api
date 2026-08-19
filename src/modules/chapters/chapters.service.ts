@@ -5,12 +5,34 @@ import type { CreateChapterInput, UpdateChapterInput } from './chapters.schemas'
 
 // ─── Create Chapter ───────────────────────────────────────────────────────────
 
-async function checkChapterAccess(chapterAccessTier: string, userId?: string) {
+async function checkChapterAccess(chapter: { id: string; accessTier: string }, userId?: string) {
+  const chapterAccessTier = chapter.accessTier;
+  
   if (chapterAccessTier === 'FREE') return;
   if (!userId) throw ApiError.forbidden('You must be logged in and have a premium subscription to access this chapter');
 
-  const user = await prisma.user.findUnique({ where: { id: userId }, select: { subscriptionTier: true } });
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      subscriptionTier: true,
+      purchases: {
+        where: { status: 'SUCCESS' },
+        include: { product: { include: { items: true } } }
+      }
+    }
+  });
+
   if (!user) throw ApiError.forbidden('User not found');
+
+  // Check if user has individually purchased this chapter
+  const hasBoughtChapter = user.purchases.some(p =>
+    p.product.items.some(item =>
+      item.itemType === 'CHAPTER' && item.itemId === chapter.id
+    )
+  );
+
+  // If purchased individually, grant access regardless of subscription tier
+  if (hasBoughtChapter) return;
 
   if (chapterAccessTier === 'PRO' && user.subscriptionTier === 'FREE') {
     throw ApiError.forbidden('This chapter requires a PRO subscription');
@@ -54,7 +76,7 @@ export async function getChapterById(idOrSlug: string, isAdmin: boolean = true, 
   }
 
   if (!isAdmin) {
-    await checkChapterAccess(chapter.accessTier, userId);
+    await checkChapterAccess(chapter, userId);
   }
 
   return chapter;
@@ -64,7 +86,7 @@ export async function getChapterLessons(chapterId: string, isAdmin: boolean, use
   if (!isAdmin) {
     const chapter = await prisma.chapter.findUnique({ where: { id: chapterId } });
     if (!chapter) throw ApiError.notFound('Chapter not found');
-    await checkChapterAccess(chapter.accessTier, userId);
+    await checkChapterAccess(chapter, userId);
   }
 
   const where = isAdmin ? { chapterId } : { chapterId, isActive: true };
@@ -154,4 +176,14 @@ export async function reorderChapters(updates: { id: string; order: number }[]) 
     )
   );
   return { message: 'Chapters reordered successfully' };
+}
+
+export async function getChapterProduct(chapterId: string) {
+  return prisma.product.findFirst({
+    where: {
+      isActive: true,
+      items: { some: { itemType: 'CHAPTER', itemId: chapterId } }
+    },
+    select: { id: true, name: true, price: true, description: true }
+  });
 }

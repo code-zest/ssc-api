@@ -59,3 +59,12 @@ export async function reorderChapters(req: Request, res: Response, next: NextFun
     next(error);
   }
 }
+
+export async function getChapterProduct(req: Request, res: Response, next: NextFunction) {
+  try {
+    const product = await chaptersService.getChapterProduct(req.params.id as string);
+    ApiResponse.success(res, product);
+  } catch (error) {
+    next(error);
+  }
+}

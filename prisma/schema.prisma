@@ -640,11 +640,12 @@ model Enrollment {
 // ─── COMMERCE & PURCHASES ─────────────────────────────────────────────────────
 
 model Product {
-  id          String  @id @default(cuid())
-  name        String
-  description String?
-  price       Float
-  isActive    Boolean @default(true)
+  id            String  @id @default(cuid())
+  name          String
+  description   String?
+  price         Float
+  originalPrice Float?
+  isActive      Boolean @default(true)
 
   // Persona targeting — admin-tagged for recommendation engine
   recommendedFor StudyPersona[]

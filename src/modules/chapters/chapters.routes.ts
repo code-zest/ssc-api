@@ -8,6 +8,7 @@ import { createChapterSchema, updateChapterSchema } from './chapters.schemas';
 const router = Router();
 
 // Public route (can fetch by ID or slug)
+router.get('/:id/product', chaptersController.getChapterProduct);
 router.get('/:id', authenticateOptional, chaptersController.getChapterById);
 
 // All other Chapter routes are Admin-only

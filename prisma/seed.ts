@@ -13,6 +13,7 @@ import { seed_ComputerKnowledge } from "./seeds/computer_knowledge";
 import { seed_EnglishComp } from "./seeds/english_comp";
 import { seed_Reasoning } from "./seeds/reasoning";
 import { seed_Economics } from "./seeds/economics";
+import { seedBiology } from "./seeds/biology-subject-seed";
 
 async function main() {
   console.log("Seeding database...");
@@ -86,6 +87,22 @@ async function main() {
     },
   });
 
+  
+  // 5.5 Elite Student
+  await prisma.user.upsert({
+    where: { email: "student.elite@gmail.com" },
+    update: {},
+    create: {
+      name: "Elite Student",
+      email: "student.elite@gmail.com",
+      passwordHash,
+      role: Role.STUDENT,
+      subscriptionTier: SubscriptionTier.ELITE,
+      subscriptionExpiresAt: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+      isEmailVerified: true,
+    },
+  });
+
   // 6. Seed Demo Curriculum Data (Phase 3 & 4 Progress)
   await seed_Chemistry(prisma);
   await seed_Physics(prisma);
@@ -99,6 +116,7 @@ async function main() {
   await seed_EnglishComp(prisma);
   await seed_Reasoning(prisma);
   await seed_Economics(prisma);
+  await seedBiology(prisma);
 
   // 7. Seed Mock Error Reports for Analytics
   await prisma.errorReport.createMany({
