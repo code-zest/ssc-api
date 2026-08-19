@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, AccessTier } from "@prisma/client";
 
 export async function seed_Economics(prisma: PrismaClient) {
   console.log("Seeding Economics...");
@@ -15,31 +15,33 @@ export async function seed_Economics(prisma: PrismaClient) {
   });
 
   const chapters = [
-    { name: "Indian Economy", slug: "indian-economy" },
-    { name: "National Income and accounting", slug: "national-income-and-accounting" },
-    { name: "Planning sysytem in India", slug: "planning-sysytem-in-india" },
-    { name: "Poverty and Unemployment", slug: "poverty-and-unemployment" },
-    { name: "Agriculture Of Indian", slug: "agriculture-of-indian" },
-    { name: "Industry and Industrial Policies", slug: "industry-and-industrial-policies" },
-    { name: "Money and Banking", slug: "money-and-banking" },
-    { name: "Foreign Trade and Balance of Payment", slug: "foreign-trade-and-balance-of-payment" },
-    { name: "Liberalisation, Privatisation & Globalisation", slug: "liberalisation-privatisation-globalisation" },
-    { name: "Stock Market", slug: "stock-market" },
-    { name: "Budgets and Economic Surveys", slug: "budgets-and-economic-surveys" },
-    { name: "Central Government Schemes", slug: "central-government-schemes" },
-    { name: "Inflation In India", slug: "inflation-in-india" },
-    { name: "Important Committee In Economics", slug: "important-committee-in-economics" },
+    { name: "Indian Economy", slug: "indian-economy", accessTier: AccessTier.FREE },
+    { name: "National Income and accounting", slug: "national-income-and-accounting", accessTier: AccessTier.FREE },
+    { name: "Planning sysytem in India", slug: "planning-sysytem-in-india", accessTier: AccessTier.FREE },
+    { name: "Poverty and Unemployment", slug: "poverty-and-unemployment", accessTier: AccessTier.FREE },
+    { name: "Agriculture Of Indian", slug: "agriculture-of-indian", accessTier: AccessTier.FREE },
+    { name: "Industry and Industrial Policies", slug: "industry-and-industrial-policies", accessTier: AccessTier.PRO },
+    { name: "Money and Banking", slug: "money-and-banking", accessTier: AccessTier.PRO },
+    { name: "Foreign Trade and Balance of Payment", slug: "foreign-trade-and-balance-of-payment", accessTier: AccessTier.PRO },
+    { name: "Liberalisation, Privatisation & Globalisation", slug: "liberalisation-privatisation-globalisation", accessTier: AccessTier.PRO },
+    { name: "Stock Market", slug: "stock-market", accessTier: AccessTier.PRO },
+    { name: "Budgets and Economic Surveys", slug: "budgets-and-economic-surveys", accessTier: AccessTier.PRO },
+    { name: "Central Government Schemes", slug: "central-government-schemes", accessTier: AccessTier.PRO },
+    { name: "Inflation In India", slug: "inflation-in-india", accessTier: AccessTier.PRO },
+    { name: "Important Committee In Economics", slug: "important-committee-in-economics", accessTier: AccessTier.PRO },
 
   ];
 
-  for (const chapter of chapters) {
+  for (let i = 0; i < chapters.length; i++) {
+    const chapter = chapters[i];
     await prisma.chapter.upsert({
       where: { subjectId_slug: { subjectId: subject.id, slug: chapter.slug } },
-      update: {},
+      update: { accessTier: chapter.accessTier },
       create: {
         subjectId: subject.id,
         name: chapter.name,
         slug: chapter.slug,
+        accessTier: chapter.accessTier,
         isActive: true,
       },
     });
