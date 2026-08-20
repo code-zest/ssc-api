@@ -13,6 +13,8 @@ router.get('/dashboard', authenticate, analyticsController.getStudentDashboard);
 router.get('/dashboard/agenda', authenticate, analyticsController.getDailyAgenda);
 router.get('/weak-topics', authenticate, analyticsController.getWeakTopics);
 router.get('/danger-zones', authenticate, analyticsController.getGlobalDangerZones);
+router.get('/peer-comparison', authenticate, analyticsController.getPeerComparison);
+router.get('/mastery-trends', authenticate, analyticsController.getMasteryTrends);
 
 // Leaderboards are often public or require auth. Let's make it require auth for now.
 router.get('/leaderboard/global', authenticate, analyticsController.getGlobalLeaderboard);

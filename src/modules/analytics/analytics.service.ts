@@ -516,3 +516,85 @@ export async function getGlobalDangerZones(userId: string) {
   
   return dangerZones;
 }
+
+
+// ─── Peer Comparison ─────────────────────────────────────────────────────────
+
+export async function getPeerComparison(studentId: string) {
+  // 1. Get the current student's total stats
+  const studentAttempts = await prisma.testAttempt.findMany({
+    where: { studentId, status: 'SUBMITTED' },
+    select: { accuracy: true }
+  });
+  
+  let studentSum = 0;
+  for (const a of studentAttempts) {
+    studentSum += a.accuracy || 0;
+  }
+  const studentAccuracy = studentAttempts.length > 0 ? Math.round(studentSum / studentAttempts.length) : 0;
+
+  // 2. Get top 10% average accuracy
+  // For simplicity, let's grab all users' average accuracy and sort them
+  const allAttempts = await prisma.testAttempt.findMany({
+    where: { status: 'SUBMITTED' },
+    select: { studentId: true, accuracy: true }
+  });
+
+  const userStats: Record<string, { total: number, sum: number }> = {};
+  for (const a of allAttempts) {
+    if (!a.studentId) continue;
+    if (!userStats[a.studentId]) userStats[a.studentId] = { total: 0, sum: 0 };
+    userStats[a.studentId].total += 1;
+    userStats[a.studentId].sum += a.accuracy || 0;
+  }
+
+  const accuracies = Object.values(userStats).map(s => s.sum / s.total).sort((a, b) => b - a);
+  const top10PercentCount = Math.max(1, Math.ceil(accuracies.length * 0.1));
+  const top10Accuracies = accuracies.slice(0, top10PercentCount);
+  const top10Avg = top10Accuracies.length > 0 ? top10Accuracies.reduce((acc, val) => acc + val, 0) / top10Accuracies.length : 0;
+
+  const communityAvg = accuracies.length > 0 ? accuracies.reduce((acc, val) => acc + val, 0) / accuracies.length : 0;
+
+  return {
+    studentAccuracy,
+    communityAverage: Math.round(communityAvg),
+    top10PercentAverage: Math.round(top10Avg)
+  };
+}
+
+// ─── Mastery Trends ──────────────────────────────────────────────────────────
+
+export async function getMasteryTrends(studentId: string) {
+  // Last 30 days
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+  const attempts = await prisma.testAttempt.findMany({
+    where: { 
+      studentId, 
+      status: 'SUBMITTED',
+      submittedAt: { gte: thirtyDaysAgo }
+    },
+    select: {
+      accuracy: true,
+      submittedAt: true
+    },
+    orderBy: { submittedAt: 'asc' }
+  });
+
+  const dailyMap: Record<string, { total: number, sum: number }> = {};
+  for (const a of attempts) {
+    if (!a.submittedAt) continue;
+    const dateStr = a.submittedAt.toISOString().split('T')[0];
+    if (!dailyMap[dateStr]) dailyMap[dateStr] = { total: 0, sum: 0 };
+    dailyMap[dateStr].total += 1;
+    dailyMap[dateStr].sum += a.accuracy || 0;
+  }
+
+  const trends = Object.keys(dailyMap).sort().map(date => ({
+    date,
+    accuracy: Math.round(dailyMap[date].sum / dailyMap[date].total)
+  }));
+
+  return trends;
+}

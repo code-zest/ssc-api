@@ -66,3 +66,22 @@ export async function getGlobalDangerZones(req: Request, res: Response, next: Ne
     next(error);
   }
 }
+
+
+export async function getPeerComparison(req: Request, res: Response, next: NextFunction) {
+  try {
+    const comparison = await analyticsService.getPeerComparison(req.user!.userId);
+    ApiResponse.success(res, comparison);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getMasteryTrends(req: Request, res: Response, next: NextFunction) {
+  try {
+    const trends = await analyticsService.getMasteryTrends(req.user!.userId);
+    ApiResponse.success(res, trends);
+  } catch (error) {
+    next(error);
+  }
+}
