@@ -145,6 +145,53 @@ export async function generateDynamicAttempt(studentId: string, input: GenerateD
 
 // ─── Start Attempt ────────────────────────────────────────────────────────────
 
+
+export async function startDailyQuizAttempt(studentId: string | null, guestSessionId: string | null, dailyQuizId: string) {
+  const dailyQuiz = await prisma.dailyQuiz.findUnique({
+    where: { id: dailyQuizId },
+    include: {
+      questions: {
+        
+        select: { questionId: true }
+      }
+    }
+  });
+
+  if (!dailyQuiz) throw ApiError.notFound('Daily quiz not found');
+
+  return prisma.$transaction(async (tx) => {
+    const attempt = await tx.testAttempt.create({
+      data: {
+        attemptType: 'PRACTICE',
+        status: 'IN_PROGRESS',
+        dailyQuizId,
+        studentId,
+        guestSessionId: !studentId ? guestSessionId : undefined,
+      },
+    });
+
+    const responses = dailyQuiz.questions.map((q, index) => ({
+      attemptId: attempt.id,
+      questionId: q.questionId,
+      
+    }));
+
+    if (responses.length > 0) {
+      await tx.attemptResponse.createMany({ data: responses });
+    }
+
+    return tx.testAttempt.findUnique({
+      where: { id: attempt.id },
+      include: {
+        responses: {
+          
+          include: { question: true }
+        }
+      }
+    });
+  });
+}
+
 export async function startAttempt(studentId: string | null, guestSessionId: string | null, input: StartAttemptInput) {
   // Verify test exists
   if (input.attemptType === 'PRACTICE') {

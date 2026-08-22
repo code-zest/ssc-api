@@ -101,6 +101,7 @@ app.use(`/api/${env.API_VERSION}/mock-tests`, mockTestsRouter);
 //
 // Phase 7 — Attempts + Scoring
 import attemptsRouter from './modules/attempts/attempts.routes';
+import dailyQuizRouter from './modules/dailyQuiz/routes';
 app.use(`/api/${env.API_VERSION}/attempts`, attemptsRouter);
 //
 // Phase 8 — Analytics / Leaderboard

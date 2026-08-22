@@ -413,6 +413,7 @@ model Question {
   updatedBy   User?   @relation("QuestionUpdater", fields: [updatedById], references: [id], onDelete: SetNull)
 
   practiceSets     PracticeSetQuestion[]
+  dailyQuizzes     DailyQuizQuestion[]
   mockTestSections MockTestSectionQuestion[]
   attemptResponses AttemptResponse[]
 
@@ -542,6 +543,8 @@ model TestAttempt {
   practiceSetId String?
   mockTest      MockTest?    @relation(fields: [mockTestId], references: [id], onDelete: SetNull)
   mockTestId    String?
+  dailyQuiz     DailyQuiz?   @relation(fields: [dailyQuizId], references: [id], onDelete: SetNull)
+  dailyQuizId   String?
 
   status           AttemptStatus @default(IN_PROGRESS)
   startedAt        DateTime      @default(now())
@@ -852,4 +855,28 @@ model ExamNotification {
   updatedAt            DateTime @updatedAt
 
   @@map("exam_notifications")
+}
+
+
+model DailyQuiz {
+  id          String              @id @default(cuid())
+  date        DateTime            @unique @db.Date
+  title       String
+  description String?
+  questions   DailyQuizQuestion[]
+  testAttempts  TestAttempt[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DailyQuizQuestion {
+  dailyQuiz   DailyQuiz @relation(fields: [dailyQuizId], references: [id], onDelete: Cascade)
+  dailyQuizId String
+  question    Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId  String
+  order       Int       @default(0)
+
+  @@id([dailyQuizId, questionId])
+  @@map("daily_quiz_questions")
 }

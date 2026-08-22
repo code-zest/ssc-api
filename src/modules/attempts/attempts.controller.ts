@@ -92,3 +92,22 @@ export async function claimAttempt(req: Request, res: Response, next: NextFuncti
     next(error);
   }
 }
+
+export async function startDailyQuizAttempt(req: Request, res: Response, next: NextFunction) {
+  try {
+    const studentId = req.user?.userId || null;
+    const guestSessionId = req.headers['x-guest-session-id'] as string || null;
+    
+    if (!studentId && !guestSessionId) {
+      throw ApiError.unauthorized('Must provide either auth token or x-guest-session-id header');
+    }
+    
+    const { dailyQuizId } = req.body;
+    if (!dailyQuizId) throw ApiError.badRequest('Missing dailyQuizId');
+
+    const attempt = await attemptsService.startDailyQuizAttempt(studentId, guestSessionId, dailyQuizId);
+    ApiResponse.created(res, attempt, 'Daily quiz started');
+  } catch (error) {
+    next(error);
+  }
+}
