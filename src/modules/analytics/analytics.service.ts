@@ -3,8 +3,8 @@ import { prisma } from '../../config/prisma';
 // ─── Student Dashboard Analytics ─────────────────────────────────────────────
 
 export async function getStudentDashboard(studentId: string) {
-  const [user, attempts, attemptResponses] = await Promise.all([
-    prisma.user.findUnique({ where: { id: studentId }, select: { streakDays: true, xpPoints: true, rankTier: true } }),
+  const [user, attempts, attemptResponses, recommendedProducts] = await Promise.all([
+    prisma.user.findUnique({ where: { id: studentId }, select: { streakDays: true, xpPoints: true, rankTier: true, studyPersona: true } }),
     prisma.testAttempt.findMany({
       where: { studentId, status: 'SUBMITTED' },
       select: {
@@ -35,8 +35,25 @@ export async function getStudentDashboard(studentId: string) {
           }
         }
       }
-    })
+    }),
+    // Persona-matched products for upsell widget (max 3, only active)
+    prisma.product.findMany({
+      where: {
+        isActive: true,
+          // Products fetched upfront; persona-based filter applied post-query
+      },
+      include: { items: true },
+      take: 6,
+    }),
   ]);
+
+  // ─── Filter recommended products by persona (post-query sort) ────────────
+  const persona = user?.studyPersona ?? null;
+  const filteredRecommended = persona
+    ? recommendedProducts
+        .filter((p) => p.recommendedFor.includes(persona))
+        .slice(0, 3)
+    : [];
 
   const totalTests = attempts.length;
   let sumAccuracy = 0;
@@ -165,7 +182,15 @@ export async function getStudentDashboard(studentId: string) {
     gamification: {
       xpPoints: user?.xpPoints || 0,
       rankTier: user?.rankTier || 'BRONZE'
-    }
+    },
+    // Persona-filtered product recommendations for the dashboard upsell widget
+    recommendedProducts: filteredRecommended.map((p) => ({
+      id: p.id,
+      name: p.name,
+      description: p.description,
+      price: p.price,
+      originalPrice: p.originalPrice,
+    })),
   };
 }
 

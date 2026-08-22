@@ -62,7 +62,6 @@ export const removeItemsFromProduct = async (
   id: string,
   itemIds: string[]
 ) => {
-  // delete by product item ids
   await prisma.productItem.deleteMany({
     where: {
       id: { in: itemIds },
@@ -71,4 +70,31 @@ export const removeItemsFromProduct = async (
   });
 
   return getProductById(id);
+};
+
+// ─── Persona-Sorted Products ──────────────────────────────────────────────────
+// Industry standard: surface persona-matched products first, never hide others.
+
+export const getPersonaSortedProducts = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { studyPersona: true },
+  });
+
+  const products = await prisma.product.findMany({
+    where: { isActive: true },
+    include: { items: true },
+  });
+
+  if (!user?.studyPersona) {
+    return products;
+  }
+
+  const persona = user.studyPersona;
+
+  // Persona-matched products float to top; the rest remain accessible below
+  const matched = products.filter((p) => p.recommendedFor.includes(persona));
+  const others  = products.filter((p) => !p.recommendedFor.includes(persona));
+
+  return [...matched, ...others];
 };

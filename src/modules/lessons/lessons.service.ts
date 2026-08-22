@@ -1,4 +1,5 @@
 import slugify from 'slugify';
+import { StudyPersona } from '@prisma/client';
 import { prisma } from '../../config/prisma';
 import { ApiError } from '../../utils/ApiError';
 import type { CreateLessonInput, UpdateLessonInput, LessonProgressInput } from './lessons.schemas';
@@ -11,9 +12,26 @@ export async function getLessonsByChapter(chapterId: string, isAdmin: boolean, u
 
   const where = isAdmin ? { chapterId } : { chapterId, isActive: true };
 
+  // Resolve studyPersona from DB for authenticated students
+  let studentPersona: StudyPersona | null = null;
+  if (!isAdmin && userId) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { studyPersona: true },
+    });
+    studentPersona = user?.studyPersona ?? null;
+  }
+
+  // PART_TIME_ASPIRANT: surface short lessons first (industry standard — sort, don't hide)
+  // All other personas: standard chapter order
+  const orderBy =
+    studentPersona === 'PART_TIME_ASPIRANT'
+      ? [{ durationMins: 'asc' as const }, { order: 'asc' as const }]
+      : [{ order: 'asc' as const }];
+
   const lessons = await prisma.lesson.findMany({
     where,
-    orderBy: { order: 'asc' },
+    orderBy,
     include: userId
       ? {
           progress: {

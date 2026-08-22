@@ -20,8 +20,16 @@ export const createProduct = async (req: Request, res: Response) => {
 };
 
 export const getProducts = async (req: Request, res: Response) => {
-  const includeInactive = req.user?.role === "ADMIN";
-  const products = await productService.getAllProducts(includeInactive);
+  // Students get persona-sorted products (matched first, nothing hidden)
+  // Admins get the full flat list including inactive
+  const isAdmin = req.user?.role === "ADMIN" || req.user?.role === "SUPER_ADMIN";
+
+  if (!isAdmin && req.user?.userId) {
+    const products = await productService.getPersonaSortedProducts(req.user.userId);
+    return res.json({ success: true, data: products });
+  }
+
+  const products = await productService.getAllProducts(isAdmin);
   res.json({ success: true, data: products });
 };
 

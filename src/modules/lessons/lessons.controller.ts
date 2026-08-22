@@ -6,7 +6,12 @@ export async function getLessonsByChapter(req: Request, res: Response, next: Nex
   try {
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
     const userId = req.user?.userId;
-    const lessons = await lessonsService.getLessonsByChapter(req.params.chapterId as string, isAdmin, userId);
+    // Service looks up studyPersona from DB using userId for PART_TIME_ASPIRANT sort
+    const lessons = await lessonsService.getLessonsByChapter(
+      req.params.chapterId as string,
+      isAdmin,
+      userId,
+    );
     ApiResponse.success(res, lessons);
   } catch (error) {
     next(error);
