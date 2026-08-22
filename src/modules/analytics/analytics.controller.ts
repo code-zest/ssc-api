@@ -85,3 +85,13 @@ export async function getMasteryTrends(req: Request, res: Response, next: NextFu
     next(error);
   }
 }
+
+export async function getAttemptAnalytics(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { attemptId } = req.params;
+    const data = await analyticsService.getAttemptAnalytics(attemptId as string);
+    ApiResponse.success(res, data, 'Attempt analytics retrieved');
+  } catch (error) {
+    next(error);
+  }
+}

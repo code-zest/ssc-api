@@ -623,3 +623,83 @@ export async function getMasteryTrends(studentId: string) {
 
   return trends;
 }
+
+
+export async function getAttemptAnalytics(attemptId: string) {
+  const attempt = await prisma.testAttempt.findUnique({
+    where: { id: attemptId },
+    include: {
+      responses: {
+        include: {
+          question: {
+            include: {
+              subject: true,
+              chapter: true,
+            }
+          }
+        }
+      }
+    }
+  });
+
+  if (!attempt) throw new Error("Attempt not found");
+
+  const topics: Record<string, { total: number; correct: number; timeTaken: number; subjectName: string; chapterName: string }> = {};
+  const quadrantData: any[] = [];
+
+  let totalCorrectTime = 0;
+  let correctCount = 0;
+  let totalIncorrectTime = 0;
+  let incorrectCount = 0;
+
+  for (const resp of attempt.responses) {
+    const timeTaken = resp.timeTakenSeconds || 0;
+    const isCorrect = resp.isCorrect ? 1 : 0;
+    const isAnswered = resp.selectedOption !== null;
+
+    if (isAnswered) {
+      if (resp.isCorrect) {
+        totalCorrectTime += timeTaken;
+        correctCount++;
+      } else {
+        totalIncorrectTime += timeTaken;
+        incorrectCount++;
+      }
+    }
+
+    quadrantData.push({
+      questionId: resp.questionId,
+      timeTaken,
+      isCorrect: resp.isCorrect ? 1 : 0,
+      isAnswered,
+      subjectName: resp.question.subject.name,
+      chapterName: resp.question.chapter.name,
+    });
+
+    const topicKey = `${resp.question.subject.name} - ${resp.question.chapter.name}`;
+    if (!topics[topicKey]) {
+      topics[topicKey] = { total: 0, correct: 0, timeTaken: 0, subjectName: resp.question.subject.name, chapterName: resp.question.chapter.name };
+    }
+    
+    topics[topicKey].total++;
+    if (resp.isCorrect) topics[topicKey].correct++;
+    topics[topicKey].timeTaken += timeTaken;
+  }
+
+  const topicPerformance = Object.values(topics).map(t => ({
+    subjectName: t.subjectName,
+    chapterName: t.chapterName,
+    total: t.total,
+    accuracy: t.total > 0 ? Math.round((t.correct / t.total) * 100) : 0,
+    avgTime: t.total > 0 ? Math.round(t.timeTaken / t.total) : 0,
+  }));
+
+  return {
+    overview: {
+      avgTimeCorrect: correctCount > 0 ? Math.round(totalCorrectTime / correctCount) : 0,
+      avgTimeIncorrect: incorrectCount > 0 ? Math.round(totalIncorrectTime / incorrectCount) : 0,
+    },
+    quadrantData,
+    topicPerformance,
+  };
+}

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as analyticsController from './analytics.controller';
-import { authenticate } from '../../middleware/authenticate';
+import { authenticate, authenticateOptional } from '../../middleware/authenticate';
 import { authorize } from '../../middleware/authorize';
 
 const router = Router();
@@ -19,5 +19,7 @@ router.get('/mastery-trends', authenticate, analyticsController.getMasteryTrends
 // Leaderboards are often public or require auth. Let's make it require auth for now.
 router.get('/leaderboard/global', authenticate, analyticsController.getGlobalLeaderboard);
 router.get('/leaderboard/mock-tests/:mockTestId', authenticate, analyticsController.getMockTestLeaderboard);
+
+router.get('/test/:attemptId', authenticateOptional, analyticsController.getAttemptAnalytics);
 
 export default router;
