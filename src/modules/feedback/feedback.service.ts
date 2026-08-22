@@ -52,7 +52,7 @@ export async function getPublicTestimonials() {
       isPublic: true,
     },
     include: {
-      user: { select: { name: true, email: true } },
+      user: { select: { name: true } },
     },
     orderBy: { createdAt: 'desc' },
   });

@@ -40,6 +40,8 @@
 | **Phase 12** | Test Suites & Pre-commit hooks | ✅ Complete | Vitest for Frontends, Jest for Backend, Husky hooked |
 | **Phase 13** | Persona & Personalization — demographics schema, onboarding endpoint, persona-aware dashboard, persona-sorted products, recommended products in dashboard, PART_TIME lesson sort | ✅ Complete | 2026-08-22 |
 | **Phase 14** | Exam Notifications (Job Alerts) — Schema, CRUD endpoints, Public API | ✅ Complete | ToFu SEO Strategy |
+| **Phase 15** | Gamification — Topic-wise PYQ Learning, Daily 10-Minute Targets & Streaks | ✅ Complete | 2026-08-22 |
+| **Phase 16** | Advanced Analytics — Mock Test Time vs. Accuracy Diagnostics | ✅ Complete | 2026-08-22 |
 
 ---
 
@@ -62,8 +64,8 @@
 | 1 | PostgreSQL hosting — Supabase, Railway, AWS RDS? | 🔴 High | ✅ Neon Serverless Postgres chosen |
 | 2 | Media storage — AWS S3 or Cloudinary? | 🔴 High | ✅ Cloudflare R2 chosen for zero egress |
 | 3 | Payments / Subscriptions at launch? | 🟡 Medium | ✅ Yes, via Razorpay |
-| 4 | SSC exam types at launch — all or subset? | 🔴 High | ❌ |
-| 5 | Languages — English only or bilingual (EN + HI)? | 🟡 Medium | ❌ |
+| 4 | SSC exam types at launch — all or subset? | 🔴 High | ✅ Admin-defined via Exams module — no hardcoded list. Admins create exams, shifts, and syllabus via `/api/v1/exams`. CGL is the primary focus at launch. |
+| 5 | Languages — English only or bilingual (EN + HI)? | 🟡 Medium | ✅ English only at launch. Hindi localisation explicitly deferred — no `locale` field exists in schema. |
 | 6 | Email service — Nodemailer, SendGrid, or AWS SES? | 🔴 High | ✅ Nodemailer (Ethereal for Dev) |
 | 7 | User Persona auto-assignment — purely algorithmic or allow self-selection? | 🟡 Medium | ✅ Auto-assignment based on onboarding signals (no persona label shown to user) |
 
@@ -78,8 +80,13 @@
 | Cloudflare R2 Setup | [cloudflare-r2-setup.md](../../../../../docs/infrastructure/cloudflare-r2-setup.md) |
 | Database Schema ADR | [initial-schema.md](../../database-and-schema/2026-07-26-initial-schema/initial-schema.md) |
 | Auth & Security Strategy | [auth-strategy.md](../../auth-and-security/2026-07-26-auth-strategy/auth-strategy.md) |
-| **User Personas (NEW)** | [user-personas.md](../../product/user-personas.md) |
-| **Personalization API Spec (NEW)** | [personalization-api.md](../../product/personalization-api.md) |
+| User Personas | [user-personas.md](../../product/user-personas.md) |
+| Personalization API Spec | [personalization-api.md](../../product/personalization-api.md) |
+| **Gamification Engine (Phase 15)** | [gamification-engine.md](../../architecture-and-infrastructure/2026-08-23-gamification-engine/gamification-engine.md) |
+| **Daily Quiz (Phase 15)** | [daily-quiz.md](../../architecture-and-infrastructure/2026-08-23-daily-quiz/daily-quiz.md) |
+| **Advanced Analytics (Phase 16)** | [advanced-analytics.md](../../architecture-and-infrastructure/2026-08-23-advanced-analytics/advanced-analytics.md) |
+| **Feedback Module** | [feedback-module.md](../../architecture-and-infrastructure/2026-08-23-feedback-module/feedback-module.md) |
+| **Notifications / Exam Alerts** | [notifications.md](../../architecture-and-infrastructure/2026-08-23-notifications/notifications.md) |
 
 ## 5. Development Workflow Rules
 

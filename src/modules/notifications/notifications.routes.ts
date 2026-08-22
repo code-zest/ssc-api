@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticate } from '../../middleware/authenticate';
+import { authenticate, authenticateOptional } from '../../middleware/authenticate';
 import { authorize } from '../../middleware/authorize';
 import {
   getNotifications,
@@ -13,7 +13,7 @@ import { Role } from '@prisma/client';
 export const notificationsRouter = Router();
 
 // Publicly accessible for SEO & unauthenticated users
-notificationsRouter.get('/', getNotifications);
+notificationsRouter.get('/', authenticateOptional, getNotifications);
 notificationsRouter.get('/:id', getNotificationById);
 
 // Admin only routes

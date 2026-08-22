@@ -15,6 +15,9 @@ router.post('/start', validate(startAttemptSchema), attemptsController.startAtte
 // Generate and start a dynamic PYQ attempt
 router.post('/pyq', validate(generatePYQAttemptSchema), attemptsController.generatePYQAttempt);
 
+// Start a Daily Quiz attempt (auth optional — supports guest sessions)
+router.post('/daily-quiz/start', attemptsController.startDailyQuizAttempt);
+
 // Generate dynamic attempt (Daily or Practice Set)
 router.post('/dynamic', authenticate, attemptsController.generateDynamicAttempt);
 

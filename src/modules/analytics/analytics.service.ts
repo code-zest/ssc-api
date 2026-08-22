@@ -1,4 +1,5 @@
 import { prisma } from '../../config/prisma';
+import { ApiError } from '../../utils/ApiError';
 
 // ─── Student Dashboard Analytics ─────────────────────────────────────────────
 
@@ -558,32 +559,28 @@ export async function getPeerComparison(studentId: string) {
   }
   const studentAccuracy = studentAttempts.length > 0 ? Math.round(studentSum / studentAttempts.length) : 0;
 
-  // 2. Get top 10% average accuracy
-  // For simplicity, let's grab all users' average accuracy and sort them
-  const allAttempts = await prisma.testAttempt.findMany({
+  // 2. Get community average via DB aggregation
+  const communityAgg = await prisma.testAttempt.aggregate({
     where: { status: 'SUBMITTED' },
-    select: { studentId: true, accuracy: true }
+    _avg: { accuracy: true }
   });
+  const communityAverage = Math.round(communityAgg._avg.accuracy || 0);
 
-  const userStats: Record<string, { total: number, sum: number }> = {};
-  for (const a of allAttempts) {
-    if (!a.studentId) continue;
-    if (!userStats[a.studentId]) userStats[a.studentId] = { total: 0, sum: 0 };
-    userStats[a.studentId].total += 1;
-    userStats[a.studentId].sum += a.accuracy || 0;
-  }
-
-  const accuracies = Object.values(userStats).map(s => s.sum / s.total).sort((a, b) => b - a);
-  const top10PercentCount = Math.max(1, Math.ceil(accuracies.length * 0.1));
-  const top10Accuracies = accuracies.slice(0, top10PercentCount);
-  const top10Avg = top10Accuracies.length > 0 ? top10Accuracies.reduce((acc, val) => acc + val, 0) / top10Accuracies.length : 0;
-
-  const communityAvg = accuracies.length > 0 ? accuracies.reduce((acc, val) => acc + val, 0) / accuracies.length : 0;
+  // 3. Approximate top performers (top 500 attempts) to avoid loading all users into memory
+  const topAttempts = await prisma.testAttempt.findMany({
+    where: { status: 'SUBMITTED', accuracy: { not: null } },
+    select: { accuracy: true },
+    orderBy: { accuracy: 'desc' },
+    take: 500,
+  });
+  
+  const topSum = topAttempts.reduce((sum, a) => sum + (a.accuracy || 0), 0);
+  const top10PercentAverage = topAttempts.length > 0 ? Math.round(topSum / topAttempts.length) : 0;
 
   return {
     studentAccuracy,
-    communityAverage: Math.round(communityAvg),
-    top10PercentAverage: Math.round(top10Avg)
+    communityAverage,
+    top10PercentAverage
   };
 }
 
@@ -642,7 +639,7 @@ export async function getAttemptAnalytics(attemptId: string) {
     }
   });
 
-  if (!attempt) throw new Error("Attempt not found");
+  if (!attempt) throw ApiError.notFound("Attempt not found");
 
   const topics: Record<string, { total: number; correct: number; timeTaken: number; subjectName: string; chapterName: string }> = {};
   const quadrantData: any[] = [];
