@@ -1,4 +1,6 @@
 import { PrismaClient, AccessTier } from "@prisma/client";
+import { seedGeographyLocationAndExtent } from "./location-and-extent";
+import { seedGeographyPhysiographyOfIndia } from "./physiography-of-india";
 
 export async function seed_Geography(prisma: PrismaClient) {
   console.log("Seeding Geography...");
@@ -53,5 +55,19 @@ export async function seed_Geography(prisma: PrismaClient) {
       isActive: true,
       },
     });
+  }
+
+  const locationChapter = await prisma.chapter.findUnique({
+    where: { subjectId_slug: { subjectId: subject.id, slug: "india-s-location-and-extent" } },
+  });
+  if (locationChapter) {
+    await seedGeographyLocationAndExtent(prisma, subject.id, locationChapter.id);
+  }
+
+  const physiographyChapter = await prisma.chapter.findUnique({
+    where: { subjectId_slug: { subjectId: subject.id, slug: "physiography-of-india" } },
+  });
+  if (physiographyChapter) {
+    await seedGeographyPhysiographyOfIndia(prisma, subject.id, physiographyChapter.id);
   }
 }
