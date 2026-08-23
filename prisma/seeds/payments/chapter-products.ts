@@ -1,7 +1,6 @@
-import { AccessTier } from '@prisma/client';
-import { prisma } from '../src/config/prisma';
+import { AccessTier, PrismaClient } from '@prisma/client';
 
-async function main() {
+export async function seedChapterProducts(prisma: PrismaClient) {
   console.log("Seeding chapter products...");
   
   // Find all PRO chapters
@@ -47,12 +46,3 @@ async function main() {
 
   console.log(`✅ Created ${createdCount} new chapter products.`);
 }
-
-main()
-  .catch(e => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });

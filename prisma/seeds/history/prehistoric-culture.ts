@@ -309,49 +309,23 @@ const QUESTIONS = [
   },
 ];
 
-async function main() {
+import { PrismaClient } from "@prisma/client";
+
+export async function seedPrehistoricCulture(prisma: PrismaClient, subjectId: string, chapterId: string) {
   console.log("Seeding Pre-Historic Culture Content...");
-
-  // 1. Find or Create the Subject and Chapter
-  const subject = await prisma.subject.upsert({
-    where: { slug: "indian-history" },
-    update: {},
-    create: {
-      name: "Indian History",
-      slug: "indian-history",
-      description: "Indian History and Culture",
-      examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"],
-      isActive: true,
-    }
-  });
-
-  const chapter = await prisma.chapter.upsert({
-    where: {
-      subjectId_slug: { subjectId: subject.id, slug: "pre-historic-culture" },
-    },
-    update: {},
-    create: {
-      subjectId: subject.id,
-      name: "Pre-Historic Culture",
-      slug: "pre-historic-culture",
-      description: "Stone age, chalcolithic age, etc.",
-      accessTier: "FREE",
-      isActive: true,
-    }
-  });
 
   // 2. Create the Article Lesson
   await prisma.lesson.upsert({
     where: {
-      chapterId_slug: { chapterId: chapter.id, slug: "theory" },
+      chapterId_slug: { chapterId: chapterId, slug: "theory" },
     },
     update: {
       title: "Pre-Historic Culture",
       articleHtml: ARTICLE_HTML,
     },
     create: {
-      chapterId: chapter.id,
-      subjectId: subject.id,
+      chapterId: chapterId,
+      subjectId: subjectId,
       title: "Pre-Historic Culture",
       slug: "theory",
       type: LessonType.ARTICLE,
@@ -370,7 +344,7 @@ async function main() {
     // Check if question exists (to prevent duplicates, we can check by exact text)
     const existing = await prisma.question.findFirst({
       where: {
-        chapterId: chapter.id,
+        chapterId: chapterId,
         questionText: q.questionText,
       },
     });
@@ -378,8 +352,8 @@ async function main() {
     if (!existing) {
       await prisma.question.create({
         data: {
-          subjectId: subject.id,
-          chapterId: chapter.id,
+          subjectId: subjectId,
+          chapterId: chapterId,
           questionText: q.questionText,
           options: q.options,
           correctOption: q.correctOption,
@@ -405,8 +379,8 @@ async function main() {
     create: {
       id: "seed-prehistoric-ps", // Force a deterministic ID
       title: "Pre-Historic Culture Practice Quiz",
-      subjectId: subject.id,
-      chapterId: chapter.id,
+      subjectId: subjectId,
+      chapterId: chapterId,
       questionCount: QUESTIONS.length,
       accessTier: "FREE",
       order: 1,
@@ -416,7 +390,7 @@ async function main() {
 
   // Fetch all questions for this chapter to link them
   const allChapterQuestions = await prisma.question.findMany({
-    where: { chapterId: chapter.id }
+    where: { chapterId: chapterId }
   });
 
   for (let i = 0; i < allChapterQuestions.length; i++) {
@@ -439,12 +413,3 @@ async function main() {
   console.log("✅ Seeded Practice Set!");
   console.log("🎉 Successfully seeded Pre-Historic Culture content!");
 }
-
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });

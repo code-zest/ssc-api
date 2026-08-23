@@ -1,8 +1,7 @@
-import { Role, SubscriptionTier, AccessTier, ExamType, PurchasableItemType } from "@prisma/client";
+import { Role, SubscriptionTier, AccessTier, ExamType, PurchasableItemType, PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { prisma } from "../src/config/prisma";
 
-async function main() {
+export async function seedE2ePayments(prisma: PrismaClient) {
   console.log("Seeding E2E payment data...");
 
   // 1. Create a Test Student
@@ -111,12 +110,3 @@ async function main() {
 
   console.log("E2E Payment Data Seeded.");
 }
-
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });

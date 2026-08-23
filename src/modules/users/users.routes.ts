@@ -10,6 +10,21 @@ import {
   updateRoleSchema,
   onboardingSchema,
 } from './users.schemas';
+import rateLimit from 'express-rate-limit';
+import { RedisStore } from 'rate-limit-redis';
+import { redis, isRedisReady } from '../../config/redis';
+
+const mutationLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30, // 30 mutations per 15 min per IP
+  message: {
+    success: false,
+    error: 'Too many update requests. Please try again in 15 minutes.',
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  store: isRedisReady() ? new RedisStore({ sendCommand: (...args: string[]) => (redis as any).call(...args) }) : undefined,
+});
 
 
 const router = Router();
@@ -20,13 +35,13 @@ router.use(authenticate);
 // ─── Self (My Profile) ────────────────────────────────────────────────────────
 
 router.get('/me', usersController.getProfile);
-router.patch('/me', validate(updateProfileSchema), usersController.updateProfile);
-router.patch('/me/password', validate(updatePasswordSchema), usersController.updatePassword);
+router.patch('/me', mutationLimiter, validate(updateProfileSchema), usersController.updateProfile);
+router.patch('/me/password', mutationLimiter, validate(updatePasswordSchema), usersController.updatePassword);
 
 // ─── Onboarding ───────────────────────────────────────────────────────────────
 
 // POST /api/v1/users/onboarding — complete the persona wizard (first-run only)
-router.post('/onboarding', validate(onboardingSchema), onboardingController.completeOnboarding);
+router.post('/onboarding', mutationLimiter, validate(onboardingSchema), onboardingController.completeOnboarding);
 
 
 // ─── Admin (Manage Users) ─────────────────────────────────────────────────────

@@ -571,6 +571,7 @@ model TestAttempt {
   @@index([status])
   @@index([studentId, status, submittedAt(sort: Desc)])
   @@index([status, marksObtained(sort: Desc)])
+  @@index([mockTestId, marksObtained(sort: Desc)])
   @@map("test_attempts")
 }
 

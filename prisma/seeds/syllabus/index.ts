@@ -1,6 +1,6 @@
-import { prisma } from "../src/config/prisma";
+import { PrismaClient } from "@prisma/client";
 
-async function main() {
+export async function seedSyllabus(prisma: PrismaClient) {
   console.log("Seeding all SSC exam syllabi...");
 
   const examDefs = [
@@ -99,7 +99,7 @@ async function main() {
     sub_hindi: ["Vyakaran (Grammar)","Paryayvachi (Synonyms)","Vilom (Antonyms)","Muhavare aur Lokoktiyan","Rikt Sthan Bharen (Fill in the Blanks)","Vartani (Spelling Correction)","Vakya Sudhar (Sentence Improvement)","Apathit Gadyansh (Comprehension Passage)"],
   };
 
-  async function seedSyllabus(exam: { id: string }, syllabusMap: Record<string, string[]>) {
+  async function seedExamSyllabus(exam: { id: string }, syllabusMap: Record<string, string[]>) {
     for (const [subjectId, chapters] of Object.entries(syllabusMap)) {
       for (let i = 0; i < chapters.length; i++) {
         const chapName = chapters[i];
@@ -127,18 +127,14 @@ async function main() {
     console.log(`  checked ${exam.id}`);
   }
 
-  await seedSyllabus(exams["cl_exam_ssc_cgl_tier1"],  cglTier1);
-  await seedSyllabus(exams["cl_exam_ssc_cgl_tier2"],  cglTier2);
-  await seedSyllabus(exams["cl_exam_ssc_chsl_tier1"], chslTier1);
-  await seedSyllabus(exams["cl_exam_ssc_chsl_tier2"], chslTier2);
-  await seedSyllabus(exams["cl_exam_ssc_mts_tier1"],  mts);
-  await seedSyllabus(exams["cl_exam_ssc_cpo_tier1"],  cpoTier1);
-  await seedSyllabus(exams["cl_exam_ssc_cpo_tier2"],  cpoTier2);
-  await seedSyllabus(exams["cl_exam_ssc_gd"],         gdConstable);
+  await seedExamSyllabus(exams["cl_exam_ssc_cgl_tier1"],  cglTier1);
+  await seedExamSyllabus(exams["cl_exam_ssc_cgl_tier2"],  cglTier2);
+  await seedExamSyllabus(exams["cl_exam_ssc_chsl_tier1"], chslTier1);
+  await seedExamSyllabus(exams["cl_exam_ssc_chsl_tier2"], chslTier2);
+  await seedExamSyllabus(exams["cl_exam_ssc_mts_tier1"],  mts);
+  await seedExamSyllabus(exams["cl_exam_ssc_cpo_tier1"],  cpoTier1);
+  await seedExamSyllabus(exams["cl_exam_ssc_cpo_tier2"],  cpoTier2);
+  await seedExamSyllabus(exams["cl_exam_ssc_gd"],         gdConstable);
 
   console.log("\nAll SSC exam syllabi seeded successfully!");
 }
-
-main()
-  .catch((e) => { console.error(e); process.exit(1); })
-  .finally(async () => { await prisma.$disconnect(); });

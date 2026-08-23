@@ -1,93 +1,14 @@
-import { prisma } from "../src/config/prisma";
+import { PrismaClient } from "@prisma/client";
 
-export async function seedBiology() {
-  console.log("Seeding Biology...");
-
-  const subject = await prisma.subject.upsert({
-    where: { slug: "biology-cgl" },
-    update: {},
-    create: {
-      name: "Biology (CGL)",
-      slug: "biology-cgl",
-      description: "General Science - Biology for SSC CGL",
-      examTypes: ["SSC_CGL"],
-      isActive: true,
-    }
-  });
-
-  const chapterTitles = [
-    "Introduction",
-    "Skeletal System",
-    "Blood Circulation",
-    "Digestive System",
-    "Respiratory System",
-    "Excretory System",
-    "Nervous System",
-    "Endocrine System",
-    "Reproductive System",
-    "Sensory Organs",
-    "Nutrition",
-    "Pathology",
-    "Cell Biology",
-    "Classification of Living Organisms",
-    "Plant Morphology",
-    "Photosynthesis",
-    "Respiration in Plants",
-    "Excretion in Plants",
-    "Phyto Hormones",
-    "Reproduction in Plants",
-    "Economical Importance of Plants",
-    "Economical Importance of Animals",
-    "Recent Trends in Biology",
-    "Environmental Science"
-  ];
-
-  const createdChapters: Record<string, string> = {};
-
-  for (let i = 0; i < chapterTitles.length; i++) {
-    const name = chapterTitles[i];
-    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const chapter = await prisma.chapter.upsert({
-      where: { subjectId_slug: { subjectId: subject.id, slug } },
-      update: { order: i + 1 },
-      create: {
-        subjectId: subject.id,
-        name,
-        slug,
-        description: `Topics on ${name}`,
-        isActive: true,
-        order: i + 1
-      }
-    });
-    createdChapters[slug] = chapter.id;
-  }
-
-  const chapterIntroId = createdChapters["introduction"];
-  const chapter1Id = createdChapters["cell-biology"];
+export async function seedBiologyIntroduction(prisma: PrismaClient, subjectId: string, chapterId: string) {
+  console.log("Seeding Biology Chapter: Introduction...");
 
   await prisma.lesson.upsert({
-    where: { chapterId_slug: { chapterId: chapter1Id, slug: "intro-to-cells" } },
-    update: {},
+    where: { chapterId_slug: { chapterId: chapterId, slug: 'intro-to-biology-article' } },
+    update: { chapterId: chapterId }, // Ensure it moves if already exists
     create: {
-      chapterId: chapter1Id,
-      subjectId: subject.id,
-      title: "Introduction to Cells",
-      slug: "intro-to-cells",
-      type: "VIDEO",
-      videoUrl: "https://example.com/biology-video.mp4",
-      accessTier: "FREE",
-      isActive: true,
-      order: 1
-    }
-  });
-
-  
-  await prisma.lesson.upsert({
-    where: { chapterId_slug: { chapterId: chapterIntroId, slug: 'intro-to-biology-article' } },
-    update: { chapterId: chapterIntroId }, // Ensure it moves if already exists
-    create: {
-      chapterId: chapterIntroId,
-      subjectId: subject.id,
+      chapterId: chapterId,
+      subjectId: subjectId,
       title: 'Introduction to Biology (Notes)',
       slug: 'intro-to-biology-article',
       type: 'ARTICLE',
@@ -323,42 +244,4 @@ Questions regarding the founders of major biological sciences (e.g. Aristotle, L
       order: 2
     }
   });
-
-  // Seed a sample question
-  const existingQuestions = await prisma.question.findMany({ where: { chapterId: chapter1Id } });
-  if (existingQuestions.length === 0) {
-    await prisma.question.create({
-      data: {
-        subjectId: subject.id,
-        chapterId: chapter1Id,
-        questionText: "<p>What is the powerhouse of the cell?</p>",
-        options: [
-          { key: "A", text: "Nucleus" },
-          { key: "B", text: "Mitochondria" },
-          { key: "C", text: "Ribosome" },
-          { key: "D", text: "Endoplasmic Reticulum" }
-        ],
-        correctOption: "B",
-        explanation: "<p>Mitochondria are known as the powerhouses of the cell because they generate most of the cell's supply of ATP.</p>",
-        difficulty: "EASY",
-        examTypes: ["SSC_CGL"],
-        isPYQ: true,
-        pyqYear: 2021,
-      }
-    });
-  }
-
-  console.log("Biology seeded successfully!");
-}
-
-// Allow running directly
-if (require.main === module) {
-  seedBiology()
-    .catch((e) => {
-      console.error(e);
-      process.exit(1);
-    })
-    .finally(async () => {
-      await prisma.$disconnect();
-    });
 }

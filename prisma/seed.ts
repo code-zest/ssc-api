@@ -3,17 +3,19 @@ import bcrypt from "bcrypt";
 import { prisma } from "../src/config/prisma";
 import { seed_Chemistry } from "./seeds/chemistry";
 import { seed_Physics } from "./seeds/physics";
-import { seed_IndianHistory } from "./seeds/indian_history";
+import { seedIndianHistory } from "./seeds/history";
 import { seed_Geography } from "./seeds/geography";
 import { seed_Polity } from "./seeds/polity";
-import { seed_StaticGk } from "./seeds/static_gk";
+import { seedStaticGk } from "./seeds/static-gk";
 import { seed_Maths } from "./seeds/maths";
 import { seed_Arithmetic } from "./seeds/arithmetic";
 import { seed_ComputerKnowledge } from "./seeds/computer_knowledge";
 import { seed_EnglishComp } from "./seeds/english_comp";
 import { seed_Reasoning } from "./seeds/reasoning";
 import { seed_Economics } from "./seeds/economics";
-import { seedBiology } from "./seeds/biology-subject-seed";
+import { seedBiology } from "./seeds/biology";
+import { seedSyllabus } from "./seeds/syllabus";
+import { seedPayments } from "./seeds/payments";
 
 async function main() {
   console.log("Seeding database...");
@@ -106,10 +108,10 @@ async function main() {
   // 6. Seed Demo Curriculum Data (Phase 3 & 4 Progress)
   await seed_Chemistry(prisma);
   await seed_Physics(prisma);
-  await seed_IndianHistory(prisma);
+  await seedIndianHistory(prisma);
   await seed_Geography(prisma);
   await seed_Polity(prisma);
-  await seed_StaticGk(prisma);
+  await seedStaticGk(prisma);
   await seed_Maths(prisma);
   await seed_Arithmetic(prisma);
   await seed_ComputerKnowledge(prisma);
@@ -117,6 +119,8 @@ async function main() {
   await seed_Reasoning(prisma);
   await seed_Economics(prisma);
   await seedBiology(prisma);
+  await seedSyllabus(prisma);
+  await seedPayments(prisma);
 
   // 7. Seed Mock Error Reports for Analytics
   await prisma.errorReport.createMany({

@@ -1,4 +1,4 @@
-import { prisma } from "../src/config/prisma";
+import { PrismaClient } from "@prisma/client";
 
 const HISTORY_CHAPTERS = [
   // Ancient History
@@ -31,7 +31,9 @@ const HISTORY_CHAPTERS = [
   { name: "Governor Generals", slug: "governor-generals", sectionName: "Modern History", order: 23 },
 ];
 
-async function main() {
+import { seedPrehistoricCulture } from "./prehistoric-culture";
+
+export async function seedIndianHistory(prisma: PrismaClient) {
   console.log("Seeding Indian History subject...");
 
   const subject = await prisma.subject.upsert({
@@ -51,7 +53,7 @@ async function main() {
 
   console.log("Seeding Chapters...");
   for (const chap of HISTORY_CHAPTERS) {
-    await prisma.chapter.upsert({
+    const chapter = await prisma.chapter.upsert({
       where: {
         subjectId_slug: {
           subjectId: subject.id,
@@ -74,16 +76,12 @@ async function main() {
       },
     });
     console.log(`   Created/Updated chapter: ${chap.name} (${chap.sectionName})`);
+    
+    // Call specific chapter seeds if they exist
+    if (chap.slug === "pre-historic-culture") {
+      await seedPrehistoricCulture(prisma, subject.id, chapter.id);
+    }
   }
 
   console.log("🎉 Successfully seeded all Indian History chapters!");
 }
-
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
