@@ -1,6 +1,9 @@
 import { PrismaClient, AccessTier } from "@prisma/client";
 import { seedGeographyLocationAndExtent } from "./location-and-extent";
 import { seedGeographyPhysiographyOfIndia } from "./physiography-of-india";
+import { seedGeographyClimateOfIndia } from "./climate-of-india";
+import { seedGeographyMinerals } from "./minerals";
+import { seedGeographyRiverSystem } from "./river-system";
 
 export async function seed_Geography(prisma: PrismaClient) {
   console.log("Seeding Geography...");
@@ -69,5 +72,26 @@ export async function seed_Geography(prisma: PrismaClient) {
   });
   if (physiographyChapter) {
     await seedGeographyPhysiographyOfIndia(prisma, subject.id, physiographyChapter.id);
+  }
+
+  const climateChapter = await prisma.chapter.findUnique({
+    where: { subjectId_slug: { subjectId: subject.id, slug: "climate-of-india" } },
+  });
+  if (climateChapter) {
+    await seedGeographyClimateOfIndia(prisma, subject.id, climateChapter.id);
+  }
+
+  const mineralsChapter = await prisma.chapter.findUnique({
+    where: { subjectId_slug: { subjectId: subject.id, slug: "minerals" } },
+  });
+  if (mineralsChapter) {
+    await seedGeographyMinerals(prisma, subject.id, mineralsChapter.id);
+  }
+
+  const riverSystemChapter = await prisma.chapter.findUnique({
+    where: { subjectId_slug: { subjectId: subject.id, slug: "river-system-drainage-system" } },
+  });
+  if (riverSystemChapter) {
+    await seedGeographyRiverSystem(prisma, subject.id, riverSystemChapter.id);
   }
 }
