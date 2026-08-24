@@ -33,6 +33,7 @@ const HISTORY_CHAPTERS = [
 
 import { seedPrehistoricCulture } from "./prehistoric-culture";
 import { seedIndusValley } from "./indus-valley";
+import { seedVedicCivilization } from "./vedic-civilization";
 
 export async function seedIndianHistory(prisma: PrismaClient) {
   console.log("Seeding Indian History subject...");
@@ -82,8 +83,11 @@ export async function seedIndianHistory(prisma: PrismaClient) {
     if (chap.slug === "pre-historic-culture") {
       await seedPrehistoricCulture(prisma, subject.id, chapter.id);
     }
-    if (chap.slug === "indus-valley-civilization") {
+if (chap.slug === "indus-valley-civilization") {
       await seedIndusValley(prisma, subject.id, chapter.id);
+    }
+    if (chap.slug === "vedic-civilization") {
+      await seedVedicCivilization(prisma, subject.id, chapter.id);
     }
   }
 
