@@ -1,11 +1,22 @@
 import { PrismaClient, Difficulty, ExamType } from "@prisma/client";
 import indicesData from "./indices_data.json";
 
+type SeedQuestion = {
+  questionText: string;
+  options: { key: string; text: string }[];
+  correctOption: string;
+  difficulty: string;
+  examTypes: string[];
+  isPYQ?: boolean;
+  pyqYear?: number | null;
+};
+
+
 export async function seedTheoryOfIndices(prisma: PrismaClient, subjectId: string, chapterId: string) {
   console.log("Seeding Theory of Indices & Algebraic Expressions...");
   
   let count = 0;
-  for (const q of indicesData) {
+  for (const q of indicesData as SeedQuestion[]) {
     // We don't have a unique key for upsert besides ID, so we check by questionText and chapterId
     const existing = await prisma.question.findFirst({
       where: {
