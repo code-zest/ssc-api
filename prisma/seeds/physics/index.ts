@@ -1,5 +1,6 @@
 import { PrismaClient, AccessTier } from "@prisma/client";
 import { seedSoundEnergy } from "./sound-energy";
+import { seedLightEnergy } from "./light-energy";
 
 export async function seed_Physics(prisma: PrismaClient) {
   console.log("Seeding Physics...");
@@ -46,6 +47,9 @@ export async function seed_Physics(prisma: PrismaClient) {
 
     if (chapter.slug === "sound-energy") {
       await seedSoundEnergy(prisma, subject.id, createdChapter.id);
+    }
+    if (chapter.slug === "light-energy") {
+      await seedLightEnergy(prisma, subject.id, createdChapter.id);
     }
   }
 }
