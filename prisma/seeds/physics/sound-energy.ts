@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { AccessTier, PrismaClient } from "@prisma/client";
 import { ExamType, Difficulty, Language, LessonType } from "@prisma/client";
 
 const ARTICLE_HTML = `
@@ -142,7 +142,8 @@ const QUESTIONS = [
     correctOption: "4",
   },
   {
-    questionText: "In a density and position graph, the highest region is called .... and the lowest region is called ....",
+    questionText:
+      "In a density and position graph, the highest region is called .... and the lowest region is called ....",
     options: [
       { key: "1", text: "Peak, compression" },
       { key: "2", text: "Rarefaction, trough" },
@@ -154,7 +155,8 @@ const QUESTIONS = [
     // 1.4, 2.3, 3.1, 4.4, 5.1, 6.1, 7.1, 8.1, 9.3, 10.3
   },
   {
-    questionText: "The frequency of a radio wave with a frequency of 10^9 Hz is ......... (radio wave speed 3 x 10^8 m/s)", // wait, image says 10^9 Hz? the text looks like 10^9 Hz or 10^6 Hz? "10^9 Hz". options: 30 cm, 60 cm, 10 cm, 40 cm
+    questionText:
+      "The frequency of a radio wave with a frequency of 10^9 Hz is ......... (radio wave speed 3 x 10^8 m/s)", // wait, image says 10^9 Hz? the text looks like 10^9 Hz or 10^6 Hz? "10^9 Hz". options: 30 cm, 60 cm, 10 cm, 40 cm
     // v = f * lambda -> lambda = v/f = (3*10^8) / (10^9) = 0.3 m = 30 cm. (Option 1)
     options: [
       { key: "1", text: "30 cm" },
@@ -165,7 +167,8 @@ const QUESTIONS = [
     correctOption: "1",
   },
   {
-    questionText: "Dogs can hear sounds with frequencies below 2Hz. Humans cannot.",
+    questionText:
+      "Dogs can hear sounds with frequencies below 2Hz. Humans cannot.",
     options: [
       { key: "1", text: "<2Hz" },
       { key: "2", text: "<=2000Hz" },
@@ -178,7 +181,8 @@ const QUESTIONS = [
     correctOption: "4",
   },
   {
-    questionText: "An object has a frequency of 430Hz. The number of vibrations that the object makes in one second is",
+    questionText:
+      "An object has a frequency of 430Hz. The number of vibrations that the object makes in one second is",
     options: [
       { key: "1", text: "430" },
       { key: "2", text: "860" },
@@ -188,7 +192,8 @@ const QUESTIONS = [
     correctOption: "1",
   },
   {
-    questionText: "If the vibration limit is defined in terms of displacement, the units are",
+    questionText:
+      "If the vibration limit is defined in terms of displacement, the units are",
     options: [
       { key: "1", text: "Meter" },
       { key: "2", text: "Pascal" },
@@ -198,7 +203,8 @@ const QUESTIONS = [
     correctOption: "1",
   },
   {
-    questionText: "The speed of sound of different frequencies in a given medium under the same physical conditions is.......",
+    questionText:
+      "The speed of sound of different frequencies in a given medium under the same physical conditions is.......",
     options: [
       { key: "1", text: "Constant" },
       { key: "2", text: "Increasing" },
@@ -218,7 +224,8 @@ const QUESTIONS = [
     correctOption: "1",
   },
   {
-    questionText: "Sound produced by a source is audible if it is reflected back in more than 0.1 seconds.",
+    questionText:
+      "Sound produced by a source is audible if it is reflected back in more than 0.1 seconds.",
     options: [
       { key: "1", text: "reverberation" },
       { key: "2", text: "music" },
@@ -236,13 +243,17 @@ const QUESTIONS = [
       { key: "4", text: "30Db" },
     ],
     correctOption: "3",
-  }
+  },
 ];
 
 // Let me fix question 2 key, it says 2.3 -> option 3 ("Peak, trough")
 QUESTIONS[1].correctOption = "3";
 
-export async function seedSoundEnergy(prisma: PrismaClient, subjectId: string, chapterId: string) {
+export async function seedSoundEnergy(
+  prisma: PrismaClient,
+  subjectId: string,
+  chapterId: string,
+) {
   console.log("Seeding Sound Energy Content...");
 
   // 1. Create the Article Lesson
@@ -288,7 +299,13 @@ export async function seedSoundEnergy(prisma: PrismaClient, subjectId: string, c
           options: q.options,
           correctOption: q.correctOption,
           difficulty: Difficulty.MEDIUM,
-          examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"],
+          examTypes: [
+            ExamType.SSC_CGL,
+            ExamType.SSC_CHSL,
+            ExamType.SSC_MTS,
+            ExamType.SSC_CPO,
+            ExamType.SSC_GD,
+          ],
           isActive: true,
           tags: ["Physics", "Sound Energy"],
         },
@@ -312,16 +329,16 @@ export async function seedSoundEnergy(prisma: PrismaClient, subjectId: string, c
       subjectId: subjectId,
       chapterId: chapterId,
       questionCount: QUESTIONS.length,
-      accessTier: "FREE",
+      accessTier: AccessTier.FREE,
       order: 1,
       isActive: true,
-    }
+    },
   });
 
   // Fetch all questions for this chapter to link them
   const allChapterQuestions = await prisma.question.findMany({
     where: { chapterId: chapterId },
-    orderBy: { createdAt: 'asc' }
+    orderBy: { createdAt: "asc" },
   });
 
   for (let i = 0; i < allChapterQuestions.length; i++) {
@@ -329,15 +346,15 @@ export async function seedSoundEnergy(prisma: PrismaClient, subjectId: string, c
       where: {
         practiceSetId_questionId: {
           practiceSetId: practiceSet.id,
-          questionId: allChapterQuestions[i].id
-        }
+          questionId: allChapterQuestions[i].id,
+        },
       },
       update: { order: i + 1 },
       create: {
         practiceSetId: practiceSet.id,
         questionId: allChapterQuestions[i].id,
-        order: i + 1
-      }
+        order: i + 1,
+      },
     });
   }
 

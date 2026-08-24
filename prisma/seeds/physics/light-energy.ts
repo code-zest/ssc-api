@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { AccessTier, PrismaClient } from "@prisma/client";
 import { ExamType, Difficulty, Language, LessonType } from "@prisma/client";
 
 const ARTICLE_HTML = `
@@ -254,17 +254,28 @@ We can divide bodies or objects into two categories based on their light emissio
 
 const QUESTIONS = [
   {
-    questionText: "Which of the following is not an example of total internal reflection of light?",
+    questionText:
+      "Which of the following is not an example of total internal reflection of light?",
     options: [
-      { key: "1", text: "A blackened egg shines like silver when placed in water" },
-      { key: "2", text: "If a coin is placed under a glass and water is poured into the glass, the coin disappears" },
-      { key: "3", text: "If a coin is placed in a glass and water is poured into the glass, the coin appears on the surface of the water" },
+      {
+        key: "1",
+        text: "A blackened egg shines like silver when placed in water",
+      },
+      {
+        key: "2",
+        text: "If a coin is placed under a glass and water is poured into the glass, the coin disappears",
+      },
+      {
+        key: "3",
+        text: "If a coin is placed in a glass and water is poured into the glass, the coin appears on the surface of the water",
+      },
       { key: "4", text: "Letters appear to be raised under the glass" },
     ],
     correctOption: "4",
   },
   {
-    questionText: "The image formed when an object is placed at the focus in front of a concave mirror is:",
+    questionText:
+      "The image formed when an object is placed at the focus in front of a concave mirror is:",
     options: [
       { key: "1", text: "Real image with diffraction" },
       { key: "2", text: "Real image with high curvature" },
@@ -274,7 +285,8 @@ const QUESTIONS = [
     correctOption: "2",
   },
   {
-    questionText: "If you look at the telescope in the opposite direction, that is, through the objective lens,",
+    questionText:
+      "If you look at the telescope in the opposite direction, that is, through the objective lens,",
     options: [
       { key: "1", text: "the object appears very small." },
       { key: "2", text: "the object appears very large." },
@@ -284,27 +296,50 @@ const QUESTIONS = [
     correctOption: "1",
   },
   {
-    questionText: "The focal length of a compound microscope can be increased in the following ways:",
+    questionText:
+      "The focal length of a compound microscope can be increased in the following ways:",
     options: [
-      { key: "1", text: "When the focal lengths of the objective lens and the eyepiece are small" },
-      { key: "2", text: "When the focal length of the objective lens is small and the eyepiece is large" },
+      {
+        key: "1",
+        text: "When the focal lengths of the objective lens and the eyepiece are small",
+      },
+      {
+        key: "2",
+        text: "When the focal length of the objective lens is small and the eyepiece is large",
+      },
       { key: "3", text: "When both have large focal lengths" },
-      { key: "4", text: "When the focal length of both the objective lens and the eyepiece is large" },
+      {
+        key: "4",
+        text: "When the focal length of both the objective lens and the eyepiece is large",
+      },
     ],
     correctOption: "1",
   },
   {
     questionText: "The most commonly used optical lenses are made of",
     options: [
-      { key: "1", text: "Crown glass with a high focal length, flint glass with a low focal length" },
-      { key: "2", text: "Crown glass with a low focal length, plint glass with a high focal length" },
-      { key: "3", text: "Crown glass with a low focal length, plint glass with a high focal length" },
-      { key: "4", text: "Borosilicate glass with a high focal length, crown glass with a low focal length" },
+      {
+        key: "1",
+        text: "Crown glass with a high focal length, flint glass with a low focal length",
+      },
+      {
+        key: "2",
+        text: "Crown glass with a low focal length, plint glass with a high focal length",
+      },
+      {
+        key: "3",
+        text: "Crown glass with a low focal length, plint glass with a high focal length",
+      },
+      {
+        key: "4",
+        text: "Borosilicate glass with a high focal length, crown glass with a low focal length",
+      },
     ],
     correctOption: "3",
   },
   {
-    questionText: "A bird flies vertically to catch a fish in a pond. How does the bird appear to the fish?",
+    questionText:
+      "A bird flies vertically to catch a fish in a pond. How does the bird appear to the fish?",
     options: [
       { key: "1", text: "Faster than the original speed, smaller" },
       { key: "2", text: "Slower than the original speed, smaller" },
@@ -312,14 +347,18 @@ const QUESTIONS = [
       { key: "4", text: "Faster than the original speed, larger" },
     ],
     correctOption: "1",
-  }
+  },
 ];
 
-// Note from Key on Page 22: 
+// Note from Key on Page 22:
 // 1.4, 2.2, 3.1, 4.1, 5.3, 6.1
 // All keys are exactly matching the ones I put into correctOption
 
-export async function seedLightEnergy(prisma: PrismaClient, subjectId: string, chapterId: string) {
+export async function seedLightEnergy(
+  prisma: PrismaClient,
+  subjectId: string,
+  chapterId: string,
+) {
   console.log("Seeding Light Energy Content...");
 
   // 1. Create the Article Lesson
@@ -365,7 +404,13 @@ export async function seedLightEnergy(prisma: PrismaClient, subjectId: string, c
           options: q.options,
           correctOption: q.correctOption,
           difficulty: Difficulty.MEDIUM,
-          examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"],
+          examTypes: [
+            ExamType.SSC_CGL,
+            ExamType.SSC_CHSL,
+            ExamType.SSC_MTS,
+            ExamType.SSC_CPO,
+            ExamType.SSC_GD,
+          ],
           isActive: true,
           tags: ["Physics", "Light Energy"],
         },
@@ -389,16 +434,16 @@ export async function seedLightEnergy(prisma: PrismaClient, subjectId: string, c
       subjectId: subjectId,
       chapterId: chapterId,
       questionCount: QUESTIONS.length,
-      accessTier: "FREE",
+      accessTier: AccessTier.FREE,
       order: 1,
       isActive: true,
-    }
+    },
   });
 
   // Fetch all questions for this chapter to link them
   const allChapterQuestions = await prisma.question.findMany({
     where: { chapterId: chapterId },
-    orderBy: { createdAt: 'asc' }
+    orderBy: { createdAt: "asc" },
   });
 
   for (let i = 0; i < allChapterQuestions.length; i++) {
@@ -406,15 +451,15 @@ export async function seedLightEnergy(prisma: PrismaClient, subjectId: string, c
       where: {
         practiceSetId_questionId: {
           practiceSetId: practiceSet.id,
-          questionId: allChapterQuestions[i].id
-        }
+          questionId: allChapterQuestions[i].id,
+        },
       },
       update: { order: i + 1 },
       create: {
         practiceSetId: practiceSet.id,
         questionId: allChapterQuestions[i].id,
-        order: i + 1
-      }
+        order: i + 1,
+      },
     });
   }
 

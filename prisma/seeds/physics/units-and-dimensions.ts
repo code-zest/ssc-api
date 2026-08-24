@@ -291,7 +291,7 @@ export async function seedUnitsAndDimensions(
       type: LessonType.ARTICLE,
       articleHtml: ARTICLE_HTML,
       order: 1,
-      accessTier: "FREE",
+      accessTier: AccessTier.FREE,
       isActive: true,
     },
   });
@@ -317,7 +317,13 @@ export async function seedUnitsAndDimensions(
           options: q.options,
           correctOption: q.correctOption,
           difficulty: Difficulty.MEDIUM,
-          examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"],
+          examTypes: [
+            ExamType.SSC_CGL,
+            ExamType.SSC_CHSL,
+            ExamType.SSC_MTS,
+            ExamType.SSC_CPO,
+            ExamType.SSC_GD,
+          ],
           isActive: true,
           tags: ["Physics", "Units and Dimensions"],
         },
