@@ -7,6 +7,7 @@ import { seedUnitsAndDimensions } from "./units-and-dimensions";
 import { seedOurUniverse } from "./our-universe";
 import { seedHeatEnergy } from "./heat-energy";
 import { seedMagnetism } from "./magnetism";
+import { seedFluidsPressures } from "./fluids-pressures";
 
 export async function seed_Physics(prisma: PrismaClient) {
   console.log("Seeding Physics...");
@@ -31,7 +32,7 @@ export async function seed_Physics(prisma: PrismaClient) {
     { name: "Our Universe", slug: "our-universe", accessTier: AccessTier.FREE },
     { name: "Heat Energy", slug: "heat-energy", accessTier: AccessTier.FREE },
     { name: "Magnetism", slug: "magnetism", accessTier: AccessTier.FREE },
-    { name: "Fluids - Pressures", slug: "fluids-pressures", accessTier: AccessTier.PRO },
+    { name: "Fluids - Pressures", slug: "fluids-pressures", accessTier: AccessTier.FREE },
     { name: "Modern Physics", slug: "modern-physics", accessTier: AccessTier.PRO },
 
   ];
@@ -74,6 +75,9 @@ export async function seed_Physics(prisma: PrismaClient) {
     }
     if (chapter.slug === "magnetism") {
       await seedMagnetism(prisma, subject.id, createdChapter.id);
+    }
+    if (chapter.slug === "fluids-pressures") {
+      await seedFluidsPressures(prisma, subject.id, createdChapter.id);
     }
   }
 }
