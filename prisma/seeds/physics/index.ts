@@ -3,6 +3,7 @@ import { seedSoundEnergy } from "./sound-energy";
 import { seedLightEnergy } from "./light-energy";
 import { seedElectricalEnergy } from "./electrical-energy";
 import { seedMechanicalEnergy } from "./mechanical-energy";
+import { seedUnitsAndDimensions } from "./units-and-dimensions";
 
 export async function seed_Physics(prisma: PrismaClient) {
   console.log("Seeding Physics...");
@@ -23,7 +24,7 @@ export async function seed_Physics(prisma: PrismaClient) {
     { name: "Light Energy", slug: "light-energy", accessTier: AccessTier.FREE },
     { name: "Electrical Energy", slug: "electrical-energy", accessTier: AccessTier.FREE },
     { name: "Mechanical Energy", slug: "mechanical-energy", accessTier: AccessTier.FREE },
-    { name: "Units and dimensions", slug: "units-and-dimensions", accessTier: AccessTier.PRO },
+    { name: "Units and dimensions", slug: "units-and-dimensions", accessTier: AccessTier.FREE },
     { name: "Our Universe", slug: "our-universe", accessTier: AccessTier.PRO },
     { name: "Heat Energy", slug: "heat-energy", accessTier: AccessTier.PRO },
     { name: "Magnetism", slug: "magnetism", accessTier: AccessTier.PRO },
@@ -58,6 +59,9 @@ export async function seed_Physics(prisma: PrismaClient) {
     }
     if (chapter.slug === "mechanical-energy") {
       await seedMechanicalEnergy(prisma, subject.id, createdChapter.id);
+    }
+    if (chapter.slug === "units-and-dimensions") {
+      await seedUnitsAndDimensions(prisma, subject.id, createdChapter.id);
     }
   }
 }
