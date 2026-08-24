@@ -1,0 +1,1502 @@
+[
+  {
+    "questionText": "<p>If $$abc = 1$$ then find $$\\frac{a+1}{ab+a+1} + \\frac{b+1}{bc+b+1} + \\frac{c+1}{ac+c+1} = ?$$</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "0"
+      },
+      {
+        "key": "D",
+        "text": "-1"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>If $$LMN = 1$$ then find $$\\frac{L+1}{LM+L+1} + \\frac{M+1}{MN+N+1} + \\frac{N+1}{LN+N+1} = ?$$</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "-1"
+      },
+      {
+        "key": "C",
+        "text": "0"
+      },
+      {
+        "key": "D",
+        "text": "2"
+      }
+    ],
+    "correctOption": "D",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>If $$xyz = 1$$ then find $$\\frac{1}{1+x+y^{-1}} + \\frac{1}{1+y+z^{-1}} + \\frac{1}{1+z+x^{-1}} = ?$$</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "0"
+      },
+      {
+        "key": "B",
+        "text": "x"
+      },
+      {
+        "key": "C",
+        "text": "y"
+      },
+      {
+        "key": "D",
+        "text": "1"
+      }
+    ],
+    "correctOption": "D",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>If $$pqr = 1$$ then find $$\\frac{1}{1+p+q^{-1}} + \\frac{1}{1+q+r^{-1}} + \\frac{1}{1+r+p^{-1}} = ?$$</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "p"
+      },
+      {
+        "key": "B",
+        "text": "q"
+      },
+      {
+        "key": "C",
+        "text": "0"
+      },
+      {
+        "key": "D",
+        "text": "1"
+      }
+    ],
+    "correctOption": "D",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>If $$x+y+z = 0$$ then find $$\\frac{1}{x^2+y^2-z^2} + \\frac{1}{y^2+z^2-x^2} + \\frac{1}{z^2+x^2-y^2} = ?$$</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "0"
+      },
+      {
+        "key": "B",
+        "text": "1"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "2"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>If $$p+q+r = 0$$ then find $$\\frac{1}{p^2+q^2-r^2} + \\frac{1}{q^2+r^2-p^2} + \\frac{1}{r^2+p^2-q^2} = ?$$</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "0"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "-1"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>If $$a+b+c = 0$$ then find $$\\frac{1}{a^2+b^2-c^2} + \\frac{1}{b^2+c^2-a^2} + \\frac{1}{c^2+a^2-b^2} = ?$$</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "0"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "-1"
+      },
+      {
+        "key": "D",
+        "text": "1"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>If $$L+M+N = 0$$ then find $$\\frac{1}{L^2+M^2-N^2} + \\frac{1}{M^2+N^2-L^2} + \\frac{1}{N^2+L^2-M^2} = ?$$</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "-1"
+      },
+      {
+        "key": "B",
+        "text": "1"
+      },
+      {
+        "key": "C",
+        "text": "0"
+      },
+      {
+        "key": "D",
+        "text": "3"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q3(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q3(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q3(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q3(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q4(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q4(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "D",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q4(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q4(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "D",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q5(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q5(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q5(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q5(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q6(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q6(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q6(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q6(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q7(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q7(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q7(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q7(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q8(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q8(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q8(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q8(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q9(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q9(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "D",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q9(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q9(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q10(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q10(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q10(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q10(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q11(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q11(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q11(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "D",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q11(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q12(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "D",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q12(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q12(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q12(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q13(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q13(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "D",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q13(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q13(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q14(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q14(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q14(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "D",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q14(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q15(a)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "B",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q15(b)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q15(c)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "C",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  },
+  {
+    "questionText": "<p>[PLACEHOLDER FOR Q15(d)]</p>",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctOption": "A",
+    "difficulty": "MEDIUM",
+    "examTypes": ["SSC_CGL"],
+    "isPYQ": false
+  }
+]

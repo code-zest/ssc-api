@@ -1,4 +1,4 @@
-import { prisma } from "../src/config/prisma";
+import { PrismaClient } from "@prisma/client";
 import { ExamType, Difficulty, Language, LessonType } from "@prisma/client";
 
 const ARTICLE_HTML = `

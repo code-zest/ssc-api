@@ -1,3 +1,4 @@
+import { seedTheoryOfIndices } from "./indices";
 import { PrismaClient, AccessTier } from "@prisma/client";
 
 export async function seed_Maths(prisma: PrismaClient) {
@@ -48,5 +49,15 @@ export async function seed_Maths(prisma: PrismaClient) {
       isActive: true,
       },
     });
+  }
+
+  const chaptersList = await prisma.chapter.findMany({
+    where: { subjectId: subject.id }
+  });
+
+  const indicesChapter = chaptersList.find((c: any) => c.slug === "theory-of-indices-algebraic-expressons");
+
+  if (indicesChapter) {
+    await seedTheoryOfIndices(prisma, subject.id, indicesChapter.id);
   }
 }
