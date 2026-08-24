@@ -1,4 +1,5 @@
 import { PrismaClient, AccessTier } from "@prisma/client";
+import { seedSoundEnergy } from "./sound-energy";
 
 export async function seed_Physics(prisma: PrismaClient) {
   console.log("Seeding Physics...");
@@ -30,7 +31,7 @@ export async function seed_Physics(prisma: PrismaClient) {
 
   for (let i = 0; i < chapters.length; i++) {
     const chapter = chapters[i];
-    await prisma.chapter.upsert({
+    const createdChapter = await prisma.chapter.upsert({
       where: { subjectId_slug: { subjectId: subject.id, slug: chapter.slug } },
       update: { accessTier: chapter.accessTier, examTypes: ["SSC_CGL", "SSC_CHSL", "SSC_MTS", "SSC_CPO", "SSC_GD"] },
       create: { 
@@ -42,5 +43,10 @@ export async function seed_Physics(prisma: PrismaClient) {
       isActive: true,
       },
     });
+
+    if (chapter.slug === "sound-energy") {
+      await seedSoundEnergy(prisma, subject.id, createdChapter.id);
+    }
   }
 }
+
