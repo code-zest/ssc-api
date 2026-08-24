@@ -35,6 +35,7 @@ import { seedPrehistoricCulture } from "./prehistoric-culture";
 import { seedIndusValley } from "./indus-valley";
 import { seedVedicCivilization } from "./vedic-civilization";
 import { seedReligiousReform } from "./religious-reform-movement";
+import { seedMahajanapada } from "./mahajanapada";
 
 export async function seedIndianHistory(prisma: PrismaClient) {
   console.log("Seeding Indian History subject...");
@@ -90,8 +91,11 @@ if (chap.slug === "indus-valley-civilization") {
 if (chap.slug === "vedic-civilization") {
       await seedVedicCivilization(prisma, subject.id, chapter.id);
     }
-    if (chap.slug === "religious-reform-movement") {
+if (chap.slug === "religious-reform-movement") {
       await seedReligiousReform(prisma, subject.id, chapter.id);
+    }
+    if (chap.slug === "mahajanapada") {
+      await seedMahajanapada(prisma, subject.id, chapter.id);
     }
   }
 
