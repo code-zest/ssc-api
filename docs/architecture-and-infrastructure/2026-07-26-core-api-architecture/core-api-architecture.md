@@ -10,9 +10,10 @@
 
 We are building the backend API for the SSC Exam Education Platform — a competitive exam prep product covering SSC CGL, CHSL, MTS, CPO, and GD exams.
 
-The API serves two consumers:
+The API serves three consumers:
 - `ssc-admin-web` — content management, user management, analytics
-- `ssc-client` — student-facing learning, test-taking, progress tracking
+- `ssc-client` — student-facing learning, test-taking, progress tracking (Next.js web)
+- `ssc-mobile` — student-facing mobile app (React Native CLI, offline-capable)
 
 ---
 
