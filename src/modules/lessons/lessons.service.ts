@@ -3,6 +3,8 @@ import { StudyPersona } from '@prisma/client';
 import { prisma } from '../../config/prisma';
 import { ApiError } from '../../utils/ApiError';
 import type { CreateLessonInput, UpdateLessonInput, LessonProgressInput } from './lessons.schemas';
+import { applyLessonLocale } from '../../utils/locale';
+import type { Language } from '@prisma/client';
 
 // ─── Get Lessons by Chapter ───────────────────────────────────────────────────
 
@@ -47,7 +49,7 @@ export async function getLessonsByChapter(chapterId: string, isAdmin: boolean, u
 
 // ─── Get Lesson Details (Consumption) ─────────────────────────────────────────
 
-export async function getLessonBySlug(subjectSlug: string, chapterSlug: string, lessonSlug: string, isAdmin: boolean, userId?: string) {
+export async function getLessonBySlug(subjectSlug: string, chapterSlug: string, lessonSlug: string, isAdmin: boolean, userId?: string, locale: Language = 'EN') {
   const where = {
     slug: lessonSlug,
     chapter: {
@@ -62,6 +64,10 @@ export async function getLessonBySlug(subjectSlug: string, chapterSlug: string, 
     include: {
       chapter: true,
       subject: true,
+      translations: locale !== 'EN' ? {
+        where: { locale },
+        select: { locale: true, title: true, articleHtml: true },
+      } : false,
       ...(userId
         ? {
             progress: {
@@ -74,7 +80,7 @@ export async function getLessonBySlug(subjectSlug: string, chapterSlug: string, 
   });
 
   if (!lesson) throw ApiError.notFound('Lesson not found');
-  return lesson;
+  return applyLessonLocale(lesson as any, locale);
 }
 
 // ─── Create Lesson ────────────────────────────────────────────────────────────

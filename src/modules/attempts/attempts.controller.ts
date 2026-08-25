@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import * as attemptsService from './attempts.service';
 import { ApiResponse } from '../../utils/ApiResponse';
 import { ApiError } from '../../utils/ApiError';
+import { parseLocale } from '../../utils/locale';
 
 export async function startAttempt(req: Request, res: Response, next: NextFunction) {
   try {
@@ -76,7 +77,8 @@ export async function getAttemptDetails(req: Request, res: Response, next: NextF
   try {
     const studentId = req.user?.userId || null;
     const guestSessionId = req.headers['x-guest-session-id'] as string || null;
-    const attempt = await attemptsService.getAttemptDetails(req.params.id as string, studentId, guestSessionId);
+    const locale = parseLocale(req.query.locale as string);
+    const attempt = await attemptsService.getAttemptDetails(req.params.id as string, studentId, guestSessionId, locale);
     ApiResponse.success(res, attempt);
   } catch (error) {
     next(error);

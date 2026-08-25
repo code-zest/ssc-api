@@ -1,4 +1,10 @@
-import { PrismaClient, LessonType, Difficulty, AccessTier, ExamType } from '@prisma/client';
+import {
+  PrismaClient,
+  LessonType,
+  Difficulty,
+  AccessTier,
+  ExamType,
+} from "@prisma/client";
 
 const ARTICLE_HTML = `
 ## Modern Physics
@@ -223,9 +229,9 @@ const QUESTIONS = [
       { key: "1", text: "Einstein" },
       { key: "2", text: "Millikan" },
       { key: "3", text: "Roentgen" },
-      { key: "4", text: "Rutherford" }
+      { key: "4", text: "Rutherford" },
     ],
-    correctOption: "3"
+    correctOption: "3",
   },
   {
     questionText: "What are the basic particles in the atomic nucleus?",
@@ -233,9 +239,9 @@ const QUESTIONS = [
       { key: "1", text: "Electrons" },
       { key: "2", text: "Protons" },
       { key: "3", text: "Neutrons" },
-      { key: "4", text: "2, 3" }
+      { key: "4", text: "2, 3" },
     ],
-    correctOption: "4"
+    correctOption: "4",
   },
   {
     questionText: "How are electrons produced in the laboratory?",
@@ -243,39 +249,42 @@ const QUESTIONS = [
       { key: "1", text: "Discharge in gases" },
       { key: "2", text: "Thermionic emission" },
       { key: "3", text: "Photoelectric effect" },
-      { key: "4", text: "None of the above" }
+      { key: "4", text: "None of the above" },
     ],
-    correctOption: "4"
+    correctOption: "4",
   },
   {
-    questionText: "What is the process that causes the sun and stars to become self-luminous?",
+    questionText:
+      "What is the process that causes the sun and stars to become self-luminous?",
     options: [
       { key: "1", text: "Nuclear fission" },
       { key: "2", text: "Nuclear fusion" },
       { key: "3", text: "Both of the above" },
-      { key: "4", text: "Chemical reactions" }
+      { key: "4", text: "Chemical reactions" },
     ],
-    correctOption: "2"
+    correctOption: "2",
   },
   {
-    questionText: "Which radioactive isotope is used to detect blood clots in the body?",
+    questionText:
+      "Which radioactive isotope is used to detect blood clots in the body?",
     options: [
       { key: "1", text: "Iodine 131" },
       { key: "2", text: "Sodium - 23" },
       { key: "3", text: "Cobalt - 60" },
-      { key: "4", text: "Uranium - 233" }
+      { key: "4", text: "Uranium - 233" },
     ],
-    correctOption: "2"
+    correctOption: "2",
   },
   {
-    questionText: "What is the method used to separate light and heavy isotopes in a substance?",
+    questionText:
+      "What is the method used to separate light and heavy isotopes in a substance?",
     options: [
       { key: "1", text: "Photographic film" },
       { key: "2", text: "Gigger Muller counter" },
       { key: "3", text: "Cathode tube" },
-      { key: "4", text: "Isotron" }
+      { key: "4", text: "Isotron" },
     ],
-    correctOption: "4"
+    correctOption: "4",
   },
   {
     questionText: "Which rays turn a photographic plate black?",
@@ -283,29 +292,31 @@ const QUESTIONS = [
       { key: "1", text: "Infrared" },
       { key: "2", text: "X-rays" },
       { key: "3", text: "Visible" },
-      { key: "4", text: "Ultraviolet" }
+      { key: "4", text: "Ultraviolet" },
     ],
-    correctOption: "2"
+    correctOption: "2",
   },
   {
-    questionText: "The atomic number of an element depends on the number of fundamental particles?",
+    questionText:
+      "The atomic number of an element depends on the number of fundamental particles?",
     options: [
       { key: "1", text: "Neutrons" },
       { key: "2", text: "Protons" },
       { key: "3", text: "Electrons" },
-      { key: "4", text: "All of the above" }
+      { key: "4", text: "All of the above" },
     ],
-    correctOption: "2"
+    correctOption: "2",
   },
   {
-    questionText: "Who invented the carbon dating method to determine the age of fossils?",
+    questionText:
+      "Who invented the carbon dating method to determine the age of fossils?",
     options: [
       { key: "1", text: "Neutron" },
       { key: "2", text: "Libby" },
       { key: "3", text: "Einstein" },
-      { key: "4", text: "JJ Thomson" }
+      { key: "4", text: "JJ Thomson" },
     ],
-    correctOption: "2"
+    correctOption: "2",
   },
   {
     questionText: "What is the approximate speed of X-rays?",
@@ -313,13 +324,17 @@ const QUESTIONS = [
       { key: "1", text: "3 x 10^8 cms^-1" },
       { key: "2", text: "3 x 10^8 ms^-1" },
       { key: "3", text: "3 x 10^8 kms^-1" },
-      { key: "4", text: "3 x 10^12 ms^-1" }
+      { key: "4", text: "3 x 10^12 ms^-1" },
     ],
-    correctOption: "2"
-  }
+    correctOption: "2",
+  },
 ];
 
-export async function seedModernPhysics(prisma: PrismaClient, subjectId: string, chapterId: string) {
+export async function seedModernPhysics(
+  prisma: PrismaClient,
+  subjectId: string,
+  chapterId: string,
+) {
   console.log("Seeding Modern Physics Content...");
 
   // 1. Create the Article Lesson

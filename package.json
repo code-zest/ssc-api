@@ -18,7 +18,11 @@
     "test:coverage": "dotenv -e .env.test -- jest --coverage",
     "lint": "echo \"Add eslint when needed\"",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "translate": "bun scripts/translate-content.ts",
+    "translate:hi": "bun scripts/translate-content.ts --locale=hi",
+    "translate:te": "bun scripts/translate-content.ts --locale=te",
+    "translate:dry": "bun scripts/translate-content.ts --locale=all --dry-run"
   },
   "keywords": [
     "ssc",

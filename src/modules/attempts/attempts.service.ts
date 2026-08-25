@@ -2,6 +2,8 @@ import { prisma } from '../../config/prisma';
 import { ApiError } from '../../utils/ApiError';
 import type { StartAttemptInput, SyncAnswersInput, GeneratePYQAttemptInput } from './attempts.schemas';
 import { GamificationService } from '../gamification/gamification.service';
+import { applyQuestionLocale } from '../../utils/locale';
+import type { Language } from '@prisma/client';
 
 // ─── Generate PYQ Attempt ─────────────────────────────────────────────────────
 
@@ -410,7 +412,7 @@ export async function submitAttempt(attemptId: string, studentId: string | null,
 
 // ─── Get Attempt Details ──────────────────────────────────────────────────────
 
-export async function getAttemptDetails(attemptId: string, studentId: string | null, guestSessionId: string | null) {
+export async function getAttemptDetails(attemptId: string, studentId: string | null, guestSessionId: string | null, locale: Language = 'EN') {
   const attempt = await prisma.testAttempt.findUnique({
     where: { id: attemptId },
     include: {
@@ -420,6 +422,10 @@ export async function getAttemptDetails(attemptId: string, studentId: string | n
             include: {
               subject: { select: { name: true } },
               chapter: { select: { name: true } },
+              translations: locale !== 'EN' ? {
+                where: { locale },
+                select: { locale: true, questionText: true, options: true, explanation: true },
+              } : false,
             }
           } 
         }
@@ -438,6 +444,14 @@ export async function getAttemptDetails(attemptId: string, studentId: string | n
     if (attempt.studentId !== studentId) throw ApiError.notFound('Attempt not found');
   } else {
     if (attempt.guestSessionId !== guestSessionId) throw ApiError.notFound('Attempt not found');
+  }
+
+  // Apply locale overlay to each question
+  if (locale !== 'EN') {
+    attempt.responses = attempt.responses.map((r: any) => ({
+      ...r,
+      question: r.question ? applyQuestionLocale(r.question, locale) : r.question,
+    }));
   }
 
   // Hide correct answers if test is still in progress

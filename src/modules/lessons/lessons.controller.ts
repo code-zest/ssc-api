@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as lessonsService from './lessons.service';
 import { ApiResponse } from '../../utils/ApiResponse';
+import { parseLocale } from '../../utils/locale';
 
 export async function getLessonsByChapter(req: Request, res: Response, next: NextFunction) {
   try {
@@ -25,7 +26,8 @@ export async function getLessonBySlug(req: Request, res: Response, next: NextFun
     const subjectSlug = req.params.subjectSlug as string;
     const chapterSlug = req.params.chapterSlug as string;
     const lessonSlug = req.params.lessonSlug as string;
-    const lesson = await lessonsService.getLessonBySlug(subjectSlug, chapterSlug, lessonSlug, isAdmin, userId);
+    const locale = parseLocale(req.query.locale as string);
+    const lesson = await lessonsService.getLessonBySlug(subjectSlug, chapterSlug, lessonSlug, isAdmin, userId, locale);
     ApiResponse.success(res, lesson);
   } catch (error) {
     next(error);

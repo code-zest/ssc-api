@@ -47,6 +47,7 @@ enum LessonType {
 enum Language {
   EN
   HI
+  TE
 }
 
 enum AttemptType {
@@ -192,6 +193,7 @@ model User {
 
   // Onboarding state
   onboardingComplete Boolean @default(false)
+  preferredLocale    Language @default(EN)
 
   // Subscriptions & Monetization
   subscriptionTier      SubscriptionTier @default(FREE)
@@ -370,6 +372,7 @@ model Lesson {
 
   progress     LessonProgress[]
   practiceSets PracticeSet[]
+  translations LessonTranslation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -416,6 +419,7 @@ model Question {
   dailyQuizzes     DailyQuizQuestion[]
   mockTestSections MockTestSectionQuestion[]
   attemptResponses AttemptResponse[]
+  translations     QuestionTranslation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -880,4 +884,55 @@ model DailyQuizQuestion {
 
   @@id([dailyQuizId, questionId])
   @@map("daily_quiz_questions")
+}
+
+// ─── QUESTION TRANSLATIONS ────────────────────────────────────────────────────
+
+model QuestionTranslation {
+  id           String   @id @default(cuid())
+  question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId   String
+  locale       Language // HI | TE — never EN (EN is the source)
+
+  // Translated content — same shape as parent Question fields
+  questionText String
+  // JSON: same shape as Question.options — [{ key: "A"|"B"|"C"|"D", text: string }]
+  // CRITICAL: key is NEVER translated. Question.correctOption stays locale-agnostic.
+  options      Json
+  explanation  String?
+
+  // Quality control
+  isVerified   Boolean  @default(false) // false = AI draft, true = human-approved
+  translatedBy String   @default("AI")  // "AI" | reviewer name
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([questionId, locale])
+  @@index([questionId])
+  @@map("question_translations")
+}
+
+// ─── LESSON TRANSLATIONS ──────────────────────────────────────────────────────
+
+model LessonTranslation {
+  id          String   @id @default(cuid())
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId    String
+  locale      Language
+
+  // Only ARTICLE lessons have articleHtml to translate.
+  // VIDEO and PDF lessons are skipped — media assets are language-agnostic.
+  title       String
+  articleHtml String?  @db.Text  // KaTeX expressions preserved via placeholder extraction
+
+  isVerified  Boolean  @default(false)
+  translatedBy String  @default("AI")
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([lessonId, locale])
+  @@index([lessonId])
+  @@map("lesson_translations")
 }

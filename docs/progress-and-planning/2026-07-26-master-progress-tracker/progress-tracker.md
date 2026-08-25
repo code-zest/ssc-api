@@ -1,7 +1,7 @@
 # SSC API — Master Progress Tracker
 
-**Last Updated:** 2026-08-22  
-**Overall Status:** ✅ Phases 1–14 Complete. ✅ All Pillars Implemented.
+**Last Updated:** 2026-08-25  
+**Overall Status:** ✅ Phases 1–16 Complete. 🔴 Phase 17 (Multilingual) — Not Started.
 
 ---
 
@@ -42,6 +42,7 @@
 | **Phase 14** | Exam Notifications (Job Alerts) — Schema, CRUD endpoints, Public API | ✅ Complete | ToFu SEO Strategy |
 | **Phase 15** | Gamification — Topic-wise PYQ Learning, Daily 10-Minute Targets & Streaks | ✅ Complete | 2026-08-22 |
 | **Phase 16** | Advanced Analytics — Mock Test Time vs. Accuracy Diagnostics | ✅ Complete | 2026-08-22 |
+| **Phase 17** | Multilingual — Hindi (HI) + Telugu (TE) content translation. `QuestionTranslation` + `LessonTranslation` schema, Sarvam AI batch script, locale-aware API serving (`?locale=` param), `User.preferredLocale` field | 🔴 Not Started | Sarvam AI (₹37 est.) |
 
 ---
 
@@ -87,6 +88,7 @@
 | **Advanced Analytics (Phase 16)** | [advanced-analytics.md](../../architecture-and-infrastructure/2026-08-23-advanced-analytics/advanced-analytics.md) |
 | **Feedback Module** | [feedback-module.md](../../architecture-and-infrastructure/2026-08-23-feedback-module/feedback-module.md) |
 | **Notifications / Exam Alerts** | [notifications.md](../../architecture-and-infrastructure/2026-08-23-notifications/notifications.md) |
+| **Multilingual HI + TE (Phase 17)** | [multilingual-i18n.md](../../architecture-and-infrastructure/2026-08-25-multilingual-i18n/multilingual-i18n.md) |
 
 ## 5. Development Workflow Rules
 

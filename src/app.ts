@@ -144,6 +144,10 @@ app.use(`/api/${env.API_VERSION}/health`, healthRouter);
 import errorsRouter from './modules/errors/errors.routes';
 app.use(`/api/${env.API_VERSION}/errors`, errorsRouter);
 
+// Phase 15 — Translations
+import translationsRouter from './modules/translations/translations.routes';
+app.use(`/api/${env.API_VERSION}/translations`, translationsRouter);
+
 // ─── Fallback ─────────────────────────────────────────────────────────────────
 app.use(notFound);
 app.use(errorHandler);
