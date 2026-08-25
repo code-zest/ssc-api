@@ -95,3 +95,7 @@
 *   **Pre-commit Hooks (Husky):** All three repositories (`ssc-api`, `ssc-admin-web`, `ssc-client`) have Husky implemented. Every `git commit` triggers a strict TypeScript compilation check (`npm run typecheck`). If there are TS errors, the commit will be blocked. Ensure your types are correct locally!
 *   **Testing Standard:** We use `Vitest` + `React Testing Library` for React frontends, and `Jest` + `Supertest` for the Express backend API.
 
+
+## Cross-Platform E2E Verification Complete
+- **Date:** 2026-08-25
+- **Status:** Mobile App (`ssc-mobile`) has been fully scaffolded. We have verified the Gamification Rewards flow programmatically via an E2E script ensuring that Zest Points correctly deduct and purchases execute flawlessly across the API.
