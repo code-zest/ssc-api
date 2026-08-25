@@ -148,6 +148,10 @@ app.use(`/api/${env.API_VERSION}/errors`, errorsRouter);
 import translationsRouter from './modules/translations/translations.routes';
 app.use(`/api/${env.API_VERSION}/translations`, translationsRouter);
 
+// Phase 16 — Gamification Store
+import { storeRoutes } from './modules/store/store.routes';
+app.use(`/api/${env.API_VERSION}/store`, storeRoutes);
+
 // ─── Fallback ─────────────────────────────────────────────────────────────────
 app.use(notFound);
 app.use(errorHandler);

@@ -32,6 +32,7 @@ export class GamificationService {
       where: { id: userId },
       data: {
         xpPoints: newXpTotal,
+        coins: { increment: xpGained },
         rankTier: newRankTier,
       }
     });
@@ -123,8 +124,8 @@ export class GamificationService {
 
     const updated = await prisma.user.update({
       where: { id: userId },
-      data: { xpPoints: newXpTotal, rankTier: newRankTier },
-      select: { id: true, xpPoints: true, rankTier: true },
+      data: { xpPoints: newXpTotal, rankTier: newRankTier, coins: { increment: delta } },
+      select: { id: true, xpPoints: true, rankTier: true, coins: true },
     });
 
     return updated;

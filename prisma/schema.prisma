@@ -164,11 +164,13 @@ model User {
   isActive        Boolean @default(true)
 
   // Streak & Gamification
-  streakDays     Int         @default(0)
+  streakDays     Int          @default(0)
   lastActiveDate DateTime?
-  xpPoints       Int         @default(0)
-  rankTier       RankTier    @default(ASPIRANT)
+  xpPoints       Int          @default(0)
+  coins          Int          @default(0)
+  rankTier       RankTier     @default(ASPIRANT)
   badges         UserBadge[]
+  storeOrders    StoreOrder[]
 
   // OTP storage (for email verification & password reset)
   otpCode      String?
@@ -192,7 +194,7 @@ model User {
   hasAttemptedBefore Boolean         @default(false)
 
   // Onboarding state
-  onboardingComplete Boolean @default(false)
+  onboardingComplete Boolean  @default(false)
   preferredLocale    Language @default(EN)
 
   // Subscriptions & Monetization
@@ -845,7 +847,6 @@ model UserBadge {
   @@map("user_badges")
 }
 
-
 model ExamNotification {
   id                   String   @id @default(cuid())
   title                String
@@ -862,14 +863,13 @@ model ExamNotification {
   @@map("exam_notifications")
 }
 
-
 model DailyQuiz {
-  id          String              @id @default(cuid())
-  date        DateTime            @unique @db.Date
-  title       String
-  description String?
-  questions   DailyQuizQuestion[]
-  testAttempts  TestAttempt[]
+  id           String              @id @default(cuid())
+  date         DateTime            @unique @db.Date
+  title        String
+  description  String?
+  questions    DailyQuizQuestion[]
+  testAttempts TestAttempt[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -889,10 +889,10 @@ model DailyQuizQuestion {
 // ─── QUESTION TRANSLATIONS ────────────────────────────────────────────────────
 
 model QuestionTranslation {
-  id           String   @id @default(cuid())
-  question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  questionId   String
-  locale       Language // HI | TE — never EN (EN is the source)
+  id         String   @id @default(cuid())
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId String
+  locale     Language // HI | TE — never EN (EN is the source)
 
   // Translated content — same shape as parent Question fields
   questionText String
@@ -902,11 +902,11 @@ model QuestionTranslation {
   explanation  String?
 
   // Quality control
-  isVerified   Boolean  @default(false) // false = AI draft, true = human-approved
-  translatedBy String   @default("AI")  // "AI" | reviewer name
+  isVerified   Boolean @default(false) // false = AI draft, true = human-approved
+  translatedBy String  @default("AI") // "AI" | reviewer name
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([questionId, locale])
   @@index([questionId])
@@ -916,23 +916,80 @@ model QuestionTranslation {
 // ─── LESSON TRANSLATIONS ──────────────────────────────────────────────────────
 
 model LessonTranslation {
-  id          String   @id @default(cuid())
-  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  lessonId    String
-  locale      Language
+  id       String   @id @default(cuid())
+  lesson   Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId String
+  locale   Language
 
   // Only ARTICLE lessons have articleHtml to translate.
   // VIDEO and PDF lessons are skipped — media assets are language-agnostic.
   title       String
-  articleHtml String?  @db.Text  // KaTeX expressions preserved via placeholder extraction
+  articleHtml String? @db.Text // KaTeX expressions preserved via placeholder extraction
 
-  isVerified  Boolean  @default(false)
+  isVerified   Boolean @default(false)
   translatedBy String  @default("AI")
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([lessonId, locale])
   @@index([lessonId])
   @@map("lesson_translations")
+}
+
+// ─── REWARDS STORE ────────────────────────────────────────────────────────────
+
+model StoreItem {
+  id          String       @id @default(cuid())
+  name        String
+  description String       @db.Text
+  imageUrl    String
+  cost        Int
+  stock       Int          @default(0)
+  isActive    Boolean      @default(true)
+  orders      StoreOrder[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("store_items")
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model StoreOrder {
+  id          String    @id @default(cuid())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  item        StoreItem @relation(fields: [storeItemId], references: [id], onDelete: Restrict)
+  storeItemId String
+
+  status     OrderStatus @default(PENDING)
+  coinsSpent Int
+
+  // Shipping details
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String
+  pincode      String
+  phone        String
+
+  // Tracking
+  trackingNumber String?
+  courierName    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([storeItemId])
+  @@index([status])
+  @@map("store_orders")
 }
