@@ -5,8 +5,6 @@
 **Module:** `src/modules/gamification/`  
 **Related product doc:** [gamification-rules.md](../../../../docs/product-strategy/gamification-rules.md)
 
-> ⚠️ **Drift Warning:** The product `gamification-rules.md` describes a planned tier system (`CHALLENGER`, `ACHIEVER`, `MASTER`, `LEGEND`) with different XP thresholds. The **implemented** system uses the SSC-themed tier set below. The product doc should be updated to match this implementation.
-
 ---
 
 ## 1. Database Schema

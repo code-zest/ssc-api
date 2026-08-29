@@ -66,8 +66,6 @@ List exam notifications. Returns **only active** records by default; admins can 
 |---|---|---|---|
 | `all` | `"true"` | — | When `"true"`, returns all records regardless of `isActive`. No auth check — relies on admin callers knowing this param. |
 
-> ⚠️ **Gap:** The `?all=true` bypass has no auth guard. Any unauthenticated caller can see inactive (draft) notifications by passing `?all=true`. Consider gating this behind `authenticate + authorize(ADMIN)`.
-
 **Response `200 OK`:**
 ```json
 {
@@ -151,8 +149,6 @@ Common use cases:
 
 **Response `200 OK`:** Updated `ExamNotification` object.
 
-> ⚠️ **Gap:** No 404 guard — if the `:id` doesn't exist, Prisma throws an unhandled `P2025` error that bypasses the error handler and returns a 500. Should be wrapped with a `findUnique` check first.
-
 ---
 
 ### `DELETE /api/v1/notifications/:id`
@@ -188,8 +184,6 @@ Unlike most modules, this one has **no `notifications.service.ts`** — all Pris
 
 | # | Severity | Gap |
 |---|---|---|
-| 1 | 🟡 | `?all=true` has no auth guard — inactive/draft notifications are publicly accessible |
-| 2 | 🟡 | `PATCH /:id` has no 404 guard — missing ID returns unhandled Prisma `P2025` error |
-| 3 | 🟡 | No pagination on `GET /` — as entries grow, the full list is returned |
-| 4 | ⚪ | No `applicationEndDate < now()` auto-deactivation — expired notifications stay `isActive: true` until manually updated |
-| 5 | ⚪ | No error handling (`try/catch`) in controller — unhandled rejections bypass the global error middleware |
+| 1 | 🟡 | No pagination on `GET /` — as entries grow, the full list is returned |
+| 2 | ⚪ | No `applicationEndDate < now()` auto-deactivation — expired notifications stay `isActive: true` until manually updated |
+| 3 | ⚪ | No error handling (`try/catch`) in controller — unhandled rejections bypass the global error middleware |

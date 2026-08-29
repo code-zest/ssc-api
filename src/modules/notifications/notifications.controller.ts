@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import { prisma } from '../../config/prisma';
 import { createNotificationSchema, updateNotificationSchema } from './notifications.schemas';
 import { ApiError } from '../../utils/ApiError';
+import { catchAsync } from '../../utils/catchAsync';
 
-export const getNotifications = async (req: Request, res: Response) => {
+export const getNotifications = catchAsync(async (req: Request, res: Response) => {
   const { all } = req.query;
   const isAdmin = req.user?.role === 'ADMIN' || req.user?.role === 'SUPER_ADMIN';
   const notifications = await prisma.examNotification.findMany({
@@ -12,9 +13,9 @@ export const getNotifications = async (req: Request, res: Response) => {
     take: 50,
   });
   res.json({ success: true, data: notifications });
-};
+});
 
-export const getNotificationById = async (req: Request, res: Response) => {
+export const getNotificationById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const notification = await prisma.examNotification.findUnique({
     where: { id: String(id) },
@@ -26,15 +27,15 @@ export const getNotificationById = async (req: Request, res: Response) => {
   }
 
   res.json({ success: true, data: notification });
-};
+});
 
-export const createNotification = async (req: Request, res: Response) => {
+export const createNotification = catchAsync(async (req: Request, res: Response) => {
   const data = createNotificationSchema.parse(req.body);
   const notification = await prisma.examNotification.create({ data });
   res.status(201).json({ success: true, data: notification });
-};
+});
 
-export const updateNotification = async (req: Request, res: Response) => {
+export const updateNotification = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const data = updateNotificationSchema.parse(req.body);
 
@@ -50,12 +51,12 @@ export const updateNotification = async (req: Request, res: Response) => {
     }
     throw error;
   }
-};
+});
 
-export const deleteNotification = async (req: Request, res: Response) => {
+export const deleteNotification = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   await prisma.examNotification.delete({
     where: { id: String(id) },
   });
   res.json({ success: true, message: 'Notification deleted successfully' });
-};
+});
