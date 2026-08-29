@@ -44,7 +44,7 @@ type LessonTranslation = {
   articleHtml: string | null;
 };
 
-type LessonWithTranslations = {
+export type LessonWithTranslations = {
   title: string;
   articleHtml: string | null;
   translations?: LessonTranslation[];

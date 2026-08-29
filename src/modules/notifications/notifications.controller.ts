@@ -4,15 +4,30 @@ import { createNotificationSchema, updateNotificationSchema } from './notificati
 import { ApiError } from '../../utils/ApiError';
 import { catchAsync } from '../../utils/catchAsync';
 
+import { getPagination, buildPaginationMeta } from '../../utils/pagination';
+
 export const getNotifications = catchAsync(async (req: Request, res: Response) => {
   const { all } = req.query;
   const isAdmin = req.user?.role === 'ADMIN' || req.user?.role === 'SUPER_ADMIN';
-  const notifications = await prisma.examNotification.findMany({
-    where: (all === 'true' && isAdmin) ? undefined : { isActive: true },
-    orderBy: { createdAt: 'desc' },
-    take: 50,
+  
+  const pagination = getPagination(req);
+  const where = (all === 'true' && isAdmin) ? undefined : { isActive: true };
+
+  const [total, notifications] = await prisma.$transaction([
+    prisma.examNotification.count({ where }),
+    prisma.examNotification.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      skip: pagination.skip,
+      take: pagination.limit,
+    }),
+  ]);
+
+  res.json({ 
+    success: true, 
+    data: notifications,
+    meta: buildPaginationMeta(total, pagination)
   });
-  res.json({ success: true, data: notifications });
 });
 
 export const getNotificationById = catchAsync(async (req: Request, res: Response) => {

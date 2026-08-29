@@ -18,9 +18,8 @@ export const cacheMiddleware = (ttl: number) => {
       return next();
     }
 
-    const role = (req as any).user?.role || 'GUEST';
-    const targetExams = (req as any).user?.targetExam?.sort().join(",") || "ALL";
-    const key = `cache:${role}:${targetExams}:${req.originalUrl || req.url}`;
+    const role = req.user?.role || 'GUEST';
+    const key = `cache:${role}:${req.originalUrl || req.url}`;
 
     try {
       const cachedResponse = await redis.get(key);
@@ -32,7 +31,7 @@ export const cacheMiddleware = (ttl: number) => {
 
       // Overwrite res.json to capture and cache the output
       const originalJson = res.json.bind(res);
-      res.json = (body: any): Response => {
+      res.json = (body: unknown): Response => {
         // Only cache successful responses
         if (res.statusCode >= 200 && res.statusCode < 300) {
           redis.setex(key, ttl, JSON.stringify(body)).catch((err) => {

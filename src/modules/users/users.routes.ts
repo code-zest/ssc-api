@@ -11,7 +11,7 @@ import {
   onboardingSchema,
 } from './users.schemas';
 import rateLimit from 'express-rate-limit';
-import { RedisStore } from 'rate-limit-redis';
+import { RedisStore, type RedisReply } from 'rate-limit-redis';
 import { redis, isRedisReady } from '../../config/redis';
 
 const mutationLimiter = rateLimit({
@@ -23,7 +23,7 @@ const mutationLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  store: isRedisReady() ? new RedisStore({ sendCommand: (...args: string[]) => (redis as any).call(...args) }) : undefined,
+  store: isRedisReady() ? new RedisStore({ sendCommand: (...args: string[]) => (redis as unknown as { call: (...args: string[]) => Promise<RedisReply> }).call(...args) }) : undefined,
 });
 
 

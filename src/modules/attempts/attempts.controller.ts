@@ -8,12 +8,14 @@ export async function startAttempt(req: Request, res: Response, next: NextFuncti
   try {
     const studentId = req.user?.userId || null;
     const guestSessionId = req.headers['x-guest-session-id'] as string || null;
+    const locale = parseLocale(req.query.locale as string);
     
     if (!studentId && !guestSessionId) {
       throw ApiError.unauthorized('Must provide either auth token or x-guest-session-id header');
     }
 
-    const attempt = await attemptsService.startAttempt(studentId, guestSessionId, req.body);
+    const attemptBase = await attemptsService.startAttempt(studentId, guestSessionId, req.body);
+    const attempt = await attemptsService.getAttemptDetails(attemptBase.id, studentId, guestSessionId, locale);
     ApiResponse.created(res, attempt, 'Attempt started');
   } catch (error) {
     next(error);
@@ -23,12 +25,14 @@ export async function generatePYQAttempt(req: Request, res: Response, next: Next
   try {
     const studentId = req.user?.userId || null;
     const guestSessionId = req.headers['x-guest-session-id'] as string || null;
+    const locale = parseLocale(req.query.locale as string);
     
     if (!studentId && !guestSessionId) {
       throw ApiError.unauthorized('Must provide either auth token or x-guest-session-id header');
     }
 
-    const attempt = await attemptsService.generatePYQAttempt(studentId, guestSessionId, req.body);
+    const attemptBase = await attemptsService.generatePYQAttempt(studentId, guestSessionId, req.body);
+    const attempt = await attemptsService.getAttemptDetails(attemptBase.id, studentId, guestSessionId, locale);
     ApiResponse.created(res, attempt, 'PYQ Attempt generated');
   } catch (error) {
     next(error);
@@ -38,12 +42,14 @@ export async function generatePYQAttempt(req: Request, res: Response, next: Next
 export async function generateDynamicAttempt(req: Request, res: Response, next: NextFunction) {
   try {
     const studentId = req.user?.userId || null;
+    const locale = parseLocale(req.query.locale as string);
     
     if (!studentId) {
       throw ApiError.unauthorized('Must be logged in to generate a dynamic attempt');
     }
 
-    const attempt = await attemptsService.generateDynamicAttempt(studentId, req.body);
+    const attemptBase = await attemptsService.generateDynamicAttempt(studentId, req.body);
+    const attempt = await attemptsService.getAttemptDetails(attemptBase.id, studentId, null, locale);
     ApiResponse.created(res, attempt, 'Dynamic Attempt generated');
   } catch (error) {
     next(error);
@@ -99,6 +105,7 @@ export async function startDailyQuizAttempt(req: Request, res: Response, next: N
   try {
     const studentId = req.user?.userId || null;
     const guestSessionId = req.headers['x-guest-session-id'] as string || null;
+    const locale = parseLocale(req.query.locale as string);
     
     if (!studentId && !guestSessionId) {
       throw ApiError.unauthorized('Must provide either auth token or x-guest-session-id header');
@@ -107,7 +114,8 @@ export async function startDailyQuizAttempt(req: Request, res: Response, next: N
     const { dailyQuizId } = req.body;
     if (!dailyQuizId) throw ApiError.badRequest('Missing dailyQuizId');
 
-    const attempt = await attemptsService.startDailyQuizAttempt(studentId, guestSessionId, dailyQuizId);
+    const attemptBase = await attemptsService.startDailyQuizAttempt(studentId, guestSessionId, dailyQuizId);
+    const attempt = await attemptsService.getAttemptDetails(attemptBase.id, studentId, guestSessionId, locale);
     ApiResponse.created(res, attempt, 'Daily quiz started');
   } catch (error) {
     next(error);

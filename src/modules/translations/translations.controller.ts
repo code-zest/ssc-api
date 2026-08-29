@@ -32,7 +32,7 @@ export async function updateQuestionTranslation(req: Request, res: Response, nex
     const id = req.params.id as string;
     const data = req.body;
     // req.user should be available from requireAuth middleware
-    const userId = (req as any).user?.id || 'admin';
+    const userId = req.user?.userId || 'admin';
 
     const result = await translationsService.updateQuestionTranslation(id, data, userId);
     ApiResponse.success(res, result, 'Question translation updated successfully');
@@ -45,7 +45,7 @@ export async function updateLessonTranslation(req: Request, res: Response, next:
   try {
     const id = req.params.id as string;
     const data = req.body;
-    const userId = (req as any).user?.id || 'admin';
+    const userId = req.user?.userId || 'admin';
 
     const result = await translationsService.updateLessonTranslation(id, data, userId);
     ApiResponse.success(res, result, 'Lesson translation updated successfully');

@@ -182,15 +182,12 @@ export async function startDailyQuizAttempt(studentId: string | null, guestSessi
       await tx.attemptResponse.createMany({ data: responses });
     }
 
-    return tx.testAttempt.findUnique({
-      where: { id: attempt.id },
-      include: {
-        responses: {
-          
-          include: { question: true }
-        }
-      }
+    const createdAttempt = await tx.testAttempt.findUnique({
+      where: { id: attempt.id }
     });
+    
+    if (!createdAttempt) throw ApiError.internal('Failed to start daily quiz attempt');
+    return createdAttempt;
   });
 }
 

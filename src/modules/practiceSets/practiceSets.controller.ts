@@ -16,10 +16,13 @@ export async function getPracticeSets(req: Request, res: Response, next: NextFun
   }
 }
 
+import { parseLocale } from '../../utils/locale';
+
 export async function getPracticeSetById(req: Request, res: Response, next: NextFunction) {
   try {
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
-    const practiceSet = await practiceSetsService.getPracticeSetById(req.params.id as string, isAdmin);
+    const locale = parseLocale(req.query.locale as string);
+    const practiceSet = await practiceSetsService.getPracticeSetById(req.params.id as string, isAdmin, locale);
     ApiResponse.success(res, practiceSet);
   } catch (error) {
     next(error);

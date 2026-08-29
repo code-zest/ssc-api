@@ -14,19 +14,28 @@ export async function createFeedback(userId: string, input: CreateFeedbackInput)
   return feedback;
 }
 
-export async function getAllFeedback(filters: { type?: string; status?: string }) {
+export async function getAllFeedback(
+  filters: { type?: string; status?: string },
+  pagination: import('../../utils/pagination').PaginationOptions
+) {
   const where: any = {};
   if (filters.type) where.type = filters.type;
   if (filters.status) where.status = filters.status;
 
-  const feedback = await prisma.feedback.findMany({
-    where,
-    include: {
-      user: { select: { name: true, email: true } },
-    },
-    orderBy: { createdAt: 'desc' },
-  });
-  return feedback;
+  const [total, feedback] = await prisma.$transaction([
+    prisma.feedback.count({ where }),
+    prisma.feedback.findMany({
+      where,
+      include: {
+        user: { select: { name: true, email: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+      skip: pagination.skip,
+      take: pagination.limit,
+    }),
+  ]);
+
+  return { total, feedback };
 }
 
 export async function updateFeedback(id: string, input: UpdateFeedbackInput) {

@@ -1,7 +1,7 @@
 import { prisma } from '../../config/prisma';
 import { ApiError } from '../../utils/ApiError';
 
-export async function getTodayQuiz() {
+export async function getTodayQuiz(locale: import('@prisma/client').Language = 'EN') {
   const today = new Date();
   today.setUTCHours(0, 0, 0, 0);
 
@@ -11,7 +11,14 @@ export async function getTodayQuiz() {
     include: {
       questions: {
         include: {
-          question: true,
+          question: {
+            include: {
+              translations: locale !== 'EN' ? {
+                where: { locale, isVerified: true },
+                select: { locale: true, questionText: true, options: true, explanation: true },
+              } : false,
+            }
+          },
         },
         orderBy: { order: 'asc' },
       },
@@ -23,7 +30,7 @@ export async function getTodayQuiz() {
     // Pick 10 random questions
     const randomQuestions = await prisma.$queryRaw<
       { id: string }[]
-    >`SELECT id FROM "Question" ORDER BY RANDOM() LIMIT 10`;
+    >`SELECT id FROM "questions" ORDER BY RANDOM() LIMIT 10`;
 
     if (randomQuestions.length === 0) {
       throw ApiError.internal('Not enough questions to generate daily quiz');
@@ -37,7 +44,7 @@ export async function getTodayQuiz() {
         title,
         description: 'Take this quick 10-minute challenge to maintain your daily streak!',
         questions: {
-          create: randomQuestions.map((q: any, index: number) => ({
+          create: randomQuestions.map((q: { id: string }, index: number) => ({
             questionId: q.id,
             order: index + 1,
           })),
@@ -46,12 +53,28 @@ export async function getTodayQuiz() {
       include: {
         questions: {
           include: {
-            question: true,
+            question: {
+              include: {
+                translations: locale !== 'EN' ? {
+                  where: { locale, isVerified: true },
+                  select: { locale: true, questionText: true, options: true, explanation: true },
+                } : false,
+              }
+            },
           },
           orderBy: { order: 'asc' },
         },
       },
     });
+  }
+
+  // Apply locale overlay if needed
+  if (locale !== 'EN') {
+    const { applyQuestionLocale } = require('../../utils/locale');
+    quiz.questions = quiz.questions.map((q: any) => ({
+      ...q,
+      question: applyQuestionLocale(q.question, locale),
+    }));
   }
 
   // Map to common attempt format structure for the frontend test engine
@@ -64,7 +87,7 @@ export async function getTodayQuiz() {
       id: q.question.id,
       content: q.question.questionText,
       difficulty: q.question.difficulty,
-      options: ((q.question.options as any[]) || []).map((opt) => ({
+      options: ((q.question.options as unknown as Array<{ key: string; text: string; rationale: string }>) || []).map((opt) => ({
         key: opt.key,
         text: opt.text,
         rationale: opt.rationale,

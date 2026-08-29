@@ -1,7 +1,7 @@
 # SSC API — Master Progress Tracker
 
-**Last Updated:** 2026-08-25  
-**Overall Status:** ✅ Phases 1–16 Complete. 🔴 Phase 17 (Multilingual) — Not Started.
+**Last Updated:** 2026-08-30  
+**Overall Status:** ✅ Phases 1–17 Complete.
 
 ---
 
@@ -42,7 +42,7 @@
 | **Phase 14** | Exam Notifications (Job Alerts) — Schema, CRUD endpoints, Public API | ✅ Complete | ToFu SEO Strategy |
 | **Phase 15** | Gamification — Topic-wise PYQ Learning, Daily 10-Minute Targets & Streaks | ✅ Complete | 2026-08-22 |
 | **Phase 16** | Advanced Analytics — Mock Test Time vs. Accuracy Diagnostics | ✅ Complete | 2026-08-22 |
-| **Phase 17** | Multilingual — Hindi (HI) + Telugu (TE) content translation. `QuestionTranslation` + `LessonTranslation` schema, Sarvam AI batch script, locale-aware API serving (`?locale=` param), `User.preferredLocale` field | 🔴 Not Started | Sarvam AI (₹37 est.) |
+| **Phase 17** | Multilingual — Hindi (HI) + Telugu (TE) content translation. `QuestionTranslation` + `LessonTranslation` schema, Sarvam AI batch script, locale-aware API serving (`?locale=` param), `User.preferredLocale` field | ✅ Complete | API correctly implements locale overlay pattern |
 
 ---
 

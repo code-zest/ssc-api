@@ -548,16 +548,11 @@ export async function getGlobalDangerZones(userId: string) {
 
 export async function getPeerComparison(studentId: string) {
   // 1. Get the current student's total stats
-  const studentAttempts = await prisma.testAttempt.findMany({
+  const studentAgg = await prisma.testAttempt.aggregate({
     where: { studentId, status: 'SUBMITTED' },
-    select: { accuracy: true }
+    _avg: { accuracy: true }
   });
-  
-  let studentSum = 0;
-  for (const a of studentAttempts) {
-    studentSum += a.accuracy || 0;
-  }
-  const studentAccuracy = studentAttempts.length > 0 ? Math.round(studentSum / studentAttempts.length) : 0;
+  const studentAccuracy = Math.round(studentAgg._avg.accuracy || 0);
 
   // 2. Get community average via DB aggregation
   const communityAgg = await prisma.testAttempt.aggregate({
@@ -566,16 +561,21 @@ export async function getPeerComparison(studentId: string) {
   });
   const communityAverage = Math.round(communityAgg._avg.accuracy || 0);
 
-  // 3. Approximate top performers (top 500 attempts) to avoid loading all users into memory
-  const topAttempts = await prisma.testAttempt.findMany({
-    where: { status: 'SUBMITTED', accuracy: { not: null } },
-    select: { accuracy: true },
-    orderBy: { accuracy: 'desc' },
-    take: 500,
-  });
+  // 3. Exact top 10% average using SQL Window Function
+  // We use PERCENT_RANK() to calculate the top 10% (0.0 to 0.1) of scores.
+  const top10Result = await prisma.$queryRaw<Array<{ topAvg: number | null }>>`
+    SELECT AVG(accuracy) AS "topAvg"
+    FROM (
+      SELECT accuracy, PERCENT_RANK() OVER (ORDER BY accuracy DESC) as pct
+      FROM "TestAttempt"
+      WHERE status = 'SUBMITTED' AND accuracy IS NOT NULL
+    ) sub
+    WHERE pct <= 0.1
+  `;
   
-  const topSum = topAttempts.reduce((sum, a) => sum + (a.accuracy || 0), 0);
-  const top10PercentAverage = topAttempts.length > 0 ? Math.round(topSum / topAttempts.length) : 0;
+  const top10PercentAverage = top10Result[0]?.topAvg 
+    ? Math.round(Number(top10Result[0].topAvg)) 
+    : 0;
 
   return {
     studentAccuracy,

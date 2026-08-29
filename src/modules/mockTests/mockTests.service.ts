@@ -30,7 +30,7 @@ export async function getMockTests(isAdmin: boolean, examType?: string) {
   });
 }
 
-export async function getMockTestById(id: string, isAdmin: boolean) {
+export async function getMockTestById(id: string, isAdmin: boolean, locale: import('@prisma/client').Language = 'EN') {
   const where = isAdmin ? { id } : { id, isActive: true };
   const test = await prisma.mockTest.findUnique({
     where,
@@ -40,7 +40,16 @@ export async function getMockTestById(id: string, isAdmin: boolean) {
         include: {
           questions: {
             orderBy: { order: 'asc' },
-            include: { question: true },
+            include: { 
+              question: {
+                include: {
+                  translations: locale !== 'EN' ? {
+                    where: { locale, isVerified: true },
+                    select: { locale: true, questionText: true, options: true, explanation: true },
+                  } : false,
+                }
+              }
+            },
           },
         },
       },
@@ -48,6 +57,18 @@ export async function getMockTestById(id: string, isAdmin: boolean) {
   });
 
   if (!test) throw ApiError.notFound('Mock test not found');
+
+  if (locale !== 'EN') {
+    const { applyQuestionLocale } = require('../../utils/locale');
+    test.sections = test.sections.map((section: any) => ({
+      ...section,
+      questions: section.questions.map((q: any) => ({
+        ...q,
+        question: applyQuestionLocale(q.question, locale),
+      })),
+    }));
+  }
+
   return test;
 }
 

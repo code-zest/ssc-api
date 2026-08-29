@@ -13,10 +13,13 @@ export async function getMockTests(req: Request, res: Response, next: NextFuncti
   }
 }
 
+import { parseLocale } from '../../utils/locale';
+
 export async function getMockTestById(req: Request, res: Response, next: NextFunction) {
   try {
     const isAdmin = !!req.user && ['SUPER_ADMIN', 'ADMIN'].includes(req.user.role);
-    const test = await mockTestsService.getMockTestById(req.params.id as string, isAdmin);
+    const locale = parseLocale(req.query.locale as string);
+    const test = await mockTestsService.getMockTestById(req.params.id as string, isAdmin, locale);
     ApiResponse.success(res, test);
   } catch (error) {
     next(error);

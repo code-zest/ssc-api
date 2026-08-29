@@ -3,7 +3,7 @@ import { StudyPersona } from '@prisma/client';
 import { prisma } from '../../config/prisma';
 import { ApiError } from '../../utils/ApiError';
 import type { CreateLessonInput, UpdateLessonInput, LessonProgressInput } from './lessons.schemas';
-import { applyLessonLocale } from '../../utils/locale';
+import { applyLessonLocale, type LessonWithTranslations } from '../../utils/locale';
 import type { Language } from '@prisma/client';
 
 // ─── Get Lessons by Chapter ───────────────────────────────────────────────────
@@ -80,7 +80,7 @@ export async function getLessonBySlug(subjectSlug: string, chapterSlug: string, 
   });
 
   if (!lesson) throw ApiError.notFound('Lesson not found');
-  return applyLessonLocale(lesson as any, locale);
+  return applyLessonLocale(lesson as unknown as LessonWithTranslations, locale);
 }
 
 // ─── Create Lesson ────────────────────────────────────────────────────────────

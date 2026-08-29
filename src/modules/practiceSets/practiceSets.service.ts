@@ -24,7 +24,7 @@ export async function getPracticeSets(isAdmin: boolean, subjectId?: string, chap
 
 // ─── Get Practice Set Details ─────────────────────────────────────────────────
 
-export async function getPracticeSetById(id: string, isAdmin: boolean) {
+export async function getPracticeSetById(id: string, isAdmin: boolean, locale: import('@prisma/client').Language = 'EN') {
   const where = isAdmin ? { id } : { id, isActive: true };
   const practiceSet = await prisma.practiceSet.findUnique({
     where,
@@ -33,12 +33,30 @@ export async function getPracticeSetById(id: string, isAdmin: boolean) {
       chapter: { select: { name: true } },
       questions: {
         orderBy: { order: 'asc' },
-        include: { question: true },
+        include: { 
+          question: {
+            include: {
+              translations: locale !== 'EN' ? {
+                where: { locale, isVerified: true },
+                select: { locale: true, questionText: true, options: true, explanation: true },
+              } : false,
+            }
+          } 
+        },
       },
     },
   });
 
   if (!practiceSet) throw ApiError.notFound('Practice set not found');
+
+  if (locale !== 'EN') {
+    const { applyQuestionLocale } = require('../../utils/locale');
+    practiceSet.questions = practiceSet.questions.map((q: any) => ({
+      ...q,
+      question: applyQuestionLocale(q.question, locale),
+    }));
+  }
+
   return practiceSet;
 }
 

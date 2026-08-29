@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { RedisStore } from 'rate-limit-redis';
+import { RedisStore, type RedisReply } from 'rate-limit-redis';
 import cookieParser from 'cookie-parser';
 
 import { env } from './config/env';
@@ -51,7 +51,7 @@ const globalLimiter = rateLimit({
     success: false,
     error: 'Too many requests from this IP. Please try again in 15 minutes.',
   },
-  store: isRedisReady() ? new RedisStore({ sendCommand: (...args: string[]) => (redis as any).call(...args) }) : undefined,
+  store: isRedisReady() ? new RedisStore({ sendCommand: (...args: string[]) => (redis as unknown as { call: (...args: string[]) => Promise<RedisReply> }).call(...args) }) : undefined,
 });
 app.use(globalLimiter);
 
